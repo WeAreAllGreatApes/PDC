@@ -1,0 +1,116 @@
+          <section id="summary" class="tab-panel app-tab-panel app-tab-panel--summary" role="tabpanel">
+            <div class="dispatch-header summary-panel">
+              <div id="summarySettings" class="summary-settings">
+                <div class="summary-settings-header">
+                  <h1 class="summary-settings-title summary-heading">
+                    <span class="icon" aria-hidden="true"><i data-lucide="cog"></i></span>
+                    Summary Settings
+                  </h1>
+                </div>
+                <div class="summary-settings-grid">
+                  <div class="summary-section">
+                    <div class="summary-filter-title">
+                      <span class="icon" aria-hidden="true"><i data-lucide="filter"></i></span>
+                      Filter Data
+                    </div>
+                    <div class="summary-filter-help">
+                      Click to include/exclude from Summary
+                    </div>
+                    <div id="summaryFilters" class="summary-pills"></div>
+                    <div class="summary-subsection">
+                      <div class="summary-subtitle">Include</div>
+                      <label class="summary-checkbox summary-reportable">
+                        <input id="summaryReportableToggle" type="checkbox" />
+                        Only Reportable
+                      </label>
+                      <label class="summary-checkbox">
+                        <input id="summaryLocationToggle" type="checkbox" />
+                        Location
+                      </label>
+                      <div id="summaryLocationSuboptions" class="summary-suboptions">
+                        <label class="summary-checkbox summary-checkbox-nested">
+                          <input id="summaryLocationAddressToggle" type="checkbox" />
+                          Address
+                        </label>
+                        <label class="summary-checkbox summary-checkbox-nested">
+                          <input id="summaryLocationLatLonToggle" type="checkbox" />
+                          Lat+Lon
+                        </label>
+                      </div>
+                      <label class="summary-checkbox">
+                        <input id="summaryEmojiToggle" type="checkbox" />
+                        Emojis
+                      </label>
+                    </div>
+                  </div>
+                  <div class="summary-section">
+                    <div class="summary-filter-title">
+                      <span class="icon" aria-hidden="true"><i data-lucide="settings-2"></i></span>
+                      MISC
+                    </div>
+                    <label class="summary-checkbox">
+                      <input id="summarySanitizeToggle" type="checkbox" />
+                      Change observer names to numbers
+                    </label>
+                    <label class="summary-checkbox">
+                      <input id="summaryGroupFieldsToggle" type="checkbox" />
+                      Separate fields in Sort By Card/Category
+                    </label>
+                    <label class="summary-checkbox">
+                      <input id="summaryBulletsToggle" type="checkbox" />
+                      Bullets for notes
+                    </label>
+                    <label class="summary-checkbox">
+                      <input id="summarySpaceBetweenToggle" type="checkbox" />
+                      Add space between notes
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div id="summarizeView" class="summarize-view">
+                <h1 class="summary-output-label summary-heading">
+                  <span class="icon" aria-hidden="true"><i data-lucide="receipt-text"></i></span>
+                  Summary Output
+                </h1>
+                <div class="summary-controls summary-panel-controls">
+                  <div class="summary-actions">
+                    <button id="copySummary" class="ghost">
+                      <span class="icon" aria-hidden="true"><i data-lucide="copy"></i></span>
+                      Copy Summary
+                    </button>
+                    <span id="copyStatus" class="copy-status" aria-live="polite"></span>
+                  </div>
+                  <label class="summary-label summary-sort-inline">
+                    Sort by
+                    <select id="summarySort" class="summary-select">
+                      <option value="time">Time</option>
+                      <option value="category">Category</option>
+                      <option value="card">Card</option>
+                    </select>
+                  </label>
+                  <label class="summary-label summary-recent-toggle">
+                    <input id="summaryMostRecentToggle" type="checkbox" />
+                    Most Recent First
+                  </label>
+                  <div class="dropdown">
+                    <button id="exportButton" class="ghost tour-export-button" aria-haspopup="true" aria-expanded="false">
+                      <span class="icon" aria-hidden="true"><i data-lucide="download"></i></span>
+                      Export
+                    </button>
+                    <div id="exportMenu" class="dropdown-menu" role="menu"></div>
+                  </div>
+                </div>
+                <div id="summaryWarning" class="summary-warning hidden">
+                  <span id="summaryWarningText"></span>
+                  <button id="summaryWarningDismiss" class="ghost" type="button">Dismiss</button>
+                </div>
+                <div id="summaryGroupOutput" class="summary-group-output hidden"></div>
+                <div id="summaryOutputWrap" class="summary-edit-wrap">
+                  <div class="summary-link-gutter" aria-hidden="true">
+                    <div id="summaryOutputLinkTrack" class="summary-link-track"></div>
+                  </div>
+                  <textarea id="summaryOutput" rows="16" aria-label="Summary output" wrap="soft"></textarea>
+                </div>
+              </div>
+            </div>
+          </section>

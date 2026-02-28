@@ -1,0 +1,19 @@
+<section id="workspace" class="workspace app-section app-section--workspace hidden" data-section="workspace">
+  <nav class="tabs app-tabs" role="tablist" aria-label="Workspace Tabs">
+    <div class="tab-group app-tabs__primary">
+      <button class="tab app-tab active" data-tab="dispatch" role="tab">Dispatch</button>
+      <button class="tab app-tab" data-tab="salute" role="tab">Alert</button>
+      <button class="tab app-tab" data-tab="summary" role="tab">Summary/Export</button>
+    </div>
+    <div class="tab-meta app-tabs__secondary">
+      <button class="tab tab-ghost app-tab" data-tab="settings" role="tab">Settings</button>
+      <button class="tab tab-ghost app-tab" data-tab="about" role="tab">About / Legal</button>
+    </div>
+  </nav>
+
+  <div data-component-slot="tab-dispatch"></div>
+  <div data-component-slot="tab-alert"></div>
+  <div data-component-slot="tab-summary"></div>
+  <div data-component-slot="tab-settings"></div>
+  <div data-component-slot="tab-about"></div>
+</section>

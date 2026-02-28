@@ -1,0 +1,223 @@
+          <section id="dispatch" class="tab-panel app-tab-panel app-tab-panel--dispatch active" role="tabpanel">
+            <div class="dispatch-actions">
+                <div class="session-controls">
+                  <span class="session-label">Session</span>
+                  <div class="import-wrap">
+                    <button id="importButton" class="ghost" type="button">Import</button>
+                  <input
+                    id="importFile"
+                    class="import-file"
+                    type="file"
+                    accept="application/json"
+                    aria-label="Import session JSON"
+                  />
+                  </div>
+                  <button id="clearButton" class="ghost danger" type="button">Clear</button>
+                </div>
+              </div>
+            <div id="dispatchHeader" class="dispatch-header">
+              <div id="shiftControls" class="shift-controls">
+                <div class="shift-info">
+                  <div class="time-group">
+                    <span class="clock-icon" aria-hidden="true"><i data-lucide="clock"></i></span>
+                    <span id="timezoneTime" class="timezone-time"></span>
+                    <button id="timezoneLink" class="timezone-link" type="button">Chicago (GMT-6)</button>
+                  </div>
+                  <div class="shift-group area-group">
+                    <label class="area-label" for="shiftArea">
+                      <span class="area-icon" aria-hidden="true"><i data-lucide="map-pin"></i></span>
+                      Area
+                    </label>
+                    <input
+                      id="shiftArea"
+                      class="area-input"
+                      type="text"
+                      placeholder="Dispatch Area"
+                      autocomplete="off"
+                    />
+                    <button id="centerMapButton" class="ghost area-center-map-button" type="button">
+                      <span class="icon" aria-hidden="true"><i data-lucide="locate-fixed"></i></span>
+                      Center Map
+                    </button>
+                  </div>
+                  <div class="shift-tools">
+                    <button id="searchButton" class="ghost search-button" type="button">
+                      <span class="icon" aria-hidden="true"><i data-lucide="search"></i></span>
+                      <span class="search-label">Search</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="shift-rule" aria-hidden="true"></div>
+                <div class="shift-row">
+                  <span class="shift-label">Shift</span>
+                  <div class="start-stop">
+                    <div class="shift-group start-group">
+                      <button id="startShift" class="ghost">Start</button>
+                      <input id="startTime" class="timestamp" type="text" value="—" aria-label="Shift start time" />
+                    </div>
+                    <div class="shift-group end-group">
+                      <div class="end-row">
+                        <button id="endShift" class="secondary" disabled>End</button>
+                        <div class="end-field">
+                          <input id="endTime" class="timestamp" type="text" value="—" aria-label="Shift end time" />
+                        </div>
+                      </div>
+                      <span id="endNote" class="note end-note"></span>
+                    </div>
+                  </div>
+                  <div class="shift-group view-group">
+                    <span class="view-label">View:</span>
+                    <div class="mode-toggle view-toggle">
+                      <button class="pill active" type="button" data-view="notes" title="Show notes only">
+                        <span class="icon" aria-hidden="true"><i data-lucide="file-text"></i></span>
+                        Notes
+                      </button>
+                      <button class="pill" type="button" data-view="split" title="Show map and notes">
+                        <span class="icon" aria-hidden="true"><i data-lucide="columns-2"></i></span>
+                        Split
+                      </button>
+                      <button class="pill" type="button" data-view="map" title="Show map only">
+                        <span class="icon" aria-hidden="true"><i data-lucide="map"></i></span>
+                        Map
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div id="minimizedSection" class="minimized-section hidden">
+                  <div class="minimized-header">
+                    <div class="minimized-header-main">
+                      <div class="minimized-label shift-label">
+                        <span class="minimized-icon" aria-hidden="true"><i data-lucide="layout-grid"></i></span>
+                        MINIMIZED CARDS
+                      </div>
+                      <div class="minimized-controls">
+                        <button
+                          id="minimizeAllCards"
+                          class="minimized-action ghost"
+                          type="button"
+                          title="Minimize All"
+                          aria-label="Minimize All"
+                        >
+                          <span class="icon" aria-hidden="true"><i data-lucide="shrink"></i></span>
+                        </button>
+                        <button
+                          id="maximizeAllCards"
+                          class="minimized-action ghost"
+                          type="button"
+                          title="Maximize All"
+                          aria-label="Maximize All"
+                        >
+                          <span class="icon" aria-hidden="true"><i data-lucide="expand"></i></span>
+                        </button>
+                      </div>
+                    </div>
+                    <button id="minimizedToggle" class="minimized-toggle ghost hidden" type="button">
+                      Collapse
+                    </button>
+                  </div>
+                  <div class="minimized-rule" aria-hidden="true"></div>
+                  <div id="minimizedCards" class="minimized-cards"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="collectView" class="collect-view view-notes">
+              <div class="collect-grid">
+                <div class="columns" id="columns">
+                  <div id="addColumnWrap" class="add-column-wrap">
+                    <button id="addColumn" class="add-column" aria-label="Add card" title="Add card">+</button>
+                  </div>
+                </div>
+                <aside id="mapPanel" class="map-panel" aria-label="Map panel">
+                  <div class="map-shell">
+                    <div class="map-toolbar">
+                      <div class="map-title">Map</div>
+                      <div class="map-meta" id="mapMeta">
+                        Pins sync with cards + notes. Click and drag pin to move it.
+                      </div>
+                      <div class="map-controls">
+                        <div class="dropdown map-labels-filter">
+                          <button
+                            id="mapLabelsButton"
+                            class="ghost map-filter-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            title="Label display options"
+                          >
+                            Labels ▾
+                          </button>
+                          <div id="mapLabelsMenu" class="dropdown-menu map-labels-menu" role="menu"></div>
+                        </div>
+                        <div class="dropdown map-visibility-filter">
+                          <button
+                            id="mapVisibilityButton"
+                            class="ghost map-filter-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            title="Map show options"
+                          >
+                            Show ▾
+                          </button>
+                          <div
+                            id="mapVisibilityMenu"
+                            class="dropdown-menu map-visibility-menu"
+                            role="menu"
+                          ></div>
+                        </div>
+                        <div class="dropdown map-type-filter">
+                          <button
+                            id="mapTypeButton"
+                            class="ghost map-filter-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            title="Pick which data to plot on map"
+                          >
+                            Data Types ▾
+                          </button>
+                          <div id="mapTypeMenu" class="dropdown-menu map-type-menu" role="menu"></div>
+                        </div>
+                        <div class="dropdown map-style-filter">
+                          <button
+                            id="mapStyleButton"
+                            class="ghost map-filter-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            title="Pick which data to plot on map"
+                          >
+                            Style ▾
+                          </button>
+                          <div id="mapStyleMenu" class="dropdown-menu map-style-menu" role="menu"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="mapFilterNotice" class="map-filter-notice hidden" role="status">
+                      <span class="map-filter-text">
+                        Item not shown because of filter. Check Show or Data Types to view this pin.
+                      </span>
+                      <button
+                        id="mapFilterNoticeDismiss"
+                        class="ghost map-filter-dismiss"
+                        type="button"
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                    <div id="mapGeocodeNotice" class="map-filter-notice hidden" role="status">
+                      <span id="mapGeocodeText" class="map-filter-text">
+                        Rate limited. Using the existing pin label.
+                      </span>
+                      <button
+                        id="mapGeocodeDismiss"
+                        class="ghost map-filter-dismiss"
+                        type="button"
+                      >
+                        Dismiss
+                      </button>
+                    </div>
+                    <div id="mapView" class="map-view" aria-label="Dispatch map"></div>
+                  </div>
+                </aside>
+              </div>
+            </div>
+
+          </section>

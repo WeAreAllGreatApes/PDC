@@ -1,0 +1,33 @@
+example_file: null
+welcome: "This tour covers advanced card color settings in Global Settings, including palettes, color rules, and bulk apply."
+completion: "You completed the Advanced Card Color Settings tour."
+stops:
+  - class: "tab-ghost"
+    heading: "Open Settings"
+    detail: "Advanced color controls live in Global Settings."
+    try_this: "Open the Settings tab."
+
+  - class: "tour-default-card-type"
+    heading: "Default New Card Type"
+    detail: "New cards can start with a chosen default type."
+    try_this: "Pick a default type you use often."
+
+  - class: "tour-card-palette"
+    heading: "Palette for Cards and Points"
+    detail: "Choose a shared palette that drives card and map pin color families."
+    try_this: "Switch palettes and preview how the color chips change."
+
+  - class: "tour-color-mode"
+    heading: "Color Rule Mode"
+    detail: "Choose whether colors cycle, map by type, stay manual by type, or use all-grey."
+    try_this: "Try switching between Cycle and Color by Type."
+
+  - class: "tour-color-by-type"
+    heading: "Per-Type Color Mapping"
+    detail: "When color-by-type modes are enabled, you can tune colors by card type."
+    try_this: "Change one type color and confirm the mode behavior."
+
+  - class: "tour-apply-card-colors"
+    heading: "Apply to Existing Cards"
+    detail: "Use this only when you want all current cards recolored to match defaults."
+    try_this: "Click Apply to all cards to review the confirmation modal, then cancel."

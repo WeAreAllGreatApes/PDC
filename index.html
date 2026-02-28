@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https: wss: ws://localhost:8080 ws://127.0.0.1:8080; media-src 'self' data:; frame-src 'none'; worker-src 'none'"
+    />
+    <title>PublicDataCleanup</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="vendor/leaflet/leaflet.css"
+    />
+    <link rel="stylesheet" href="vendor/driver.js/driver.css" />
+  </head>
+  <body data-app-boot-state="booting">
+    <div class="app-boot-splash" data-app-boot-splash role="status" aria-live="polite">
+      <div class="app-boot-splash__spinner" aria-hidden="true"></div>
+      <div class="app-boot-splash__label" data-app-boot-label>Loading workspace...</div>
+    </div>
+    <div class="app app-shell" data-app-shell="pdc">
+      <div data-component-slot="layout-header"></div>
+      <main class="app-main" aria-label="PublicDataCleanup Workspace">
+        <div data-component-slot="home-screen"></div>
+        <div data-component-slot="workspace-shell"></div>
+      </main>
+    </div>
+
+    <div data-component-slot="modals-global"></div>
+    <div data-component-slot="modal-shortcuts"></div>
+    <div data-component-slot="modal-version"></div>
+
+    <script src="lucide.min.js"></script>
+    <script src="vendor/luxon/luxon.min.js"></script>
+    <script src="vendor/leaflet/leaflet.js"></script>
+    <script src="vendor/js-yaml/js-yaml.min.js"></script>
+    <script src="vendor/driver.js/driver.js.iife.js"></script>
+    <script src="config.generated.js"></script>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

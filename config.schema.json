@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/public-data-cleanup/config.schema.json",
+  "title": "PublicDataCleanup Config",
+  "type": "object",
+  "required": ["storage", "features", "apis", "map", "summary", "cards"],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "storage": {
+      "type": "object",
+      "required": ["stateKey", "viewStateKey", "mapSettingsKey", "completedToursKey"],
+      "properties": {
+        "stateKey": { "type": "string", "minLength": 1 },
+        "viewStateKey": { "type": "string", "minLength": 1 },
+        "mapSettingsKey": { "type": "string", "minLength": 1 },
+        "completedToursKey": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "timezone": {
+      "type": "object",
+      "properties": {
+        "default": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    },
+    "features": {
+      "type": "object",
+      "required": ["map", "splitView", "locationTagging"],
+      "properties": {
+        "map": { "type": "boolean" },
+        "splitView": { "type": "boolean" },
+        "locationTagging": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "apis": {
+      "type": "object",
+      "required": ["geocoding"],
+      "properties": {
+        "geocoding": {
+          "type": "object",
+          "required": ["enabled", "baseUrl"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "baseUrl": { "type": "string" }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "map": {
+      "type": "object",
+      "required": ["defaultCenter", "defaultRadiusMiles", "defaultStyle", "styles"],
+      "properties": {
+        "metersPerMile": { "type": "number", "exclusiveMinimum": 0 },
+        "defaultCenter": {
+          "type": "object",
+          "required": ["lat", "lon"],
+          "properties": {
+            "lat": { "type": "number" },
+            "lon": { "type": "number" }
+          },
+          "additionalProperties": true
+        },
+        "defaultRadiusMiles": { "type": "number", "exclusiveMinimum": 0 },
+        "defaultStyle": { "type": "string", "minLength": 1 },
+        "defaultFilters": {
+          "type": "object",
+          "properties": {
+            "showMinimized": { "type": "boolean" },
+            "hideMinimized": { "type": "boolean" },
+            "labelTimes": { "type": "boolean" },
+            "recencyMode": { "type": "string", "enum": ["all", "mostRecent"] },
+            "noteReportableOnly": { "type": "boolean" },
+            "inactiveLabelOpacity": { "type": "number", "minimum": 0.25, "maximum": 1 }
+          },
+          "additionalProperties": true
+        },
+        "styles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "label", "url"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "label": { "type": "string", "minLength": 1 },
+              "url": { "type": "string", "minLength": 1 },
+              "attribution": { "type": "string" },
+              "maxZoom": { "type": "number" }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "sort": { "type": "string", "enum": ["time", "category", "card"] },
+        "mostRecentFirst": { "type": "boolean" },
+        "reportableOnly": { "type": "boolean" },
+        "includeLocation": { "type": "boolean" },
+        "locationIncludeAddress": { "type": "boolean" },
+        "locationIncludeLatLon": { "type": "boolean" },
+        "includeEmojis": { "type": "boolean" },
+        "sanitizeNames": { "type": "boolean" },
+        "bulletsForNotes": { "type": "boolean" },
+        "time24": { "type": "boolean" },
+        "groupFields": { "type": "boolean" },
+        "defaultExclude": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      },
+      "additionalProperties": true
+    },
+    "cards": {
+      "type": "object",
+      "properties": {
+        "defaultCardType": { "type": "string" },
+        "defaultNewCardType": { "type": "string" },
+        "defaultColorMode": { "type": "string" },
+        "defaultColorPalette": { "type": "string" },
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label", "icon"],
+            "properties": {
+              "value": { "type": "string", "minLength": 1 },
+              "label": { "type": "string", "minLength": 1 },
+              "icon": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": true
+          }
+        },
+        "typeEmoji": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "dispatch": {
+      "type": "object",
+      "properties": {
+        "defaultViewMode": { "type": "string", "enum": ["notes", "split", "map"] }
+      },
+      "additionalProperties": true
+    },
+    "tours": {
+      "type": "object",
+      "properties": {
+        "manifestPath": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

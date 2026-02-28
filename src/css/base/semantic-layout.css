@@ -1,0 +1,40 @@
+/*
+  Semantic wrappers for component-oriented maintenance.
+  Existing legacy class hooks are preserved for behavior compatibility.
+*/
+
+.app-shell {
+  margin: 0 auto;
+}
+
+.app-main {
+  display: block;
+}
+
+.app-topbar {
+  position: relative;
+}
+
+.app-section--home {
+  container-type: inline-size;
+}
+
+.app-section--workspace {
+  container-type: inline-size;
+}
+
+.app-tab-panel--dispatch {
+  contain: content;
+}
+
+.app-tab-panel--alert,
+.app-tab-panel--summary,
+.app-tab-panel--settings,
+.app-tab-panel--about {
+  contain: layout;
+}
+
+.app-modal--shortcuts .modal-content,
+.app-modal--version .modal-content {
+  max-width: min(1100px, 96vw);
+}

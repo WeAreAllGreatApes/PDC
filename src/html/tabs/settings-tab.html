@@ -1,0 +1,111 @@
+		          <section id="settings" class="tab-panel app-tab-panel app-tab-panel--settings" role="tabpanel">
+		              <div class="shift-controls settings-controls settings-panel">
+	                <div class="settings-topic">
+	                  <div class="section-title settings-section-title">Global Settings</div>
+	                  <div id="settingsTimezone" class="settings-section">
+                    <div class="shift-info">
+                      <span class="shift-label">Timezone</span>
+                      <div id="timezoneSelect" class="timezone-select"></div>
+                      <div class="settings-inline settings-time-format">
+                        <span class="label">Time Format</span>
+                        <div class="mode-toggle time-format-toggle" aria-label="Time format toggle">
+                          <button id="summaryTimeFormat24" class="pill" type="button" aria-pressed="false">
+                            15:01
+                          </button>
+                          <button id="summaryTimeFormat12" class="pill" type="button" aria-pressed="false">
+                            3:01pm
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="mapSettingsSection" class="settings-section settings-section-save">
+                      <div class="label-row">
+                        <div class="label">Save on Device</div>
+                        <label class="switch">
+                          <input type="checkbox" id="saveToggle" />
+                          <span class="slider"></span>
+                        </label>
+                        <button id="saveInfoButton" class="info-button" type="button" aria-label="Save on device info">
+                          <span class="icon" aria-hidden="true"><i data-lucide="info"></i></span>
+                        </button>
+                      </div>
+                      <div class="hint">
+                        When enabled, data is saved in your <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage" target="_blank" rel="noreferrer">browser storage</a> on this device.
+	                      </div>
+	                    </div>
+	                  </div>
+	                </div>
+	                <div class="settings-topic">
+	                  <div class="section-title settings-section-title">Dispatch settings</div>
+	                  <div class="shift-rule" aria-hidden="true"></div>
+	                  <div class="settings-grid">
+	                    <div class="settings-section">
+                      <label class="settings-control-label tour-default-card-type">
+                        Default New Card Type
+                        <div id="defaultCardTypeSelect"></div>
+                      </label>
+                      <div class="label-row note-order-row">
+                        <div class="label">Note Order: Newest First</div>
+                        <label class="switch">
+                          <input type="checkbox" id="dispatchNewestFirstToggle" />
+                          <span class="slider"></span>
+                        </label>
+                      </div>
+                      <div class="hint">Turn off to keep card notes oldest-first.</div>
+                      <div class="label-row">
+                        <div class="label">Card Types Available</div>
+                      </div>
+                      <div id="cardTypeAvailability" class="settings-list"></div>
+                      <div class="hint">Choose which card types show in create/type selectors.</div>
+                    </div>
+                    <div class="settings-section">
+                      <label class="settings-control-label tour-card-palette">
+                        Palette for Cards & Points
+                        <div id="defaultCardColorPalette"></div>
+                      </label>
+                      <label class="settings-control-label tour-color-mode">
+                        How to assign card colors?
+                        <select id="defaultCardColorModeSelect" class="summary-select">
+                          <option value="cycle">Cycle colors (default)</option>
+                          <option value="color-by-type">Color by Type (Preset)</option>
+                          <option value="manual">Color by Type (Manual)</option>
+                          <option value="all-grey">All Grey</option>
+                        </select>
+                      </label>
+                      <div id="defaultCardColorByType" class="settings-list tour-color-by-type"></div>
+                      <div class="eyebrow-hint">Changes apply to future cards unless you click below.</div>
+                      <button id="applyCardColorsAll" class="ghost danger tour-apply-card-colors" type="button">
+                        Apply to all cards
+                      </button>
+                      <div class="hint">
+                        Presets auto-map card types. Editing any type color converts the setting to Manual by card type.
+                      </div>
+                    </div>
+                    <div class="settings-section">
+                      <div class="label-row">
+                        <div class="label">Map Search City</div>
+                        <button id="setCityButton" class="ghost" type="button">Set City</button>
+                      </div>
+                      <div id="cityLabel" class="hint">No city set.</div>
+                      <label class="settings-inline">
+                        <span class="label">Search Radius (miles)</span>
+                        <input id="mapRadiusInput" class="settings-input" type="number" min="1" max="500" />
+                      </label>
+                      <div class="hint">Limits geocoding results to a radius around the city.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="settings-topic">
+                  <div class="section-title settings-section-title">Summary Settings</div>
+                  <div class="settings-grid">
+                    <div class="settings-section">
+                      <div class="label-row">
+                        <div class="label">Types Excluded from Summary</div>
+                      </div>
+                      <div id="summaryDefaultExclude" class="settings-list"></div>
+                      <div class="hint">Checked items are excluded by default.</div>
+                    </div>
+                  </div>
+                </div>
+		              </div>
+		          </section>

@@ -1,0 +1,16 @@
+example_file: null
+welcome: "This short tutorial introduces the home screen and where to start in PublicDataCleanup."
+completion: "You are ready to choose a workflow and begin using the app."
+stops:
+  - class: "welcome"
+    heading: "Home Screen"
+    detail: "This is the launch point for the app. You can always return here by selecting the PublicDataCleanup title in the top bar."
+  - class: "card-grid"
+    heading: "Workflow Cards"
+    detail: "Choose a card to open a workflow: Collect Data (Dispatch), Alert Text, or Summary/Export."
+  - class: "top-actions"
+    heading: "Quick Access Tools"
+    detail: "Use Shortcuts for keyboard help and Version to review release notes."
+  - class: "tutorial-home-button"
+    heading: "Tutorial Launcher"
+    detail: "Use this button any time you need to re-open tutorials from the tours folder."

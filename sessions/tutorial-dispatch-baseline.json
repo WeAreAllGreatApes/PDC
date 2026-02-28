@@ -1,0 +1,174 @@
+{
+  "startTime": null,
+  "endTime": null,
+  "endAdjustedNote": "",
+  "area": "Training Area",
+  "timezone": "America/Chicago",
+  "viewMode": "split",
+  "mapSettings": {
+    "city": {
+      "label": "Minneapolis, MN",
+      "displayLabel": "Minneapolis, MN",
+      "addressLabel": "Minneapolis, MN",
+      "lat": 44.9778,
+      "lon": -93.265,
+      "source": "manual",
+      "updatedAt": 1767000000000
+    },
+    "radiusMiles": 50,
+    "style": "clean"
+  },
+  "mapFilters": {
+    "hideMinimized": true,
+    "labelTimes": true,
+    "types": {
+      "Incident": true,
+      "Observer": true,
+      "Observer Bike": true,
+      "Observer Car": true,
+      "Place": true,
+      "For Lookup": true,
+      "Notes": true,
+      "Custom": true
+    }
+  },
+  "summaryInclude": null,
+  "summarySort": "time",
+  "summaryMostRecentFirst": false,
+  "summaryKnownTypes": null,
+  "summaryReportableOnly": false,
+  "summaryIncludeLocation": true,
+  "summaryIncludeEmojis": false,
+  "summarySanitizeNames": true,
+  "summaryTime24": true,
+  "summaryGroupFields": true,
+  "summaryDefaultExclude": [
+    "For Lookup"
+  ],
+  "defaultNewCardType": "last",
+  "columns": [
+    {
+      "id": "tour-col-observer",
+      "type": "Observer",
+      "minimized": false,
+      "color": 0,
+      "label": "1",
+      "labelAuto": true,
+      "reportAll": false,
+      "createdAt": 1767000010000,
+      "location": null,
+      "observations": [
+        {
+          "id": "tour-note-1",
+          "timestamp": "2026-01-02T13:30:00.000Z",
+          "timestampText": "07:30",
+          "originalTimestampText": "07:30",
+          "createdAt": 1767000015000,
+          "editedFrom": "",
+          "text": "Observer reports normal activity near train platform.",
+          "reportable": true,
+          "location": null
+        },
+        {
+          "id": "tour-note-2",
+          "timestamp": "2026-01-02T13:42:00.000Z",
+          "timestampText": "07:42",
+          "originalTimestampText": "07:42",
+          "createdAt": 1767000020000,
+          "editedFrom": "",
+          "text": "No visible disruption. Monitoring continues.",
+          "reportable": false,
+          "location": null
+        }
+      ]
+    },
+    {
+      "id": "tour-col-incident",
+      "type": "Incident",
+      "minimized": false,
+      "color": 1,
+      "label": "7th St",
+      "labelAuto": false,
+      "reportAll": false,
+      "createdAt": 1767000030000,
+      "location": null,
+      "observations": [
+        {
+          "id": "tour-note-3",
+          "timestamp": "2026-01-02T13:55:00.000Z",
+          "timestampText": "07:55",
+          "originalTimestampText": "07:55",
+          "createdAt": 1767000035000,
+          "editedFrom": "",
+          "text": "Traffic backup around delivery entrance.",
+          "reportable": true,
+          "location": {
+            "label": "777 7th St W, Saint Paul, MN",
+            "displayLabel": "777 7th St W, Saint Paul, MN",
+            "addressLabel": "777 7th St W, Saint Paul, MN",
+            "lat": 44.94864,
+            "lon": -93.11849,
+            "source": "manual",
+            "updatedAt": 1767000040000
+          }
+        }
+      ]
+    },
+    {
+      "id": "tour-col-place",
+      "type": "Place",
+      "minimized": false,
+      "color": 2,
+      "label": "Closest Walmart",
+      "labelAuto": false,
+      "reportAll": false,
+      "createdAt": 1767000045000,
+      "location": {
+        "label": "8000 Lakeland Ave N, Brooklyn Park, MN",
+        "displayLabel": "8000 Lakeland Ave N, Brooklyn Park, MN",
+        "addressLabel": "8000 Lakeland Ave N, Brooklyn Park, MN",
+        "lat": 45.0992,
+        "lon": -93.3896,
+        "source": "manual",
+        "updatedAt": 1767000050000
+      },
+      "observations": [
+        {
+          "id": "tour-note-4",
+          "timestamp": "2026-01-02T14:05:00.000Z",
+          "timestampText": "08:05",
+          "originalTimestampText": "08:05",
+          "createdAt": 1767000055000,
+          "editedFrom": "",
+          "text": "Store lot currently calm. Use for location-tagging practice.",
+          "reportable": false,
+          "location": null
+        }
+      ]
+    },
+    {
+      "id": "tour-col-lookup",
+      "type": "For Lookup",
+      "minimized": false,
+      "color": 3,
+      "label": "Pending",
+      "labelAuto": false,
+      "reportAll": false,
+      "createdAt": 1767000060000,
+      "location": null,
+      "observations": [
+        {
+          "id": "tour-note-5",
+          "timestamp": "2026-01-02T14:15:00.000Z",
+          "timestampText": "08:15",
+          "originalTimestampText": "08:15",
+          "createdAt": 1767000065000,
+          "editedFrom": "",
+          "text": "Example non-reportable lookup item for filter demos.",
+          "reportable": false,
+          "location": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+example_file: "sessions/tutorial-dispatch-baseline.json"
+welcome: "This walkthrough loads example data and helps you practice key Dispatch + Summary workflows in-place."
+completion: "You completed the Dispatch workflow tour. You can now collect, map, filter, sort, and export with confidence."
+stops:
+  - class: "dispatch-actions"
+    heading: "Session Controls"
+    detail: "Import, clear, and manage session state from this control area."
+    try_this: "Click Import once to preview the file picker, then cancel."
+
+  - class: "shift-controls"
+    heading: "Shift Setup"
+    detail: "Area, shift timing, and view mode live here."
+    try_this: "Set an area value, then try Notes, Split, and Map view buttons."
+
+  - class: "columns"
+    heading: "Create and Type a Card"
+    detail: "Cards organize observations by category and timeline."
+    try_this: "Add a new card, set its type, and label it \"Closest Walmart\"."
+
+  - class: "columns"
+    heading: "Tag the Card Location"
+    detail: "Card-level location applies to all notes in that card unless overridden."
+    try_this: "Use the card pin button to tag the card with the closest Walmart."
+
+  - class: "map-panel"
+    heading: "See Tagged Data on the Map"
+    detail: "Now move to map interactions and verify what was tagged."
+    try_this: "Switch to Split or Map view so you can see the map update."
+
+  - class: "map-view"
+    heading: "Move a Location Pin"
+    detail: "Dragging a pin attempts reverse-geocoding to resolve the new address text."
+    try_this: "Move a pin slightly and confirm the updated location label when prompted."
+
+  - class: "map-view"
+    heading: "Explore Map-to-Card Navigation"
+    detail: "Map labels support deep navigation into related card/note data."
+    try_this: "Click a map label to view details. Double-click it to open the related card."
+
+  - class: "map-sidebar-tool-lookup"
+    heading: "Create Card from Map Search"
+    detail: "Use map search to place a new pinned card from a looked-up location."
+    try_this: "Click the magnifier tool, search a location, and select a result to create a new card."
+
+  - class: "map-sidebar-tool-pin-drop"
+    heading: "Create Card from Pin Drop"
+    detail: "Use pin-drop mode to place a new card directly from the map."
+    try_this: "Click the pin-drop tool, drag the temporary pin, and save the new card."
+
+  - class: "location-row"
+    heading: "Return to Map from Card"
+    detail: "Location rows in cards are linked back to map context."
+    try_this: "Click the card location row to jump back to that location on the map."
+
+  - class: "tab-group"
+    heading: "Next: Summary Tab"
+    detail: "You will now move from collection to reporting controls."
+    try_this: "Click Summary/Export in the tab bar."
+
+  - class: "summary-settings"
+    heading: "Reportable + Filter Behavior"
+    detail: "Summary output changes instantly based on reportability and filter toggles."
+    try_this: "Toggle Only Reportable and other filters to watch the output change."
+
+  - class: "summary-panel-controls"
+    heading: "Sort and Compare"
+    detail: "Sorting changes how the same data is grouped and read."
+    try_this: "Try Sort by Time, Category, and Card, and toggle Most Recent First."
+
+  - class: "tour-export-button"
+    heading: "Export Output"
+    detail: "Export gives you shareable or archivable outputs from your summary data."
+    try_this: "Open Export and review the available export formats."

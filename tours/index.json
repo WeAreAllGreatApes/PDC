@@ -1,0 +1,14 @@
+[
+  {
+    "file": "1_welcome-basics.yaml",
+    "label": "Welcome and Navigation Basics"
+  },
+  {
+    "file": "2_dispatch-workflow.yaml",
+    "label": "Dispatch Workflow Tour"
+  },
+  {
+    "file": "3_advanced-card-color-settings.yaml",
+    "label": "Advanced Card Color Settings Tour"
+  }
+]

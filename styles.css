@@ -1,0 +1,12 @@
+/*
+  Component-oriented stylesheet entrypoint.
+  Import order is intentional and preserves the previous cascade.
+*/
+
+@import url("src/css/components/home.css");
+@import url("src/css/components/workspace-core.css");
+@import url("src/css/components/dispatch.css");
+@import url("src/css/components/summary.css");
+@import url("src/css/components/modals.css");
+@import url("src/css/base/boot.css");
+@import url("src/css/base/semantic-layout.css");

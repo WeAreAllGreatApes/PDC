@@ -1,0 +1,39 @@
+          <section id="salute" class="tab-panel app-tab-panel app-tab-panel--alert" role="tabpanel">
+            <div class="format-layout">
+              <div class="format-builder">
+                <div class="format-header">
+                  <div>
+                    <p class="muted">
+                      Choose format→ fill in info→ copy formatted text→ paste into messaging app.
+                    </p>
+                  </div>
+                  <div class="mode-toggle" aria-label="Format toggle">
+                    <button id="formatAlert" class="pill active">ALERTA</button>
+                    <button id="formatSalute" class="pill">SALUTE</button>
+                  </div>
+                </div>
+                <div class="format-descriptions">
+                  <div id="alertDesc">
+                    ALERTA is a practical, community-friendly format for quick
+                    observation reports.
+                  </div>
+                  <div id="saluteDesc" class="hidden">
+                    SALUTE is a structured reporting format for situational
+                    summaries, expecially with armed individuals.
+                  </div>
+                </div>
+                <div id="formatFields" class="format-fields"></div>
+              </div>
+              <div class="format-output">
+                <div class="summary-controls">
+                  <div class="label">Formatted text</div>
+                  <div class="summary-actions">
+                    <button id="copyFormat" class="primary">Copy Text</button>
+                    <button id="clearFormat" class="ghost" type="button">Clear</button>
+                    <span id="copyFormatStatus" class="copy-status" aria-live="polite"></span>
+                  </div>
+                </div>
+                <textarea id="formatOutput" rows="16" aria-label="Formatted output"></textarea>
+              </div>
+            </div>
+          </section>

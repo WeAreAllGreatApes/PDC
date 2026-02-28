@@ -1,0 +1,18 @@
+export const RUNTIME_SCRIPT_ORDER = [
+  "src/js/runtime/10_core-shared.js",
+  "src/js/runtime/20_dispatch-map-view.js",
+  "src/js/runtime/30_dispatch-state.js",
+  "src/js/runtime/40_summary-view.js",
+  "src/js/runtime/50_dispatch-notes-view.js",
+  "src/js/runtime/60_navigation-tours-export.js",
+  "src/js/runtime/70_alert-view.js",
+  "src/js/runtime/71_setup-shared.js",
+  "src/js/runtime/72_setup-bootstrap-state.js",
+  "src/js/runtime/73_setup-dispatch-summary.js",
+  "src/js/runtime/74_setup-alert.js",
+  "src/js/runtime/75_setup-modals-navigation.js",
+  "src/js/runtime/76_setup-dispatch-map.js",
+  "src/js/runtime/77_setup-window-shortcuts.js",
+  "src/js/runtime/78_setup-finalize.js",
+  "src/js/runtime/80_init-and-events.js",
+];

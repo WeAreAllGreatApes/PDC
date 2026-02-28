@@ -1,0 +1,274 @@
+    <div id="howToModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content how-to-modal" role="dialog" aria-modal="true" aria-labelledby="howToTitle">
+        <div class="modal-header">
+          <h2 id="howToTitle">
+            <span class="icon" aria-hidden="true"><i data-lucide="help-circle"></i></span>
+            How to Use This App
+          </h2>
+          <div class="modal-header-actions">
+            <span class="how-to-shortcut-hint" aria-label="Keyboard shortcut">Ctrl + Shift + H</span>
+            <button id="howToClose" class="ghost" type="button">Close</button>
+          </div>
+        </div>
+        <div class="how-to-modal-scroll">
+          <section class="modal-section how-to-section">
+            <div class="section-title">Workflow Assumptions</div>
+            <div id="howToExpectationsContent" class="how-to-content" aria-live="polite">
+              <div class="version-loading">Loading setup guidance...</div>
+            </div>
+            <div class="how-to-actions">
+              <button id="howToTutorialCta" class="ghost tutorial-home-button" type="button">
+                <span class="icon" aria-hidden="true"><i data-lucide="route"></i></span>
+                <span class="label">Open Tutorials</span>
+              </button>
+            </div>
+          </section>
+          <section id="howToFaqSection" class="modal-section how-to-section">
+            <div class="section-title">FAQ</div>
+            <div id="faqContent" class="faq-content" aria-live="polite">
+              <div class="version-loading">Loading FAQ...</div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div id="tutorialPickerModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div
+        class="modal-content tutorial-modal tutorial-picker-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tutorialPickerTitle"
+      >
+        <div class="modal-header">
+          <h2 id="tutorialPickerTitle">
+            <span class="icon" aria-hidden="true"><i data-lucide="route"></i></span>
+            Pick a Tutorial.
+          </h2>
+          <button id="tutorialPickerClose" class="ghost" type="button">Close</button>
+        </div>
+        <div class="modal-note">
+          <span class="icon" aria-hidden="true"><i data-lucide="circle-alert"></i></span>
+          <span id="tutorialPickerIntroText">
+            If you have an active session, save it. Tutorials may load example data that overwrites the active data.
+          </span>
+        </div>
+        <div id="tutorialList" class="tutorial-list"></div>
+      </div>
+    </div>
+
+    <div id="tutorialWelcomeModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div
+        class="modal-content tutorial-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tutorialWelcomeTitle"
+      >
+        <h3 id="tutorialWelcomeTitle" class="tutorial-modal-title">Welcome to the Tour!</h3>
+        <p id="tutorialWelcomeText" class="tutorial-modal-body tutorial-welcome-text"></p>
+        <div class="modal-actions">
+          <button id="tutorialWelcomeBack" class="ghost" type="button">Back</button>
+          <button id="tutorialStart" class="primary" type="button">START</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="tutorialCompleteModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div
+        class="modal-content tutorial-modal tutorial-complete-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="tutorialCompleteTitle"
+      >
+        <h3 id="tutorialCompleteTitle" class="tutorial-modal-title tutorial-complete-title">Tutorial Complete</h3>
+        <p id="tutorialCompleteText" class="tutorial-modal-body tutorial-complete-text"></p>
+        <div class="modal-actions">
+          <button id="tutorialTakeAnother" class="ghost" type="button">Take another tour</button>
+          <button id="tutorialCompleteClose" class="primary" type="button">Tour Complete</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="vehicleModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="vehicleTitle">
+        <h3 id="vehicleTitle">Add Vehicle</h3>
+        <p id="vehicleModalSubtitle" class="muted">Add what info you know about the vehicle in question.</p>
+        <div class="modal-section vehicle-note-section">
+          <div class="vehicle-note-grid vehicle-note-grid-plate">
+            <label class="vehicle-note-field vehicle-note-field-plate">
+              <span class="vehicle-note-field-label">Plate</span>
+              <input id="vehiclePlate" type="text" />
+            </label>
+            <label class="vehicle-note-field">
+              <span class="vehicle-note-field-label">State</span>
+              <input id="vehicleState" list="stateOptions" />
+              <datalist id="stateOptions"></datalist>
+            </label>
+          </div>
+          <div class="vehicle-note-grid">
+            <label class="vehicle-note-field vehicle-note-field-make nowrap">
+              <span class="vehicle-note-field-label">Make (Manufacturer)</span>
+              <input id="vehicleMake" list="makeOptions" />
+              <datalist id="makeOptions"></datalist>
+            </label>
+            <label class="vehicle-note-field vehicle-note-field-model">
+              <span class="vehicle-note-field-label">Model</span>
+              <input id="vehicleModel" list="modelOptions" />
+              <datalist id="modelOptions"></datalist>
+            </label>
+            <label class="vehicle-note-field vehicle-note-field-color">
+              <span class="vehicle-note-field-label">Color</span>
+              <input id="vehicleColor" list="colorOptions" />
+              <datalist id="colorOptions"></datalist>
+            </label>
+            <label class="vehicle-note-field vehicle-note-field-body">
+              <span class="vehicle-note-field-label">Body style</span>
+              <input id="vehicleBody" type="text" list="bodyOptions" />
+              <datalist id="bodyOptions"></datalist>
+            </label>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button id="vehicleClose" class="ghost">Close</button>
+          <button id="vehicleAdd" class="primary">Add</button>
+        </div>
+        <div class="modal-note">
+          *If you don't find an exact match for something, just hit Add and you can edit the text.
+        </div>
+      </div>
+    </div>
+    <div id="deleteModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+        <h3 id="deleteTitle">Delete this note?</h3>
+        <p class="muted">This action cannot be undone.</p>
+        <div class="modal-actions">
+          <button id="deleteCancel" class="ghost">Cancel</button>
+          <button id="deleteConfirm" class="primary danger">Delete</button>
+        </div>
+      </div>
+    </div>
+    <div id="reverseGeocodeModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="reverseGeocodeTitle">
+        <h3 id="reverseGeocodeTitle">Failed to find address for the dropped pin</h3>
+        <p class="muted">What do you want to do?</p>
+        <div class="modal-note">
+          <div><strong>Old Location:</strong> <span id="reverseGeocodeOld">Unknown</span></div>
+          <div><strong>New Location:</strong> <span id="reverseGeocodeNew">Unknown</span></div>
+        </div>
+        <div class="modal-actions">
+          <button id="reverseGeocodeCancel" class="primary">Cancel (Keep Old Address)</button>
+          <button id="reverseGeocodeConfirm" class="secondary">Use new location</button>
+        </div>
+      </div>
+    </div>
+    <div id="saveInfoModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="saveInfoTitle">
+        <h3 id="saveInfoTitle">Save on Device</h3>
+        <p class="muted">
+          When enabled, data is saved in your browser storage on this device.
+        </p>
+        <div class="modal-actions">
+          <button id="saveInfoClose" class="ghost">Close</button>
+        </div>
+      </div>
+    </div>
+    <div id="searchModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content search-modal" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
+        <div class="modal-header">
+          <h3 id="searchTitle">Search</h3>
+          <button id="searchClose" class="ghost">Close</button>
+        </div>
+        <label class="modal-field search-field">
+          Search
+          <input id="searchInput" type="text" placeholder="Search cards and notes" autocomplete="off" />
+        </label>
+        <div class="search-results-header">
+          <div class="search-results-title">Results</div>
+        </div>
+        <div id="searchResults" class="search-results">
+          <div class="search-empty">Start typing to search.</div>
+        </div>
+        <div class="modal-note">Tab or ↑/↓ to move, Enter to select, Esc to close.</div>
+      </div>
+    </div>
+    <div id="locationModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content location-modal" role="dialog" aria-modal="true" aria-labelledby="locationTitle">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <h3 id="locationTitle">Set Location</h3>
+            <button id="locationLimitDetail" class="limit-detail" type="button"></button>
+          </div>
+          <div class="modal-header-actions">
+            <button id="locationDropPin" class="ghost" type="button">
+              <span class="icon" aria-hidden="true"><i data-lucide="map-pin-plus-inside"></i></span>
+              Drop Pin
+            </button>
+            <button id="locationClose" class="ghost">Close</button>
+          </div>
+        </div>
+        <div id="locationTargetLabel" class="modal-note"></div>
+        <label class="modal-field location-search-field">
+          Search
+          <div class="location-search-row">
+            <input id="locationSearchInput" type="text" placeholder="Try an address, intersection, or business" autocomplete="off" />
+            <button id="locationClear" class="ghost" type="button">Clear</button>
+          </div>
+        </label>
+        <div class="location-results-header">
+          <div class="section-title">Results</div>
+        </div>
+        <div id="locationResults" class="location-results">
+          <div class="search-empty">Start typing to search.</div>
+        </div>
+        <div class="modal-actions">
+          <button id="locationSet" class="primary">Set Location</button>
+        </div>
+        <div class="modal-note">Search results and pin preview appear on the main map. Drag or click map to fine-tune.</div>
+      </div>
+    </div>
+    <div id="mapCardMetaModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="mapCardMetaTitle">
+        <h3 id="mapCardMetaTitle">New Pinned Card</h3>
+        <p class="muted">Set a title and card type for the new map pin.</p>
+        <div class="map-card-meta-inline">
+          <label class="modal-field map-card-meta-field">
+            Card type
+            <div id="mapCardMetaType"></div>
+            <span id="mapCardMetaTypeHint" class="muted map-card-meta-type-hint hidden">Set by Card</span>
+          </label>
+          <label class="modal-field map-card-meta-field">
+            Card title
+            <input id="mapCardMetaLabel" type="text" placeholder="Optional title" />
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button id="mapCardMetaCancel" class="ghost">Cancel</button>
+          <button id="mapCardMetaSkip" class="ghost">Skip</button>
+          <button id="mapCardMetaSave" class="primary">Save</button>
+        </div>
+      </div>
+    </div>
+    <div id="applyCardColorsModal" class="modal app-modal hidden" aria-hidden="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="applyCardColorsTitle">
+        <h3 id="applyCardColorsTitle">Apply colors to all existing cards?</h3>
+        <p class="muted">
+          This updates every current card color to match your selected defaults and cannot be undone.
+        </p>
+        <div class="modal-actions">
+          <button id="applyCardColorsCancel" class="ghost">Cancel</button>
+          <button id="applyCardColorsConfirm" class="primary">Apply</button>
+        </div>
+      </div>
+    </div>
