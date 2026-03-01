@@ -6,18 +6,26 @@ on:
       - "*"
 
 jobs:
-  build-release:
+  build-latest:
     runs-on: ubuntu-latest
     steps:
-      - name: Checking out the repo
-        uses: actions/checkout@v3
-      - name: Docker Login and setup
+      - uses: actions/checkout@v4
+
+      - name: Normalize image path
+        id: vars
+        run: |
+          echo "owner_lc=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+          echo "image_lc=pdc" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Building the image
-        run: docker build -t ghcr.io/${{github.actor}}/pdc:${GITHUB_REF#refs/*/} .
-      - name: pushing the image
-        run: docker push ghcr.io/${{github.actor}}/pdc:${GITHUB_REF#refs/*/}
+
+      - name: Build image
+        run: docker build -t ghcr.io/${{ steps.vars.outputs.owner_lc }}/${{ steps.vars.outputs.image_lc }}:${GITHUB_REF#refs/*/} .
+
+      - name: Push image
+        run: docker push ghcr.io/${{ steps.vars.outputs.owner_lc }}/${{ steps.vars.outputs.image_lc }}:${GITHUB_REF#refs/*/}
