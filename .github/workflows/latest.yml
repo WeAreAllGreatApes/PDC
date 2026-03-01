@@ -1,23 +1,29 @@
 name: Docker CI
 
-on: 
-  push: 
-    branches:
-      - main
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build-latest:
     runs-on: ubuntu-latest
     steps:
-      - name: Checking out the repo
-        uses: actions/checkout@v3
-      - name: Docker Login and setup
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: weareallgreatapes
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Building the image
-        run: docker build -t ghcr.io/weareallgreatapes/pdc:latest .
-      - name: pushing the image
-        run: docker push ghcr.io/weareallgreatapes/pdc:latest
+
+      - name: Build image
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/pdc:latest
+
+      - name: Push image
+        run: docker push ghcr.io/${{ github.repository_owner }}/pdc:latest
