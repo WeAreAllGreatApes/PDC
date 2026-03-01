@@ -11,6 +11,11 @@ COPY index.html /app/static
 COPY app.js /app/static
 COPY lucide.min.js /app/static
 COPY styles.css /app/static
+COPY content /app/static/content
+COPY sessions /app/static/sessions
+COPY src /app/static/src
+COPY tours /app/static/tours
+COPY vendor /app/static/vendor
 COPY config.generated.js /app/static
 
 COPY server/server.py /app

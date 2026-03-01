@@ -18,7 +18,7 @@ window.__PDC_CONFIG__ = {
   apis: {
     geocoding: {
       enabled: true,
-      baseUrl: "",
+      baseUrl: "http://localhost:8000",
     },
   },
   map: {
