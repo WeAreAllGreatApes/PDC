@@ -1053,6 +1053,7 @@ const VEHICLE_MODELS = {
   Jeep: [
     { model: "Wrangler", body: "SUV" },
     { model: "Grand Cherokee", body: "SUV" },
+    { model: "Grand Cherokee Laredo", body: "SUV" },
     { model: "Cherokee", body: "SUV" },
     { model: "Compass", body: "SUV" },
     { model: "Renegade", body: "SUV" },
