@@ -1,0 +1,23 @@
+name: Docker CI
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out the repo
+        uses: actions/checkout@v3
+      - name: Docker Login and setup
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Building the image
+        run: docker build -t ghcr.io/${{github.actor}}/pdc:${GITHUB_REF#refs/*/} .
+      - name: pushing the image
+        run: docker push ghcr.io/${{github.actor}}/pdc:${GITHUB_REF#refs/*/}
