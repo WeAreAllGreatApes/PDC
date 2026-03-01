@@ -15,9 +15,9 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: WeAreAllGreatApes
+          username: weareallgreatapes
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Building the image
-        run: docker build -t ghcr.io/WeAreAllGreatApes/pdc:latest .
+        run: docker build -t ghcr.io/weareallgreatapes/pdc:latest .
       - name: pushing the image
-        run: docker push ghcr.io/WeAreAllGreatApes/pdc:latest
+        run: docker push ghcr.io/weareallgreatapes/pdc:latest
