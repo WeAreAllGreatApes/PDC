@@ -19,6 +19,8 @@ COPY vendor /app/static/vendor
 COPY config.generated.js /app/static
 
 COPY server/server.py /app
+COPY server/classes.py /app
+COPY server/utils.py /app
 
 ENV MAPS_URL=https://PDCdomain.goeshere
 ENV CENTER_LAT=44.9713728
