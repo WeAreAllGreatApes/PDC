@@ -7,7 +7,7 @@ import os
 import requests
 import urllib.parse
 from fastapi.middleware.cors import CORSMiddleware
-from classes import Search, Autocomplete, ReverseSearch, Address
+from classes import Search, Autocomplete, ReverseSearch, SearchResult, Address
 
 app = FastAPI()
 
@@ -54,7 +54,8 @@ async def search(search: Search):
     full_query = f"{ENDPOINT}/forward?{query}"
     res = requests.get(full_query)
     if res.status_code == 200:
-        return json.loads(res.text)
+        results = [SearchResult(r['properties']).dict() for r in json.loads(res.text)['features']]
+        return {'results': results}
     else:
         print('\033[91m','\t\t[ERROR] search returned', res.status_code, '\033[0m')
         raise HTTPException(status_code=500)

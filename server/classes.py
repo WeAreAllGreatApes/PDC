@@ -28,14 +28,14 @@ class StructuredAddress():
         self.addressLines = [addr['address']['name']]
         
     def dict(self):
-        d = {
+        D = {
             'regionCode': self.regionCode,
             'postalCode': self.postalCode,
             'adminsistrativeArea': self.administrativeArea,
             'locality': self.locality,
             'addressLines': self.addressLines,
         }
-        return {k:v for k,v in d.items() if v is not None}
+        return {k:v for k,v in D.items() if v is not None}
 
 class Address():                    
     latitude: float
@@ -55,11 +55,46 @@ class Address():
             self.structuredAddress = StructuredAddress(addr['context'])
         
     def dict(self):
-        d =  {
+        D =  {
             'latitude': self.latitude,
             'longitude': self.longitude,
             'distance': self.distance,
             'address': self.address,
             'structuredAddress': self.structuredAddress
         }
-        return {k:v for k,v in d.items() if v is not None}
+        return {k:v for k,v in D.items() if v is not None}
+        
+class SearchResult():    
+    address_components: list[dict]    
+    formatted_address: str
+    geometry: dict
+    types: list[str]
+    id: str
+    
+    def __init__(self, res: dict):
+        self.id = res['mapbox_id']
+        self.formatted_address = res['full_address']
+        self.geometry = {
+            'location_type': res['feature_type'],
+            'location': {
+                'lat': res['coordinates']['latitude'],
+                'lng': res['coordinates']['longitude']
+            }
+        }
+        
+        self.address_components = []
+        for k,v in dict(res['context']).items():
+            self.address_components.append({
+                'long_name': v['name'],
+                'name': v['name'],
+                'types': [str(k).lower()]
+            })
+            
+    def dict(self):
+        D = {
+            'id': self.id,
+            'formatted_address': self.formatted_address,
+            'geometry': self.geometry,
+            'address_components': self.address_components
+        }
+        return {k:v for k,v in D.items() if v is not None}
