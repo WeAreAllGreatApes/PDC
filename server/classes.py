@@ -98,3 +98,48 @@ class SearchResult():
             'address_components': self.address_components
         }
         return {k:v for k,v in D.items() if v is not None}
+    
+
+class StructuredText:
+    text: str
+    matches: list[dict[str,int]] | None
+    
+    def __init__(self, text: str, matches: list[dict[str,int]] | None = None):
+        self.text = text
+        self.matches = matches
+    
+    def dict(self):
+        D = {
+            'text': self.text,
+            'matches': self.matches
+        }
+        return {k:v for k,v in D.items() if v is not None}
+    
+class AutocompleteResult():
+    placeId: str
+    types: list[str]
+    text: StructuredText
+    structuredFormat: dict[str,StructuredText]
+    match_code: dict[str,str]
+    
+    def __init__(self, res: dict):
+        self.placeId = res['mapbox_id']
+        self.types = [res['feature_type']]
+        self.text = StructuredText(res['full_address'])
+        self.structuredFormat = {
+            'mainText': StructuredText(res['name_preferred'] if 'name_preferred' in res else res['name']),
+            'secondaryText': StructuredText(res['place_formatted'])
+        }
+        if 'match_code' in res:
+            self.match_code = res['match_code']
+        
+    def dict(self):
+        D = {
+            'placeId': self.placeId,
+            'types': self.types,                
+            'text': self.text.dict(),
+            'structuredFormat': {k:v.dict() for k,v in self.structuredFormat.items()},
+            'matchCode': self.match_code
+        }
+        return {k:v for k,v in D.items() if v is not None}
+        

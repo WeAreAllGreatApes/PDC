@@ -7,7 +7,7 @@ import os
 import requests
 import urllib.parse
 from fastapi.middleware.cors import CORSMiddleware
-from classes import Search, Autocomplete, ReverseSearch, SearchResult, Address
+from classes import Search, Autocomplete, ReverseSearch, SearchResult, AutocompleteResult, Address
 
 app = FastAPI()
 
@@ -76,7 +76,10 @@ async def autocomplete(search: Autocomplete):
     res = requests.get(f'{ENDPOINT}/forward?{query}')
     
     if res.status_code == 200:
-        return json.loads(res.text)
+        results = {
+            'suggestions': [{'placePrediction': AutocompleteResult(res['properties'])} for res in json.loads(res.text)['features']]
+        } 
+        return results
     else:
         print('\033[91m','\t\t[ERROR] autocomplete returned', res.status_code, '\033[0m')
         raise HTTPException(status_code=500, detail=res.text)
