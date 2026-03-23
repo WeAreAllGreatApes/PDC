@@ -5450,8 +5450,13 @@ async function fetchAutocompleteResults(query) {
         const secondary = structured.secondaryText?.text || "";
         const label = secondary ? `${mainText}, ${secondary}` : mainText;
         return {
-          label: label || "Unknown",
-          searchText: label || prediction.text?.text || "",
+          /*
+            When present, Mapbox's prediction.text is the full address; therefore:
+             * Displays (i.e. label) should be made with prediction.structured where possible
+             * /search calls should use prediction.text.text where possible
+          */          
+          label: label || prediction.text?.text || "Unknown",
+          searchText: prediction.text?.text || label || "",
         };
       })
       .filter((item) => item.label);

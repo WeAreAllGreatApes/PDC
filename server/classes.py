@@ -128,7 +128,7 @@ class AutocompleteResult():
     types: list[str]
     text: StructuredText
     structuredFormat: dict[str,StructuredText]
-    match_code: dict[str,str]
+    match_code: dict[str,str]|None
     
     def __init__(self, res: dict):
         self.placeId = res['mapbox_id']
@@ -138,6 +138,7 @@ class AutocompleteResult():
             'mainText': StructuredText(res['name_preferred'] if 'name_preferred' in res else res['name']),
             'secondaryText': StructuredText(res['place_formatted'])
         }
+        self.match_code = None
         if 'match_code' in res:
             self.match_code = res['match_code']
         

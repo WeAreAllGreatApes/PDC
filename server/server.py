@@ -46,6 +46,7 @@ async def search(search: Search):
     query = urllib.parse.urlencode(
         {
             "q": search.search,
+            "proximity": f"{CENTER_LON},{CENTER_LAT}",
             "bbox": BBOX,
             "types": TYPES,
             "access_token": KEY
@@ -80,11 +81,10 @@ async def autocomplete(search: Autocomplete):
     
     if res.status_code == 200:
         results = {
-            'suggestions': [{'placePrediction': AutocompleteResult(res['properties'])} for res in json.loads(res.text)['features']]
+            'suggestions': [{'placePrediction': AutocompleteResult(res['properties']).dict()} for res in json.loads(res.text)['features']]
         } 
         return results
     else:
-        print(query)
         print('\033[91m','\t\t[ERROR] autocomplete returned', res.status_code, '\033[0m')
         raise HTTPException(status_code=500, detail=res.text)
 
