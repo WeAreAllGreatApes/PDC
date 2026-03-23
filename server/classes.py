@@ -3,13 +3,20 @@ from utils import geo_distance
 
 
 class Search(BaseModel):
-    search: str
-class Autocomplete(BaseModel):
-    search: str
-    
-class ReverseSearch(BaseModel):
+    search: str    
+class Location(BaseModel):
     latitude: float
     longitude: float
+    
+    def max_compatibility(self):
+        return {
+            'lat': self.latitude,
+            'latitude': self.latitude,
+            'lon': self.longitude,
+            'lng': self.longitude,
+            'long': self.longitude,
+            'longitude': self.longitude
+        }
 
 class StructuredAddress():
     regionCode: str
@@ -48,7 +55,7 @@ class Address():
     address: str|None
     structuredAddress: StructuredAddress|None
     
-    def __init__(self, search: ReverseSearch, addr: dict):
+    def __init__(self, search: Location, addr):
         self.latitude = addr['coordinates']['latitude']
         self.longitude = addr['coordinates']['longitude']
         self.distance = geo_distance(search.latitude, search.longitude, self.latitude, self.longitude)
@@ -84,10 +91,10 @@ class SearchResult():
         self.formatted_address = res['full_address'] if 'full_address' in res else res['name']
         self.geometry = {
             'location_type': res['feature_type'],
-            'location': {
-                'lat': res['coordinates']['latitude'],
-                'lng': res['coordinates']['longitude']
-            }
+            'location': Location(
+                latitude=res['coordinates']['latitude'],
+                longitude=res['coordinates']['longitude']
+            ).max_compatibility()
         }
         
         self.address_components = []
@@ -138,6 +145,10 @@ class AutocompleteResult():
             'mainText': StructuredText(res['name_preferred'] if 'name_preferred' in res else res['name']),
             'secondaryText': StructuredText(res['place_formatted'])
         }
+        self.location = Location(
+            latitude=res['coordinates']['latitude'],
+            longitude=res['coordinates']['longitude'])
+        
         self.match_code = None
         if 'match_code' in res:
             self.match_code = res['match_code']
@@ -147,6 +158,7 @@ class AutocompleteResult():
             'placeId': self.placeId,
             'types': self.types,                
             'text': self.text.dict(),
+            'location': self.location.max_compatibility(),
             'structuredFormat': {k:v.dict() for k,v in self.structuredFormat.items()},
             'matchCode': self.match_code
         }

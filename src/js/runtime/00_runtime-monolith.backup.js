@@ -5457,6 +5457,7 @@ async function fetchAutocompleteResults(query) {
           */          
           label: label || prediction.text?.text || "Unknown",
           searchText: prediction.text?.text || label || "",
+          location: prediction.location
         };
       })
       .filter((item) => item.label);
