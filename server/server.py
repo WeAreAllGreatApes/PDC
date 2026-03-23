@@ -33,7 +33,7 @@ ENDPOINT = 'https://api.mapbox.com/search/searchbox/v1'
 
 # Search assistance:
 BBOX = f'{CENTER_LON - 0.2},{CENTER_LAT - 0.2},{CENTER_LON + 0.2},{CENTER_LAT + 0.2}'
-TYPES = 'address,poi,street'
+TYPES = 'address,poi'
 
 @app.get("/", status_code=301)
 async def index():
@@ -94,7 +94,7 @@ async def reverse(search: ReverseSearch, raw: bool = False):
     query = urllib.parse.urlencode({
         'longitude': search.longitude,
         'latitude': search.latitude,
-        'types': TYPES,
+        'types': 'address,block',
         'access_token': KEY
     })
     res = requests.get(f'{ENDPOINT}/reverse?{query}')

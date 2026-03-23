@@ -25,7 +25,11 @@ class StructuredAddress():
         self.postalCode = addr['postcode']['name']
         self.administrativeArea = addr['region']['region_code']
         self.locality = addr['place']['name']
-        self.addressLines = [addr['address']['name']]
+        self.addressLines = []
+        if 'address' in addr:
+            self.addressLines.append(addr['address']['name'])
+        if 'street' in addr:
+            self.addressLines.append(addr['street']['name'])
         
     def dict(self):
         D = {
@@ -41,16 +45,18 @@ class Address():
     latitude: float
     longitude: float
     distance: float
-    address: str
-    structuredAddress: StructuredAddress
+    address: str|None
+    structuredAddress: StructuredAddress|None
     
     def __init__(self, search: ReverseSearch, addr: dict):
         self.latitude = addr['coordinates']['latitude']
         self.longitude = addr['coordinates']['longitude']
         self.distance = geo_distance(search.latitude, search.longitude, self.latitude, self.longitude)
         
+        self.address = None
         if 'full_address' in addr:
             self.address = addr['full_address']
+        self.structuredAddress = None
         if "context" in addr:
             self.structuredAddress = StructuredAddress(addr['context'])
         
@@ -60,8 +66,10 @@ class Address():
             'longitude': self.longitude,
             'distance': self.distance,
             'address': self.address,
-            'structuredAddress': self.structuredAddress
         }
+        if self.structuredAddress is not None:
+            D['structuredAddress'] = self.structuredAddress.dict()
+        
         return {k:v for k,v in D.items() if v is not None}
         
 class SearchResult():    
@@ -125,7 +133,7 @@ class AutocompleteResult():
     def __init__(self, res: dict):
         self.placeId = res['mapbox_id']
         self.types = [res['feature_type']]
-        self.text = StructuredText(res['full_address'])
+        self.text = StructuredText(res['full_address'] if 'full_address' in res else res['name'])
         self.structuredFormat = {
             'mainText': StructuredText(res['name_preferred'] if 'name_preferred' in res else res['name']),
             'secondaryText': StructuredText(res['place_formatted'])
