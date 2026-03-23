@@ -73,7 +73,7 @@ class SearchResult():
     
     def __init__(self, res: dict):
         self.id = res['mapbox_id']
-        self.formatted_address = res['full_address']
+        self.formatted_address = res['full_address'] if 'full_address' in res else res['name']
         self.geometry = {
             'location_type': res['feature_type'],
             'location': {
