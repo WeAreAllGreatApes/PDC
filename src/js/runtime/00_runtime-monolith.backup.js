@@ -5137,6 +5137,9 @@ async function runLocationSearch(query) {
   if (!locationResults) {
     return;
   }
+  if (query.length < 5) {
+    return;
+  }
   if (!isModalOpen(locationModal)) {
     return;
   }
