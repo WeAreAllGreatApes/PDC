@@ -7,7 +7,7 @@ import os
 import requests
 import urllib.parse
 from fastapi.middleware.cors import CORSMiddleware
-from classes import Search, Autocomplete, ReverseSearch, SearchResult, AutocompleteResult, Address
+from classes import Search, Location, SearchResult, AutocompleteResult, Address
 
 app = FastAPI()
 
@@ -65,7 +65,7 @@ async def search(search: Search):
 
 
 @app.post("/autocomplete")
-async def autocomplete(search: Autocomplete):
+async def autocomplete(search: Search):
     query = urllib.parse.urlencode(
         {
             "q": search.search,
@@ -90,7 +90,7 @@ async def autocomplete(search: Autocomplete):
 
 
 @app.post("/reverse")
-async def reverse(search: ReverseSearch, raw: bool = False):
+async def reverse(search: Location, raw: bool = False):
     query = urllib.parse.urlencode({
         'longitude': search.longitude,
         'latitude': search.latitude,
