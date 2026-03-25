@@ -3,33 +3,39 @@ from utils import geo_distance
 
 
 class Search(BaseModel):
-    search: str
-class Autocomplete(BaseModel):
-    search: str
-    
-class ReverseSearch(BaseModel):
+    search: str    
+class Location(BaseModel):
     latitude: float
     longitude: float
+    
+    def max_compatibility(self):
+        return {
+            'lat': self.latitude,
+            'latitude': self.latitude,
+            'lon': self.longitude,
+            'lng': self.longitude,
+            'long': self.longitude,
+            'longitude': self.longitude
+        }
 
 class StructuredAddress():
-    regionCode: str
-    languageCode: str
-    postalCode: str
-    administrativeArea: str
-    locality: str
-    addressLines: list[str]
+    regionCode: str|None = None
+    postalCode: str|None = None
+    administrativeArea: str|None = None
+    locality: str|None = None
+    addressLines: list[str] = []
     
     def __init__(self, addr):
-        self.regionCode = addr['country']['country_code']
-        # self.languageCode: <UNUSED / UNMAPPABLE>
-        self.postalCode = addr['postcode']['name']
-        self.administrativeArea = addr['region']['region_code']
-        self.locality = addr['place']['name']
-        self.addressLines = []
+        if 'country' in addr:
+            self.regionCode = addr['country']['country_code']
+        if 'postcode' in addr:
+            self.postalCode = addr['postcode']['name']
+        if 'region' in addr:
+            self.administrativeArea = addr['region']['region_code']
+        if 'place' in addr: 
+            self.locality = addr['place']['name']
         if 'address' in addr:
             self.addressLines.append(addr['address']['name'])
-        if 'street' in addr:
-            self.addressLines.append(addr['street']['name'])
         
     def dict(self):
         D = {
@@ -45,18 +51,16 @@ class Address():
     latitude: float
     longitude: float
     distance: float
-    address: str|None
-    structuredAddress: StructuredAddress|None
+    address: str|None = None
+    structuredAddress: StructuredAddress|None = None
     
-    def __init__(self, search: ReverseSearch, addr: dict):
+    def __init__(self, search: Location, addr):
         self.latitude = addr['coordinates']['latitude']
         self.longitude = addr['coordinates']['longitude']
         self.distance = geo_distance(search.latitude, search.longitude, self.latitude, self.longitude)
         
-        self.address = None
         if 'full_address' in addr:
             self.address = addr['full_address']
-        self.structuredAddress = None
         if "context" in addr:
             self.structuredAddress = StructuredAddress(addr['context'])
         
@@ -84,10 +88,10 @@ class SearchResult():
         self.formatted_address = res['full_address'] if 'full_address' in res else res['name']
         self.geometry = {
             'location_type': res['feature_type'],
-            'location': {
-                'lat': res['coordinates']['latitude'],
-                'lng': res['coordinates']['longitude']
-            }
+            'location': Location(
+                latitude=res['coordinates']['latitude'],
+                longitude=res['coordinates']['longitude']
+            ).max_compatibility()
         }
         
         self.address_components = []
@@ -138,6 +142,10 @@ class AutocompleteResult():
             'mainText': StructuredText(res['name_preferred'] if 'name_preferred' in res else res['name']),
             'secondaryText': StructuredText(res['place_formatted'])
         }
+        self.location = Location(
+            latitude=res['coordinates']['latitude'],
+            longitude=res['coordinates']['longitude'])
+        
         self.match_code = None
         if 'match_code' in res:
             self.match_code = res['match_code']
@@ -147,6 +155,7 @@ class AutocompleteResult():
             'placeId': self.placeId,
             'types': self.types,                
             'text': self.text.dict(),
+            'location': self.location.max_compatibility(),
             'structuredFormat': {k:v.dict() for k,v in self.structuredFormat.items()},
             'matchCode': self.match_code
         }

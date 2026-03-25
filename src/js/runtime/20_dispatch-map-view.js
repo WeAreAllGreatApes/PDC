@@ -1873,6 +1873,9 @@ async function runLocationSearch(query) {
   if (!locationResults) {
     return;
   }
+  if (query.length < 5) {
+    return;
+  }
   if (!isModalOpen(locationModal)) {
     return;
   }
@@ -2233,6 +2236,7 @@ async function fetchAutocompleteResults(query) {
           */          
           label: label || prediction.text?.text || "Unknown",
           searchText: prediction.text?.text || label || "",
+          location: prediction.location
         };
       })
       .filter((item) => item.label);
