@@ -19,24 +19,23 @@ class Location(BaseModel):
         }
 
 class StructuredAddress():
-    regionCode: str
-    languageCode: str
-    postalCode: str
-    administrativeArea: str
-    locality: str
-    addressLines: list[str]
+    regionCode: str|None = None
+    postalCode: str|None = None
+    administrativeArea: str|None = None
+    locality: str|None = None
+    addressLines: list[str] = []
     
     def __init__(self, addr):
-        self.regionCode = addr['country']['country_code']
-        # self.languageCode: <UNUSED / UNMAPPABLE>
-        self.postalCode = addr['postcode']['name']
-        self.administrativeArea = addr['region']['region_code']
-        self.locality = addr['place']['name']
-        self.addressLines = []
+        if 'country' in addr:
+            self.regionCode = addr['country']['country_code']
+        if 'postcode' in addr:
+            self.postalCode = addr['postcode']['name']
+        if 'region' in addr:
+            self.administrativeArea = addr['region']['region_code']
+        if 'place' in addr: 
+            self.locality = addr['place']['name']
         if 'address' in addr:
             self.addressLines.append(addr['address']['name'])
-        if 'street' in addr:
-            self.addressLines.append(addr['street']['name'])
         
     def dict(self):
         D = {
@@ -52,18 +51,16 @@ class Address():
     latitude: float
     longitude: float
     distance: float
-    address: str|None
-    structuredAddress: StructuredAddress|None
+    address: str|None = None
+    structuredAddress: StructuredAddress|None = None
     
     def __init__(self, search: Location, addr):
         self.latitude = addr['coordinates']['latitude']
         self.longitude = addr['coordinates']['longitude']
         self.distance = geo_distance(search.latitude, search.longitude, self.latitude, self.longitude)
         
-        self.address = None
         if 'full_address' in addr:
             self.address = addr['full_address']
-        self.structuredAddress = None
         if "context" in addr:
             self.structuredAddress = StructuredAddress(addr['context'])
         

@@ -8,6 +8,7 @@ import requests
 import urllib.parse
 from fastapi.middleware.cors import CORSMiddleware
 from classes import Search, Location, SearchResult, AutocompleteResult, Address
+from usaddress import tag
 
 app = FastAPI()
 
@@ -26,14 +27,17 @@ if KEY == None:
   with open(os.environ["MAPS_KEY_FILE"]) as f:
     KEY = f.read().strip()
 print("API key: "+KEY)
+# Environment variables:
 MAPS_URL = os.environ["MAPS_URL"]
 CENTER_LAT = float(os.environ["CENTER_LAT"])
 CENTER_LON = float(os.environ["CENTER_LON"])
-ENDPOINT = 'https://api.mapbox.com/search/searchbox/v1'
+# POI searching (monetarily expensive):
+SEARCHBOX = 'https://api.mapbox.com/search/searchbox/v1'
+# General searching (cheap, but can't do POIs):
+GEOCODE = 'https://api.mapbox.com/search/geocode/v6'
 
 # Search assistance:
 BBOX = f'{CENTER_LON - 0.2},{CENTER_LAT - 0.2},{CENTER_LON + 0.2},{CENTER_LAT + 0.2}'
-TYPES = 'address,poi'
 
 @app.get("/", status_code=301)
 async def index():
@@ -48,11 +52,17 @@ async def search(search: Search):
             "q": search.search,
             "proximity": f"{CENTER_LON},{CENTER_LAT}",
             "bbox": BBOX,
-            "types": TYPES,
             "access_token": KEY
         }
     )
-    full_query = f"{ENDPOINT}/forward?{query}"
+    
+    try:
+        type = tag(search.search)[1]
+        assert type.lower() in ['address','intersection']
+        full_query = f"{GEOCODE}/forward?{query}"
+    except:
+        full_query = f"{SEARCHBOX}/forward?{query}"
+        
     res = requests.get(full_query)
     if res.status_code == 200:
         results = [SearchResult(r['properties']).dict() for r in json.loads(res.text)['features']]
@@ -70,13 +80,20 @@ async def autocomplete(search: Search):
         {
             "q": search.search,
             "proximity": f"{CENTER_LON},{CENTER_LAT}",
-            "auto_complete": 'true',
             "bbox": BBOX,
-            "types": TYPES,
             "access_token": KEY
         }
     )
-    full_query = f'{ENDPOINT}/forward?{query}'
+    
+    try:
+        type = tag(search.search)[1]
+        assert type.lower() in ['address','intersection']
+        query += f'&autocomplete=true'
+        full_query = f"{GEOCODE}/forward?{query}"
+    except:
+        query += f'&auto_complete=true'
+        full_query = f'{SEARCHBOX}/forward?{query}'
+
     res = requests.get(full_query)
     
     if res.status_code == 200:
@@ -94,10 +111,10 @@ async def reverse(search: Location, raw: bool = False):
     query = urllib.parse.urlencode({
         'longitude': search.longitude,
         'latitude': search.latitude,
-        'types': 'address,block',
         'access_token': KEY
     })
-    res = requests.get(f'{ENDPOINT}/reverse?{query}')
+    res = requests.get(f'{GEOCODE}/reverse?{query}')
+    
     if res.status_code == 200:
         if raw:
             return res.json()
