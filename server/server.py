@@ -58,7 +58,7 @@ async def search(search: Search):
     
     try:
         type = tag(search.search)[1]
-        assert type.lower() in ['address','intersection']
+        assert type in ['Intersection']
         full_query = f"{GEOCODE}/forward?{query}"
     except:
         full_query = f"{SEARCHBOX}/forward?{query}"
@@ -87,7 +87,7 @@ async def autocomplete(search: Search):
     
     try:
         type = tag(search.search)[1]
-        assert type.lower() in ['address','intersection']
+        assert type in ['Intersection']
         query += f'&autocomplete=true'
         full_query = f"{GEOCODE}/forward?{query}"
     except:
