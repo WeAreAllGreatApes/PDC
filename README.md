@@ -42,6 +42,7 @@ This repo is now organized by tabs/views so HTML, CSS, and JS locations are easi
 
 - `docs/ARCHITECTURE.md`
 - `docs/MAINTAINER_MAP.md`
+- `docs/GEOLOCATE.md`
 
 ## Netlify Compatibility
 
