@@ -1,3 +1,5 @@
+@import "../variables.css"
+
 .modal {
   position: fixed;
   inset: 0;
@@ -26,7 +28,7 @@
 
 .modal-content {
   position: relative;
-  background: #fff;
+  background: var(--howto-bg);
   border-radius: 20px;
   border: 1px solid var(--border);
   padding: 20px;
@@ -318,10 +320,7 @@
   display: flex;
   flex-direction: column;
   border-color: #b9d9c9;
-  background:
-    radial-gradient(circle at 10% 8%, rgba(43, 143, 108, 0.07), rgba(43, 143, 108, 0) 22%),
-    radial-gradient(circle at 90% 10%, rgba(242, 196, 109, 0.1), rgba(242, 196, 109, 0) 20%),
-    linear-gradient(180deg, #fcfffd 0%, #f6fbf8 100%);
+  background: var(--howto-bg);
   box-shadow:
     0 16px 34px rgba(18, 54, 40, 0.12),
     0 0 0 1px rgba(255, 255, 255, 0.7) inset;
@@ -352,7 +351,7 @@
 .how-to-block {
   border: 1px solid #c8e2d5;
   border-radius: 14px;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fcfa 100%);
+  background: var(--card-level-1-bg);
   padding: 14px 16px;
   box-shadow: 0 6px 14px rgba(28, 66, 51, 0.06);
 }
@@ -361,7 +360,6 @@
   margin: 0;
   font-size: 16px;
   font-weight: 700;
-  color: #1d4f3b;
 }
 
 .how-to-accordion {
@@ -381,7 +379,7 @@
   justify-content: space-between;
   gap: 12px;
   border-radius: 14px;
-  background: linear-gradient(180deg, #f7fcf9 0%, #edf7f1 100%);
+  background: var(--howto-overlay)
 }
 
 .how-to-accordion-summary:hover {
@@ -418,7 +416,6 @@
 .how-to-paragraph {
   margin: 10px 0 0;
   font-size: 16px;
-  color: #2f4f42;
   line-height: 1.6;
 }
 
@@ -468,7 +465,6 @@
   font-size: 16px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #1e5f48;
 }
 
 .faq-item {
@@ -499,7 +495,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: linear-gradient(180deg, #f9fdfb 0%, #f0f8f3 100%);
+  background: var(--howto-overlay)
 }
 
 .faq-question:hover {
@@ -996,7 +992,7 @@
 }
 
 .format-output {
-  background: #fff;
+  background: var(--bg-accent);
   border-radius: 20px;
   border: 1px solid var(--border);
   padding: 16px;
@@ -1072,13 +1068,14 @@ button.secondary {
 button.ghost {
   background: transparent;
   border: 1px solid var(--border);
+  color: var(--ink);
   padding: 8px 14px;
   border-radius: 12px;
   cursor: pointer;
 }
 
 #exportButton {
-  background: #f6fbf8;
+  background: var(--text-input-bg);
 }
 
 .import-wrap {
@@ -1222,6 +1219,7 @@ dialog::backdrop {
 
 .label {
   font-weight: 600;
+  color: var(--ink);
 }
 
 .hint {
@@ -1483,10 +1481,7 @@ dialog::backdrop {
 
 .tutorial-picker-modal {
   border-color: #9dcab4;
-  background:
-    radial-gradient(circle at 12% 8%, rgba(82, 170, 126, 0.14), rgba(82, 170, 126, 0) 34%),
-    radial-gradient(circle at 88% 10%, rgba(242, 196, 109, 0.2), rgba(242, 196, 109, 0) 34%),
-    linear-gradient(180deg, #f9fffb 0%, #f1faf5 100%);
+  background: var(--howto-bg);
   box-shadow:
     0 18px 36px rgba(19, 69, 46, 0.12),
     0 0 0 1px rgba(157, 202, 180, 0.34) inset;
@@ -1576,7 +1571,6 @@ dialog::backdrop {
   margin: 8px 0 0;
   font-size: clamp(16px, 1.35vw, 18px);
   line-height: 1.45;
-  color: #2b3f34;
   font-family: "Gill Sans", "Trebuchet MS", "Segoe UI", sans-serif;
   font-weight: 500;
 }
@@ -1588,7 +1582,6 @@ dialog::backdrop {
   font-family: "Gill Sans", "Trebuchet MS", "Segoe UI", sans-serif;
   font-weight: 700;
   letter-spacing: 0.01em;
-  color: #1a2f26;
 }
 
 .tutorial-modal-body {
@@ -1597,22 +1590,14 @@ dialog::backdrop {
   line-height: 1.45;
 }
 
-.tutorial-complete-title {
-  color: #1f4f3a;
-}
-
 .tutorial-complete-text {
-  color: #2d4439;
   font-family: "Georgia", "Times New Roman", serif;
   font-weight: 500;
 }
 
 .tutorial-complete-modal {
   border-color: #8bc3a8;
-  background:
-    radial-gradient(circle at 14% 10%, rgba(82, 170, 126, 0.18), rgba(82, 170, 126, 0) 34%),
-    radial-gradient(circle at 86% 8%, rgba(242, 196, 109, 0.24), rgba(242, 196, 109, 0) 30%),
-    linear-gradient(180deg, #fbfffc 0%, #f4fbf6 100%);
+  background: var(--howto-bg);
   box-shadow:
     0 20px 40px rgba(19, 69, 46, 0.14),
     0 0 0 1px rgba(139, 195, 168, 0.3) inset;
