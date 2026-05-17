@@ -1,3 +1,5 @@
+@import "../variables.css"
+
 .tabs {
   display: flex;
   justify-content: flex-start;
@@ -68,15 +70,16 @@
   align-items: flex-start;
   align-content: flex-start;
   justify-content: flex-start;
-  background: #f5fbf7;
+  background: var(--header-card-bg);
   border-radius: 20px;
   padding: 16px;
   border: 1px solid var(--border);
 }
 
 .summary-settings {
+  background: var(--card-level-2-bg);
+  color: var(--ink);
   flex: 1 1 100%;
-  background: #fff;
   border-radius: 18px;
   border: 1px solid var(--border);
   padding: 16px;
@@ -106,7 +109,7 @@
   padding: 10px 12px;
   border: 1px solid #e2ece5;
   border-radius: 12px;
-  background: #fbfdfb;
+  background: var(--card-level-1-bg);
 }
 
 .settings-checkbox {
@@ -165,7 +168,6 @@
 .summary-settings-title {
   font-weight: 700;
   letter-spacing: 0.02em;
-  color: #363636;
 }
 
 #settings .summary-settings-title {
@@ -198,10 +200,11 @@
   padding: 10px 12px;
   border: 1px solid #e6e6e6;
   border-radius: 12px;
-  background: #fbfbfb;
+  background: var(--card-level-3-bg);
 }
 
 .summary-subsection {
+  color: var(--ink);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -212,7 +215,6 @@
 .summary-subtitle {
   font-size: 14px;
   font-weight: 500;
-  color: #363636;
   text-transform: none;
   letter-spacing: 0.01em;
 }
@@ -223,7 +225,6 @@
   gap: 8px;
   font-size: 14px;
   font-weight: 700;
-  color: #363636;
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -559,7 +560,7 @@
 .settings-control-label {
   font-size: 13px;
   font-weight: 600;
-  color: #46584e;
+  color: var(--muted);
   text-transform: none;
   letter-spacing: 0;
 }
@@ -567,7 +568,7 @@
 #settings .settings-section-title {
   font-size: clamp(18px, 2vw, 22px);
   font-weight: 700;
-  color: #4c6256;
+  color: var(--ink);
   text-transform: none;
   letter-spacing: 0.03em;
 }
@@ -657,7 +658,7 @@
   border-radius: 10px;
   padding: 6px 10px;
   font-weight: 600;
-  background: #fff;
+  background: var(--text-input-bg);
   color: var(--ink);
   width: 100%;
 }
@@ -830,7 +831,7 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--ink);
-  background: #fff;
+  background: var(--text-input-bg);
   cursor: pointer;
   line-height: 1.1;
   text-align: left;
@@ -910,7 +911,7 @@
   max-width: calc(100vw - 40px);
   max-height: 220px;
   overflow-y: auto;
-  background: #fff;
+  background: var(--text-input-bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--shadow);
@@ -938,7 +939,7 @@
 }
 
 .select-option.active {
-  background: #f1faf4;
+  background: var(--selected);
 }
 
 .select-option.selected {
@@ -1076,6 +1077,8 @@
   min-width: 12ch;
   font-weight: 600;
   font-size: 13px;
+  background: var(--text-input-bg);
+  color: var(--ink);
 }
 
 .area-center-map-button {
@@ -1097,6 +1100,8 @@
 }
 
 .shift-row input.timestamp {
+  background: var(--text-input-bg);
+  color: var(--ink);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 6px 8px;
@@ -1152,7 +1157,7 @@
 
 .end-field.pending .timestamp {
   padding-left: 28px;
-  color: rgba(35, 62, 52, 0.55);
+  color: var(--muted);
   font-weight: 400;
 }
 
@@ -1262,7 +1267,7 @@
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
-  background: #fff;
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--shadow);
@@ -1295,7 +1300,6 @@
 .mode-toggle {
   display: inline-flex;
   gap: 8px;
-  background: #f6fbf8;
   border-radius: 999px;
   padding: 6px;
   border: 1px solid var(--border);

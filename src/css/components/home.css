@@ -1,18 +1,4 @@
-:root {
-  --bg: #eef7f1;
-  --bg-accent: #cfe8d7;
-  --ink: #1b2a24;
-  --muted: #516b5d;
-  --primary: #2b8f6c;
-  --primary-dark: #1e5f48;
-  --secondary: #f2c46d;
-  --card: #ffffff;
-  --danger: #c0574b;
-  --border: #d5e4da;
-  --shadow: 0 18px 40px rgba(27, 42, 36, 0.12);
-  --column-bg: #ffffff;
-  --column-accent: #2b8f6c;
-}
+@import "../variables.css";
 
 * {
   box-sizing: border-box;
@@ -21,6 +7,8 @@
 input,
 textarea {
   user-select: text;
+  color: var(--ink);
+  background: var(--text-input-bg);
   -webkit-user-select: text;
   -moz-user-select: text;
 }
@@ -29,11 +17,12 @@ body {
   margin: 0;
   font-family: "Gill Sans", "Trebuchet MS", "Segoe UI", sans-serif;
   color: var(--ink);
-  background: radial-gradient(circle at top, #f8fff7 0%, #e9f6ee 42%, #dbeee3 100%);
+  background: var(--base-background);
   min-height: 100vh;
 }
 
 .lucide {
+  color: var(--muted);
   width: 1em;
   height: 1em;
   stroke-width: 1.8;
