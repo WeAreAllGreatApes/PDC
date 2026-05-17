@@ -1,0 +1,325 @@
+/* Global color scheme - imported by other CSS files */
+
+html[data-card-palette="classic"] {
+  --palette-0: #3a8fb7;
+  --palette-1: #d2963a;
+  --palette-2: #5aa563;
+  --palette-3: #7b6bc5;
+  --palette-4: #c86e5c;
+  --palette-5: #3f9a86;
+  --palette-6: #d84fb2;
+}
+
+html[data-card-palette="plasma"] {
+  --palette-0: #0d0887;
+  --palette-1: #5b02a3;
+  --palette-2: #9a179b;
+  --palette-3: #cb4679;
+  --palette-4: #ed7953;
+  --palette-5: #fdb42f;
+  --palette-6: #f0f921;
+}
+
+html[data-card-palette="inferno"] {
+  --palette-0: #000004;
+  --palette-1: #2d0b59;
+  --palette-2: #6f1d7a;
+  --palette-3: #b73779;
+  --palette-4: #e75b2d;
+  --palette-5: #fbb61a;
+  --palette-6: #fcffa4;
+}
+
+html[data-card-palette="viridis"] {
+  --palette-0: #440154;
+  --palette-1: #46327e;
+  --palette-2: #365c8d;
+  --palette-3: #277f8e;
+  --palette-4: #1fa187;
+  --palette-5: #4ac16d;
+  --palette-6: #fde725;
+}
+
+html[data-card-palette="cividis"] {
+  --palette-0: #00224e;
+  --palette-1: #253b6e;
+  --palette-2: #4e5a77;
+  --palette-3: #72787f;
+  --palette-4: #959774;
+  --palette-5: #bab369;
+  --palette-6: #fde737;
+}
+
+html[data-card-palette="mako"] {
+  --palette-0: #140c1c;
+  --palette-1: #302149;
+  --palette-2: #433c7a;
+  --palette-3: #3f6296;
+  --palette-4: #3688a5;
+  --palette-5: #57b7a2;
+  --palette-6: #c2d8c8;
+}
+
+html[data-card-palette="turbo"] {
+  --palette-0: #30123b;
+  --palette-1: #4667d8;
+  --palette-2: #2dbcd4;
+  --palette-3: #5be75b;
+  --palette-4: #c7df2a;
+  --palette-5: #fd9a2f;
+  --palette-6: #e44501;
+}
+
+html[data-card-palette="shades-grey"] {
+  --palette-0: #1b1b1b;
+  --palette-1: #2f2f2f;
+  --palette-2: #434343;
+  --palette-3: #575757;
+  --palette-4: #6c6c6c;
+  --palette-5: #818181;
+  --palette-6: #989898;
+}
+
+.column[data-color="0"],
+.minimized-pill[data-color="0"] {
+  --column-bg: #eef7fb;
+  --column-accent: #3a8fb7;
+}
+
+.column[data-color="1"],
+.minimized-pill[data-color="1"] {
+  --column-bg: #fbf3df;
+  --column-accent: #d2963a;
+}
+
+.column[data-color="2"],
+.minimized-pill[data-color="2"] {
+  --column-bg: #edf7ec;
+  --column-accent: #5aa563;
+}
+
+.column[data-color="3"],
+.minimized-pill[data-color="3"] {
+  --column-bg: #f3eef8;
+  --column-accent: #7b6bc5;
+}
+
+.column[data-color="4"],
+.minimized-pill[data-color="4"] {
+  --column-bg: #fbeae4;
+  --column-accent: #c86e5c;
+}
+
+.column[data-color="5"],
+.minimized-pill[data-color="5"] {
+  --column-bg: #eaf6f1;
+  --column-accent: #3f9a86;
+}
+
+.column[data-color="6"],
+.minimized-pill[data-color="6"] {
+  --column-bg: #eef1f6;
+  --column-accent: #7c8797;
+}
+
+:root {
+  --palette-0: #3a8fb7;
+  --palette-1: #d2963a;
+  --palette-2: #5aa563;
+  --palette-3: #7b6bc5;
+  --palette-4: #c86e5c;
+  --palette-5: #3f9a86;
+  --palette-6: #d84fb2;
+  --fixed-charcoal: #2f333b;
+  --fixed-grey: #bcc4cf;
+  --fixed-offwhite: #f3f1e8;
+
+  /* Light theme colors */
+  --base-background: radial-gradient(circle at top, #f8fff7 0%, #e9f6ee 42%, #dbeee3 100%);
+  --bg-accent: #cfe8d7;
+  --bg: #eef7f1;
+  --border: #d5e4da;
+  --card: #ffffff;
+  --column-accent: #2b8f6c;
+  --column-bg: #ffffff;
+  --danger: #c0574b;
+  --ink: #1b2a24;
+  --muted: #516b5d;
+  --primary-dark: #1e5f48;
+  --primary: #2b8f6c;
+  --secondary: #f2c46d;
+  --shadow: 0 18px 40px rgba(27, 42, 36, 0.12);
+  --header-card-bg: #f5fbf7;
+  --header-card-card-bg: #f6fbb8;
+  --column-header-tint: color-mix(in srgb, var(--column-accent) 35%, #ffffff 65%);
+  --text-input-bg: white;
+  --selected: #f1faf4;
+  --card-level-1-bg: #f5fbf7;
+  --card-level-2-bg: #fff;
+  --card-level-3-bg: #fbfbfb;
+  --howto-bg: radial-gradient(circle at 10% 8%, rgba(43, 143, 108, 0.07), rgba(43, 143, 108, 0) 22%),
+    radial-gradient(circle at 90% 10%, rgba(242, 196, 109, 0.1), rgba(242, 196, 109, 0) 20%),
+    linear-gradient(180deg, #fcfffd 0%, #f6fbf8 100%);
+  --howto-overlay: linear-gradient(180deg, #f9fdfb 0%, #f0f8f3 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark theme colors */
+    --base-background: radial-gradient(circle at top, #1a2820 0%, #141e18 42%, #0e1410 100%);
+    --header-card-bg: #394a41;
+    --header-card-card-bg: #587264;
+    --bg-accent: #27345d;
+    --bg: #0f1e2c;
+    --border: #455a6a;
+    --card: #1e2b2c;
+    --column-accent: #a9d8cf;
+    --column-bg: #1e2b2c;
+    --danger: #c8302a;
+    --ink: #fafafa;
+    --muted: #9a9a9a;
+    --primary-dark: #76a896;
+    --primary: #5fafa0;
+    --secondary: #ffcc80;
+    --shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+    --column-header-tint: color-mix(in srgb, var(--column-accent) 35%, #ffffff 65%);
+    --text-input-bg: #15214a;
+    --selected: #5faf0a;
+	--card-level-1-bg: #394a41;
+    --card-level-2-bg: #587264;
+    --card-level-3-bg: #27345d;
+	--howto-bg: radial-gradient(circle at 10% 8%, rgba(25, 63, 40, 0.12), rgba(25, 63, 40, 0) 22%),
+        radial-gradient(circle at 90% 10%, rgba(117, 97, 56, 0.08), rgba(117, 97, 56, 0) 20%),
+        linear-gradient(180deg, #3a2b4e 0%, #443355 100%);
+    --howto-overlay: linear-gradient(180deg, #2a2c35 0%, #353b40 100%);
+  }
+
+.leaflet-layer,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out,
+.leaflet-control-attribution {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+    .column[data-color="0"],
+    .minimized-pill[data-color="0"] {
+      --column-bg: #1c253b;
+      --column-accent: #9ab4d6;
+    }
+
+    .column[data-color="1"],
+    .minimized-pill[data-color="1"] {
+      --column-bg: #202836;
+      --column-accent: #e6b44c;
+    }
+
+    .column[data-color="2"],
+    .minimized-pill[data-color="2"] {
+      --column-bg: #1f2a2d;
+      --column-accent: #7ac97b;
+    }
+
+    .column[data-color="3"],
+    .minimized-pill[data-color="3"] {
+      --column-bg: #222b40;
+      --column-accent: #b89ad2;
+    }
+
+    .column[data-color="4"],
+    .minimized-pill[data-color="4"] {
+      --column-bg: #1d1e3a;
+      --column-accent: #d9a793;
+    }
+
+    .column[data-color="5"],
+    .minimized-pill[data-color="5"] {
+      --column-bg: #1b2024;
+      --column-accent: #8aaeaa;
+    }
+
+    .column[data-color="6"],
+    .minimized-pill[data-color="6"] {
+      --column-bg: #1a1d25;
+      --column-accent: #9caa9d;
+  }
+
+  html[data-card-palette="classic"] {
+    --palette-0:#2b6fa7; /* slightly deeper blue */
+    --palette-1:#e4a85c; /* warm amber accent */
+    --palette-2:#8a9f8d; /* muted teal‑gray */
+    --palette-3:#b89ad2; /* soft lavender */
+    --palette-4:#d9a793; /* light peach */
+    --palette-5:#6fa59e; /* muted green‑blue */
+    --palette-6:#9ab4d6; /* subtle cyan */
+  }
+
+  html[data-card-palette="plasma"] {
+    --palette-0:#1209cd;
+    --palette-1:#5a0cbd;
+    --palette-2:#7b1cfb;
+    --palette-3:#ca3abd;
+    --palette-4:#ef9666;
+    --palette-5:#f0e486;
+    --palette-6:#fffdfb;
+  }
+
+  html[data-card-palette="inferno"] {
+    --palette-0:#0c050a;   /* a touch brighter than true black */
+    --palette-1:#23091a;
+    --palette-2:#742680;
+    --palette-3:#d23e6f;
+    --palette-4:#f36538;
+    --palette-5:#fecc29;
+    --palette-6:#ffeef5;
+  }
+
+  html[data-card-palette="viridis"] {
+    --palette-0:#33026e;   /* deeper violet */
+    --palette-1:#402a6a;
+    --palette-2:#304b7c;
+    --palette-3:#235d75;
+    --palette-4:#1f8b76;
+    --palette-5:#4ac16d;   /* unchanged – keep vivid */
+    --palette-6:#fde725;   /* unchanged – keep vivid */
+  }
+
+  html[data-card-palette="cividis"] {
+    --palette-0:#001b3f;
+    --palette-1:#202d4e;
+    --palette-2:#3d495a;
+    --palette-3:#786f7f;
+    --palette-4:#959774;   /* unchanged */
+    --palette-5:#bab369;   /* unchanged */
+    --palette-6:#fde737;   /* unchanged */
+  }
+
+  html[data-card-palette="mako"] {
+    --palette-0:#0d0817;
+    --palette-1:#2a1b2c;
+    --palette-2:#45408b;
+    --palette-3:#3e4f96;
+    --palette-4:#3473aa;
+    --palette-5:#57bbab;
+    --palette-6:#9cbcbd;
+  }
+
+  html[data-card-palette="turbo"] {
+    --palette-0:#1a0926;
+    --palette-1:#3b58ca;   /* slightly brighter cyan */
+    --palette-2:#24b8d1;
+    --palette-3:#4aae75;
+    --palette-4:#c7df2a;   /* unchanged – keep vivid */
+    --palette-5:#fd9a2f;   /* unchanged – keep vivid */
+    --palette-6:#e44501;   /* unchanged – keep vivid */
+  }
+
+  html[data-card-palette="shades-grey"] {
+    --palette-0:#0e0e0e;
+    --palette-1:#191919;
+    --palette-2:#3a3a3a;
+    --palette-3:#474747;
+    --palette-4:#585858;
+    --palette-5:#656565;
+    --palette-6:#808080;
+  }
+}
