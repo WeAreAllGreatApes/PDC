@@ -1,14 +1,10 @@
-import json
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, Response
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 import starlette.status as status
-import os
-import requests
-import urllib.parse
 from fastapi.middleware.cors import CORSMiddleware
-from classes import Search, Location, SearchResult, AutocompleteResult, Address
-from usaddress import tag
+from classes import Location
+import geocode
 
 app = FastAPI()
 
@@ -22,23 +18,6 @@ app.add_middleware(
 
 app.mount("/ui", StaticFiles(directory="/app/static", html=True))
 
-KEY = os.getenv("MAPS_KEY")
-if KEY == None:
-  with open(os.environ["MAPS_KEY_FILE"]) as f:
-    KEY = f.read().strip()
-print("API key: "+KEY)
-# Environment variables:
-MAPS_URL = os.environ["MAPS_URL"]
-CENTER_LAT = float(os.environ["CENTER_LAT"])
-CENTER_LON = float(os.environ["CENTER_LON"])
-# POI searching (monetarily expensive):
-SEARCHBOX = 'https://api.mapbox.com/search/searchbox/v1'
-# General searching (cheap, but can't do POIs):
-GEOCODE = 'https://api.mapbox.com/search/geocode/v6'
-
-# Search assistance:
-BBOX = f'{CENTER_LON - 0.2},{CENTER_LAT - 0.2},{CENTER_LON + 0.2},{CENTER_LAT + 0.2}'
-
 @app.get("/", status_code=301)
 async def index():
      return RedirectResponse(
@@ -46,94 +25,24 @@ async def index():
      )
 
 @app.post("/search")
-async def search(search: Search):
-    query = urllib.parse.urlencode(
-        {
-            "q": search.search,
-            "proximity": f"{CENTER_LON},{CENTER_LAT}",
-            "bbox": BBOX,
-            "access_token": KEY
-        }
-    )
-    
-    try:
-        type = tag(search.search)[1]
-        assert type in ['Intersection']
-        full_query = f"{GEOCODE}/forward?{query}"
-    except:
-        full_query = f"{SEARCHBOX}/forward?{query}"
-        
-    res = requests.get(full_query)
-    if res.status_code == 200:
-        results = [SearchResult(r['properties']).dict() for r in json.loads(res.text)['features']]
-        return {'results': results}
-    else:
-        print('\033[91m','\t\t[ERROR] search returned', res.status_code, '\033[0m')
-        raise HTTPException(status_code=500)
-
-
-
+async def search(search: geocode.Search):
+    return geocode.search(search)
 
 @app.post("/autocomplete")
-async def autocomplete(search: Search):
-    query = urllib.parse.urlencode(
-        {
-            "q": search.search,
-            "proximity": f"{CENTER_LON},{CENTER_LAT}",
-            "bbox": BBOX,
-            "access_token": KEY
-        }
-    )
-    
-    try:
-        type = tag(search.search)[1]
-        assert type in ['Intersection']
-        query += f'&autocomplete=true'
-        full_query = f"{GEOCODE}/forward?{query}"
-    except:
-        query += f'&auto_complete=true'
-        full_query = f'{SEARCHBOX}/forward?{query}'
-
-    res = requests.get(full_query)
-    
-    if res.status_code == 200:
-        results = {
-            'suggestions': [{'placePrediction': AutocompleteResult(res['properties']).dict()} for res in json.loads(res.text)['features']]
-        } 
-        return results
-    else:
-        print('\033[91m','\t\t[ERROR] autocomplete returned', res.status_code, '\033[0m')
-        raise HTTPException(status_code=500, detail=res.text)
-
+async def autocomplete(search: geocode.Search):
+    return geocode.autocomplete(search)
 
 @app.post("/reverse")
 async def reverse(search: Location, raw: bool = False):
-    query = urllib.parse.urlencode({
-        'longitude': search.longitude,
-        'latitude': search.latitude,
-        'access_token': KEY
-    })
-    res = requests.get(f'{GEOCODE}/reverse?{query}')
-    
-    if res.status_code == 200:
-        if raw:
-            return res.json()
-        addresses = []
-        for result in res.json()["features"]:
-            addresses.append(Address(search,result['properties']).dict())
-        return {"result": addresses}
-    else:
-        print('\033[91m','\t\t[ERROR] reverse returned', res.status_code, '\033[0m')
-        raise HTTPException(status_code=500, detail=res.text)        
-
+    return geocode.reverse(search, raw)
 
 @app.get("/environ.js")
 async def get_environ():
     headers = {}
     headers["content-type"] = "application/javascript"
     content = f"""
-var GEO_BASE_URL = "{MAPS_URL}";
-var DEFAULT_MAP_CENTER = {{ lat: {CENTER_LAT}, lon: {CENTER_LON} }};
-"""
+var GEO_BASE_URL = "{geocode.MAPS_URL}";
+var DEFAULT_MAP_CENTER = {{ lat: {geocode.DEFAULT_LAT}, lon: {geocode.DEFAULT_LON} }};
+    """
     return Response(content=content, headers=headers)
 

@@ -1,9 +1,6 @@
 from pydantic import BaseModel
 from utils import geo_distance
 
-
-class Search(BaseModel):
-    search: str    
 class Location(BaseModel):
     latitude: float
     longitude: float
