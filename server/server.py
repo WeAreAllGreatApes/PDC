@@ -5,6 +5,9 @@ import starlette.status as status
 from fastapi.middleware.cors import CORSMiddleware
 from classes import Location
 import geocode
+from pathlib import Path
+
+STATIC_FOLDER = "/app/static"
 
 app = FastAPI()
 
@@ -15,8 +18,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-app.mount("/ui", StaticFiles(directory="/app/static", html=True))
+if Path(STATIC_FOLDER).is_dir():
+    app.mount("/ui", StaticFiles(directory=STATIC_FOLDER, html=True))
 
 @app.get("/", status_code=301)
 async def index():
