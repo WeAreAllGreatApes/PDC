@@ -25,42 +25,61 @@ GEOCODE = 'https://api.mapbox.com/search/geocode/v6'
 
 class Search(BaseModel):
     search: str
-    center: Location | None = None
-    radius: float | None = None # radius miles
+    center: Location | None = Location(latitude=DEFAULT_LAT,longitude=DEFAULT_LON)
+    radius: float | None = 10 # radius, miles
+    cities_only: bool | None = False # If true, search only for cities
 
-    def bbox(self):
-        # Fall back on default lat/long:
-        if not (self.center and self.center.latitude and self.center.longitude):
-            self.center = Location(latitude=DEFAULT_LAT,longitude=DEFAULT_LON)
-        if not self.radius: self.radius = 10
+    def bbox(self) -> str:
+        '''Gets the bounding box of a search'''
 
         dist = distance(miles=self.radius)
         bottom_left = dist.destination((self.center.latitude,self.center.longitude),225) 
         top_right = dist.destination((self.center.latitude,self.center.longitude),45)
 
-        smallest = Location(latitude=min(bottom_left.latitude,top_right.latitude),longitude=min(bottom_left.longitude,top_right.longitude))
-        largest = Location(latitude=max(bottom_left.latitude,top_right.latitude),longitude=max(bottom_left.longitude,top_right.longitude))
+        smallest = Location(latitude=min(bottom_left.latitude,top_right.latitude),
+                            longitude=min(bottom_left.longitude,top_right.longitude))
+        largest = Location(latitude=max(bottom_left.latitude,top_right.latitude),
+                           longitude=max(bottom_left.longitude,top_right.longitude))
 
         return f'{smallest.longitude},{smallest.latitude},{largest.longitude},{largest.latitude}'
 
+    def url(self) -> str: 
+        '''Gets the full URL for a search query'''
+        search = self._extract_city() if self.cities_only else self.search
+        query = urllib.parse.urlencode({"q": search,"bbox": self.bbox(),"access_token": KEY})
+        # Exclude anything lower than a municipality:
+        if self.cities_only:
+            query += '&types=postcode,district,place'
+
+        # We use a try/catch here because tag() can crash unintentionally
+        try:
+            type = tag(self.search)[1]
+            assert type in ['Intersection']
+            return f"{GEOCODE}/forward?{query}"
+        except:
+            return f"{SEARCHBOX}/forward?{query}"
+
+    def _extract_city(self):
+        '''Extracts the city from a search
+            * Throws a 400 tag() fails or if missing PlaceName'''
+        try:
+            tagged = tag(self.search)
+            if tagged[1] == 'Ambiguous': # Ambiguous tags (short) don't have
+                return self.search
+
+            search = tagged[0]['PlaceName']
+            if 'StateName' in tagged[0]:
+                search += ', ' + tagged[0]['PlaceName']
+            if 'ZipCode' in tagged[0]:
+                search += ' ' + tagged[0]['ZipCode']
+            return search
+        except:
+            raise HTTPException(status_code=400,detail='This address is not a city')
+
 
 def search(search: Search):
-    query = urllib.parse.urlencode(
-        {
-            "q": search.search,
-            "bbox": search.bbox(),
-            "access_token": KEY
-        }
-    )
-    
-    try:
-        type = tag(search.search)[1]
-        assert type in ['Intersection']
-        full_query = f"{GEOCODE}/forward?{query}"
-    except:
-        full_query = f"{SEARCHBOX}/forward?{query}"
-        
-    res = requests.get(full_query)
+
+    res = requests.get(search.url())
     if res.status_code == 200:
         results = [SearchResult(r['properties']).dict() for r in json.loads(res.text)['features']]
         return {'results': results}
@@ -69,24 +88,8 @@ def search(search: Search):
         raise HTTPException(status_code=500)
 
 def autocomplete(search: Search):
-    query = urllib.parse.urlencode(
-        {
-            "q": search.search,
-            "bbox": search.bbox(),
-            "access_token": KEY
-        }
-    )
     
-    try:
-        type = tag(search.search)[1]
-        assert type in ['Intersection']
-        query += f'&autocomplete=true'
-        full_query = f"{GEOCODE}/forward?{query}"
-    except:
-        query += f'&auto_complete=true'
-        full_query = f'{SEARCHBOX}/forward?{query}'
-
-    res = requests.get(full_query)
+    res = requests.get(search.url() + '&autocomplete=true')
     
     if res.status_code == 200:
         results = {
