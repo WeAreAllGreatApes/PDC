@@ -263,8 +263,8 @@ function closeMapCardMetaModal(options = {}) {
     return;
   }
   if (columnId) {
-  focusMapLocation(`card:${columnId}`, { kind: "card", columnId });
-}
+    focusMapLocation(`card:${columnId}`, { kind: "card", columnId });
+  }
 }
 
 function openApplyCardColorsModal() {
@@ -918,9 +918,9 @@ function collectMapLocations() {
     const label = getMapLabelForColumn(column);
     const vehicleListDetailHeading = isVehicleListType(normalizedType)
       ? (() => {
-          const listName = String(column.label || "").trim();
-          return listName ? `Vehicle List: ${listName}` : "Vehicle List";
-        })()
+        const listName = String(column.label || "").trim();
+        return listName ? `Vehicle List: ${listName}` : "Vehicle List";
+      })()
       : "";
     const isObserver = isObserverType(normalizedType);
     const usePreviousNoteStyling =
@@ -1440,9 +1440,9 @@ function openLocationModal(target) {
         ? "Set Search City"
         : target.kind === "center-map"
           ? "Center Map"
-        : target.kind === "new-card-lookup"
-          ? "Lookup + Place New Pin"
-          : "Set Location";
+          : target.kind === "new-card-lookup"
+            ? "Lookup + Place New Pin"
+            : "Set Location";
   }
   if (locationDropPin) {
     const centerOnly = target.kind === "center-map";
@@ -2205,12 +2205,17 @@ function buildGeoSearchQuery(query) {
   return `${cleaned} ${cityLabel}`;
 }
 
-async function fetchAutocompleteResults(query) {
+async function fetchAutocompleteResults(query, center = null, radius = null, cities_only = false) {
   if (!MAP_FEATURE_ENABLED || !GEO_BASE_URL) {
     return [];
   }
   try {
-    const payload = { search: buildGeoSearchQuery(query) };
+    const payload = {
+      search: buildGeoSearchQuery(query),
+      ...(center && { center }),
+      ...(radius && { radius }),
+      ...(cities_only && { cities_only }),
+    };
     const response = await fetch(`${GEO_BASE_URL}/autocomplete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -2233,7 +2238,7 @@ async function fetchAutocompleteResults(query) {
             When present, Mapbox's prediction.text is the full address; therefore:
              * Displays (i.e. label) should be made with prediction.structured where possible
              * /search calls should use prediction.text.text where possible
-          */          
+          */
           label: label || prediction.text?.text || "Unknown",
           searchText: prediction.text?.text || label || "",
           location: prediction.location
@@ -2245,12 +2250,17 @@ async function fetchAutocompleteResults(query) {
   }
 }
 
-async function fetchGeoResults(query) {
+async function fetchGeoResults(query, center = null, radius = null, cities_only = false) {
   if (!MAP_FEATURE_ENABLED || !GEO_BASE_URL) {
     return null;
   }
   try {
-    const payload = { search: buildGeoSearchQuery(query) };
+    const payload = {
+      search: buildGeoSearchQuery(query),
+      ...(center && { center }),
+      ...(radius && { radius }),
+      ...(cities_only && { cities_only }),
+    };    
     const response = await fetch(`${GEO_BASE_URL}/search`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
