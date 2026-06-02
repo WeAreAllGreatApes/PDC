@@ -4804,10 +4804,10 @@ function openLocationModal(target) {
 }
 
 function closeLocationModal() {
+  CITIES_ONLY = false;
   if (!locationModal) {
     return;
   }
-  CITIES_ONLY = false;
   blurFocusedElementWithin(locationModal);
   locationModal.classList.add("hidden");
   locationModal.setAttribute("aria-hidden", "true");
@@ -5415,6 +5415,7 @@ function applyPendingLocationFromModal() {
     });
     if (CITIES_ONLY) {
       CITY_CENTER = {latitude: pendingLocation.lat, longitude: pendingLocation.lon};
+      CITIES_ONLY = false;
     }
     closeLocationModal();
   };
