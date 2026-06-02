@@ -3,6 +3,8 @@
   Transitional split from the previous runtime monolith for maintainability.
 */
 
+let CITIES_ONLY = false;
+
 function setViewMode(mode, { skipPersist, preserveMapView } = {}) {
   let nextMode = mode;
   if (!["notes", "split", "map"].includes(nextMode)) {
@@ -1407,6 +1409,11 @@ function openLocationModal(target) {
   if (!locationModal || !locationSearchInput || !locationResults) {
     return;
   }
+  console.log(target);
+  if (target.kind === 'city') {
+    CITIES_ONLY = true;
+    console.log('OPENING LOCATION MODAL (20_dispatch)');
+  }
   locationModalTarget = target;
   locationModalShouldRestoreView = true;
   locationSearchToken += 1;
@@ -2205,17 +2212,19 @@ function buildGeoSearchQuery(query) {
   return `${cleaned} ${cityLabel}`;
 }
 
-async function fetchAutocompleteResults(query, center = null, radius = null, cities_only = false) {
+async function fetchAutocompleteResults(query, center = null, radius = null) {
   if (!MAP_FEATURE_ENABLED || !GEO_BASE_URL) {
     return [];
   }
+  console.log(CITIES_ONLY);
   try {
     const payload = {
       search: buildGeoSearchQuery(query),
-      ...(center && { center }),
-      ...(radius && { radius }),
-      ...(cities_only && { cities_only }),
+      ...(center && { 'center': center }),
+      ...(radius && { 'radius': radius }),
+      ...(CITIES_ONLY && { 'cities_only': CITIES_ONLY }),
     };
+    console.log(payload);
     const response = await fetch(`${GEO_BASE_URL}/autocomplete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -2250,16 +2259,16 @@ async function fetchAutocompleteResults(query, center = null, radius = null, cit
   }
 }
 
-async function fetchGeoResults(query, center = null, radius = null, cities_only = false) {
+async function fetchGeoResults(query, center = null, radius = null) {
   if (!MAP_FEATURE_ENABLED || !GEO_BASE_URL) {
     return null;
   }
   try {
     const payload = {
       search: buildGeoSearchQuery(query),
-      ...(center && { center }),
-      ...(radius && { radius }),
-      ...(cities_only && { cities_only }),
+      ...(center && { 'center': center }),
+      ...(radius && { 'radius': radius }),
+      ...(CITIES_ONLY && { 'cities_only': CITIES_ONLY }),
     };    
     const response = await fetch(`${GEO_BASE_URL}/search`, {
       method: "POST",

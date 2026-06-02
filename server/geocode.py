@@ -6,6 +6,7 @@ import requests
 import urllib.parse
 from classes import Location, SearchResult, AutocompleteResult, Address
 from usaddress import tag
+from urllib.parse import urlencode
 from geopy.distance import distance
 
 # Initialization
@@ -43,28 +44,32 @@ class Search(BaseModel):
 
         return f'{smallest.longitude},{smallest.latitude},{largest.longitude},{largest.latitude}'
 
-    def url(self) -> str: 
+    def url(self, autocomplete: bool = False) -> str: 
+        print('\033[91m',self.cities_only,'\033[0m')
         '''Gets the full URL for a search query'''
         search = self._extract_city() if self.cities_only else self.search
-        query = urllib.parse.urlencode({"q": search,"bbox": self.bbox(),"access_token": KEY})
+        query = {"q": search,"bbox": self.bbox(),"access_token": KEY}
         # Exclude anything lower than a municipality:
         if self.cities_only:
-            query += '&types=postcode,district,place'
+            query['types'] = 'postcode,district,place'
 
         # We use a try/catch here because tag() can crash unintentionally
         try:
             type = tag(self.search)[1]
             assert type in ['Intersection']
-            return f"{GEOCODE}/forward?{query}"
+            query['autocomplete'] = 'true' if autocomplete else 'false'
+            return f"{GEOCODE}/forward?{urlencode(query)}"
         except:
-            return f"{SEARCHBOX}/forward?{query}"
+            query['auto_complete'] = 'true' if autocomplete else 'false'
+            return f"{SEARCHBOX}/forward?{urlencode(query)}"
 
     def _extract_city(self):
         '''Extracts the city from a search
             * Throws a 400 tag() fails or if missing PlaceName'''
         try:
             tagged = tag(self.search)
-            if tagged[1] == 'Ambiguous': # Ambiguous tags (short) don't have
+            # Ambiguous tags (short) prob won't have PII
+            if tagged[1] == 'Ambiguous':
                 return self.search
 
             search = tagged[0]['PlaceName']
@@ -78,26 +83,25 @@ class Search(BaseModel):
 
 
 def search(search: Search):
-
     res = requests.get(search.url())
     if res.status_code == 200:
         results = [SearchResult(r['properties']).dict() for r in json.loads(res.text)['features']]
         return {'results': results}
     else:
-        print('\033[91m','[ERROR] search returned', res.status_code, '\033[0m')
+        print('\033[91m','\t[ERROR] search returned', res.status_code, '\033[0m')
+        print(f'\t{res.json()['error']}')
         raise HTTPException(status_code=500)
 
 def autocomplete(search: Search):
-    
-    res = requests.get(search.url() + '&autocomplete=true')
-    
+    res = requests.get(search.url(autocomplete=True))
     if res.status_code == 200:
         results = {
             'suggestions': [{'placePrediction': AutocompleteResult(res['properties']).dict()} for res in json.loads(res.text)['features']]
         } 
         return results
     else:
-        print('\033[91m','[ERROR] autocomplete returned', res.status_code, '\033[0m')
+        print('\033[91m','\t[ERROR] autocomplete returned', res.status_code, '\033[0m')
+        print(f'\t{res.json()['error']}')
         raise HTTPException(status_code=500, detail=res.text)
 
 def reverse(search: Location, raw: bool = False):
@@ -117,4 +121,5 @@ def reverse(search: Location, raw: bool = False):
         return {"result": addresses}
     else:
         print('\033[91m','[ERROR] reverse returned', res.status_code, '\033[0m')
+        print(f'\t{res.json()['error']}')
         raise HTTPException(status_code=500, detail=res.text)        
