@@ -4746,10 +4746,8 @@ function openLocationModal(target) {
   if (!locationModal || !locationSearchInput || !locationResults) {
     return;
   }
-  console.log(target);
   if (target.kind === 'city') {
     CITIES_ONLY = true;
-    console.log('OPENING LOCATION MODAL (00_runtime)')
   }
   locationModalTarget = target;
   locationModalShouldRestoreView = true;
@@ -5415,6 +5413,9 @@ function applyPendingLocationFromModal() {
     applyLocationToTarget(locationModalTarget, pendingLocation, {
       preserveMapView: true,
     });
+    if (CITIES_ONLY) {
+      CITY_CENTER = {latitude: pendingLocation.lat, longitude: pendingLocation.lon};
+    }
     closeLocationModal();
   };
   if (selectedMarkerEl || previewEl) {

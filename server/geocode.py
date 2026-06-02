@@ -45,13 +45,15 @@ class Search(BaseModel):
         return f'{smallest.longitude},{smallest.latitude},{largest.longitude},{largest.latitude}'
 
     def url(self, autocomplete: bool = False) -> str: 
-        print('\033[91m',self.cities_only,'\033[0m')
         '''Gets the full URL for a search query'''
         search = self._extract_city() if self.cities_only else self.search
-        query = {"q": search,"bbox": self.bbox(),"access_token": KEY}
+        query = {"q": search, "access_token": KEY}
         # Exclude anything lower than a municipality:
         if self.cities_only:
             query['types'] = 'postcode,district,place'
+        # Only use bounding box when not searching cities:
+        else:
+            query['bbox'] = self.bbox()
 
         # We use a try/catch here because tag() can crash unintentionally
         try:
