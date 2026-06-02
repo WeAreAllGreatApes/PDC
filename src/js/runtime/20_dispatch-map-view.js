@@ -4,6 +4,8 @@
 */
 
 let CITIES_ONLY = false;
+let CITY_CENTER = null; // Will be {latitude: <float>, longitude: <float>}
+let SEARCH_RADIUS = 10; // Currently static
 
 function setViewMode(mode, { skipPersist, preserveMapView } = {}) {
   let nextMode = mode;
@@ -2212,19 +2214,17 @@ function buildGeoSearchQuery(query) {
   return `${cleaned} ${cityLabel}`;
 }
 
-async function fetchAutocompleteResults(query, center = null, radius = null) {
+async function fetchAutocompleteResults(query) {
   if (!MAP_FEATURE_ENABLED || !GEO_BASE_URL) {
     return [];
   }
-  console.log(CITIES_ONLY);
   try {
     const payload = {
       search: buildGeoSearchQuery(query),
-      ...(center && { 'center': center }),
-      ...(radius && { 'radius': radius }),
+      ...(CITY_CENTER && { 'center': CITY_CENTER }),
+      ...(SEARCH_RADIUS && { 'radius': SEARCH_RADIUS }),
       ...(CITIES_ONLY && { 'cities_only': CITIES_ONLY }),
     };
-    console.log(payload);
     const response = await fetch(`${GEO_BASE_URL}/autocomplete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -2259,15 +2259,15 @@ async function fetchAutocompleteResults(query, center = null, radius = null) {
   }
 }
 
-async function fetchGeoResults(query, center = null, radius = null) {
+async function fetchGeoResults(query) {
   if (!MAP_FEATURE_ENABLED || !GEO_BASE_URL) {
     return null;
   }
   try {
     const payload = {
       search: buildGeoSearchQuery(query),
-      ...(center && { 'center': center }),
-      ...(radius && { 'radius': radius }),
+      ...(CITY_CENTER && { 'center': CITY_CENTER }),
+      ...(SEARCH_RADIUS && { 'radius': SEARCH_RADIUS }),
       ...(CITIES_ONLY && { 'cities_only': CITIES_ONLY }),
     };    
     const response = await fetch(`${GEO_BASE_URL}/search`, {
