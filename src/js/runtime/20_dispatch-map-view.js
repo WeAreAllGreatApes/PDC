@@ -3,10 +3,6 @@
   Transitional split from the previous runtime monolith for maintainability.
 */
 
-let CITIES_ONLY = false;
-let CITY_CENTER = null; // Will be {latitude: <float>, longitude: <float>}
-let SEARCH_RADIUS = 10; // Currently static
-
 function setViewMode(mode, { skipPersist, preserveMapView } = {}) {
   let nextMode = mode;
   if (!["notes", "split", "map"].includes(nextMode)) {
@@ -1412,7 +1408,7 @@ function openLocationModal(target) {
     return;
   }
   if (target.kind === 'city') {
-    CITIES_ONLY = true;
+    state.mapSettings.settingCity = true;
   }
   locationModalTarget = target;
   locationModalShouldRestoreView = true;
@@ -1481,7 +1477,7 @@ function openLocationModal(target) {
 }
 
 function closeLocationModal() {
-  CITIES_ONLY = false;
+  state.mapSettings.settingCity = false;
   if (!locationModal) {
     return;
   }
@@ -2189,9 +2185,9 @@ function applyPendingLocationFromModal() {
     applyLocationToTarget(locationModalTarget, pendingLocation, {
       preserveMapView: true,
     });
-    if (CITIES_ONLY) {
-      CITY_CENTER = {latitude: pendingLocation.lat, longitude: pendingLocation.lon};
-      CITIES_ONLY = false;
+    if (state.mapSettings.settingCity) {
+      state.mapSettings.center = {lat: pendingLocation.lat, lon: pendingLocation.lon};
+      state.mapSettings.settingCity = false;
     }
     closeLocationModal();
   };
@@ -2204,7 +2200,7 @@ function applyPendingLocationFromModal() {
 
 function buildGeoSearchQuery(query) {
   const cleaned = query.trim();
-  if (!state.mapSettings.city || !state.mapSettings.city.label) {
+  if (!state.mapSettings.city || !state.mapSettings.city.label || state.mapSettings.settingCity) {
     return cleaned;
   }
   const cityLabel = state.mapSettings.city.label.trim();
@@ -2222,12 +2218,14 @@ async function fetchAutocompleteResults(query) {
     return [];
   }
   try {
+    const center = state.mapSettings.center;
     const payload = {
       search: buildGeoSearchQuery(query),
-      ...(CITY_CENTER && { 'center': CITY_CENTER }),
-      ...(SEARCH_RADIUS && { 'radius': SEARCH_RADIUS }),
-      ...(CITIES_ONLY && { 'cities_only': CITIES_ONLY }),
+      ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
+      ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
+      ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
     };
+    console.log(payload)
     const response = await fetch(`${GEO_BASE_URL}/autocomplete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -2267,12 +2265,13 @@ async function fetchGeoResults(query) {
     return null;
   }
   try {
+    const center = state.mapSettings.center;
     const payload = {
       search: buildGeoSearchQuery(query),
-      ...(CITY_CENTER && { 'center': CITY_CENTER }),
-      ...(SEARCH_RADIUS && { 'radius': SEARCH_RADIUS }),
-      ...(CITIES_ONLY && { 'cities_only': CITIES_ONLY }),
-    };    
+      ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
+      ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
+      ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
+    };
     const response = await fetch(`${GEO_BASE_URL}/search`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
