@@ -18,7 +18,7 @@ class Location(BaseModel):
     
     def max_compatibility(self):
         '''Returns an extremely compatible encoding of this class'''
-        
+
         return {
             'lat': self.latitude,
             'latitude': self.latitude,
@@ -149,13 +149,13 @@ class Search(BaseModel):
         # We use a try/catch here because tag() can crash unintentionally
         try:
             type = tag(self.search)[1]
-            # The searchbox endpoint can't handle any address type in this list:
-            assert type not in ['Intersection']
-            query['auto_complete'] = 'true' if autocomplete else 'false'
-            return f"{env.SEARCHBOX}/forward?{urlencode(query)}"
-        except:
+            # Geocoding needs unambiguous queries (see environment.py):
+            assert type in env.UNAMBIGUOUS_TYPES
             query['autocomplete'] = 'true' if autocomplete else 'false'
             return f"{env.GEOCODE}/forward?{urlencode(query)}"
+        except:
+            query['auto_complete'] = 'true' if autocomplete else 'false'
+            return f"{env.SEARCHBOX}/forward?{urlencode(query)}"
 
     def _extract_city(self):
         '''Extracts the city from a search
