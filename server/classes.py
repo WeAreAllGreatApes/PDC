@@ -1,7 +1,13 @@
 from pydantic import BaseModel
 from utils import geo_distance
 
+'''
+Each class contained in this file is intended to translate Mapbox outputs
+into Google-like outputs for the frontend to require minimal changes.
+'''
+
 class Location(BaseModel):
+    '''Location (latitude/longitude)'''
     latitude: float
     longitude: float
     
@@ -16,6 +22,7 @@ class Location(BaseModel):
         }
 
 class StructuredAddress():
+    '''Emulator class for Google\'s `structuredAddress` field'''
     regionCode: str|None = None
     postalCode: str|None = None
     administrativeArea: str|None = None
@@ -44,7 +51,8 @@ class StructuredAddress():
         }
         return {k:v for k,v in D.items() if v is not None}
 
-class Address():                    
+class Address():
+    '''Basic address class (based on Google's address)'''                 
     latitude: float
     longitude: float
     distance: float
@@ -73,7 +81,24 @@ class Address():
         
         return {k:v for k,v in D.items() if v is not None}
         
-class SearchResult():    
+class StructuredText:
+    '''Emulator class for Google\'s `structuredText` field'''
+    text: str
+    matches: list[dict[str,int]] | None
+    
+    def __init__(self, text: str, matches: list[dict[str,int]] | None = None):
+        self.text = text
+        self.matches = matches
+    
+    def dict(self):
+        D = {
+            'text': self.text,
+            'matches': self.matches
+        }
+        return {k:v for k,v in D.items() if v is not None}
+
+class SearchResult(): 
+    '''Search results (entry in the array returned by `search()` in server.py)'''   
     address_components: list[dict]    
     formatted_address: str
     geometry: dict
@@ -108,23 +133,8 @@ class SearchResult():
         }
         return {k:v for k,v in D.items() if v is not None}
     
-
-class StructuredText:
-    text: str
-    matches: list[dict[str,int]] | None
-    
-    def __init__(self, text: str, matches: list[dict[str,int]] | None = None):
-        self.text = text
-        self.matches = matches
-    
-    def dict(self):
-        D = {
-            'text': self.text,
-            'matches': self.matches
-        }
-        return {k:v for k,v in D.items() if v is not None}
-    
 class AutocompleteResult():
+    '''Search results for the `autocomplete()` function in server.py'''
     placeId: str
     types: list[str]
     text: StructuredText
