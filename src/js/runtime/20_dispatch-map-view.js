@@ -263,8 +263,8 @@ function closeMapCardMetaModal(options = {}) {
     return;
   }
   if (columnId) {
-  focusMapLocation(`card:${columnId}`, { kind: "card", columnId });
-}
+    focusMapLocation(`card:${columnId}`, { kind: "card", columnId });
+  }
 }
 
 function openApplyCardColorsModal() {
@@ -918,9 +918,9 @@ function collectMapLocations() {
     const label = getMapLabelForColumn(column);
     const vehicleListDetailHeading = isVehicleListType(normalizedType)
       ? (() => {
-          const listName = String(column.label || "").trim();
-          return listName ? `Vehicle List: ${listName}` : "Vehicle List";
-        })()
+        const listName = String(column.label || "").trim();
+        return listName ? `Vehicle List: ${listName}` : "Vehicle List";
+      })()
       : "";
     const isObserver = isObserverType(normalizedType);
     const usePreviousNoteStyling =
@@ -1315,7 +1315,7 @@ function applyLocationToTarget(target, location, options = {}) {
   if (target.kind === "city") {
     state.mapSettings.city = location;
     updateCityUI();
-    persistMapSettings();
+    freezeDryMapSettings();
     persistState();
     applyViewMode();
     mapNeedsFit = true;
@@ -1327,7 +1327,7 @@ function applyLocationToTarget(target, location, options = {}) {
   }
   if (target.kind === "center-map") {
     state.mapSettings.centerLocation = location ? { ...location } : null;
-    persistMapSettings();
+    freezeDryMapSettings();
     persistState();
     if (mainMap && location) {
       mainMap.setView([location.lat, location.lon], mainMap.getZoom());
@@ -1407,6 +1407,9 @@ function openLocationModal(target) {
   if (!locationModal || !locationSearchInput || !locationResults) {
     return;
   }
+  if (target.kind === 'city') {
+    state.mapSettings.settingCity = true;
+  }
   locationModalTarget = target;
   locationModalShouldRestoreView = true;
   locationSearchToken += 1;
@@ -1440,9 +1443,9 @@ function openLocationModal(target) {
         ? "Set Search City"
         : target.kind === "center-map"
           ? "Center Map"
-        : target.kind === "new-card-lookup"
-          ? "Lookup + Place New Pin"
-          : "Set Location";
+          : target.kind === "new-card-lookup"
+            ? "Lookup + Place New Pin"
+            : "Set Location";
   }
   if (locationDropPin) {
     const centerOnly = target.kind === "center-map";
@@ -1474,6 +1477,7 @@ function openLocationModal(target) {
 }
 
 function closeLocationModal() {
+  state.mapSettings.settingCity = false;
   if (!locationModal) {
     return;
   }
@@ -2181,6 +2185,10 @@ function applyPendingLocationFromModal() {
     applyLocationToTarget(locationModalTarget, pendingLocation, {
       preserveMapView: true,
     });
+    if (state.mapSettings.settingCity) {
+      state.mapSettings.center = {lat: pendingLocation.lat, lon: pendingLocation.lon};
+      state.mapSettings.settingCity = false;
+    }
     closeLocationModal();
   };
   if (selectedMarkerEl || previewEl) {
@@ -2192,7 +2200,7 @@ function applyPendingLocationFromModal() {
 
 function buildGeoSearchQuery(query) {
   const cleaned = query.trim();
-  if (!state.mapSettings.city || !state.mapSettings.city.label) {
+  if (!state.mapSettings.city || !state.mapSettings.city.label || state.mapSettings.settingCity) {
     return cleaned;
   }
   const cityLabel = state.mapSettings.city.label.trim();
@@ -2210,7 +2218,14 @@ async function fetchAutocompleteResults(query) {
     return [];
   }
   try {
-    const payload = { search: buildGeoSearchQuery(query) };
+    const center = state.mapSettings.center;
+    const payload = {
+      search: buildGeoSearchQuery(query),
+      ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
+      ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
+      ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
+    };
+    console.log(payload)
     const response = await fetch(`${GEO_BASE_URL}/autocomplete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -2233,7 +2248,7 @@ async function fetchAutocompleteResults(query) {
             When present, Mapbox's prediction.text is the full address; therefore:
              * Displays (i.e. label) should be made with prediction.structured where possible
              * /search calls should use prediction.text.text where possible
-          */          
+          */
           label: label || prediction.text?.text || "Unknown",
           searchText: prediction.text?.text || label || "",
           location: prediction.location
@@ -2250,7 +2265,13 @@ async function fetchGeoResults(query) {
     return null;
   }
   try {
-    const payload = { search: buildGeoSearchQuery(query) };
+    const center = state.mapSettings.center;
+    const payload = {
+      search: buildGeoSearchQuery(query),
+      ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
+      ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
+      ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
+    };
     const response = await fetch(`${GEO_BASE_URL}/search`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -3288,7 +3309,7 @@ function hydrateMapSettings(raw) {
   };
 }
 
-function persistMapSettings() {
+function freezeDryMapSettings() {
   try {
     const payload = JSON.stringify({
       city: serializeLocation(state.mapSettings.city),

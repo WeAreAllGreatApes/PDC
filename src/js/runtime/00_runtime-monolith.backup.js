@@ -278,8 +278,10 @@ const state = {
   notesNewestFirst: DEFAULT_NOTES_NEWEST_FIRST,
   mapSettings: {
     city: null,
+    center: DEFAULT_MAP_CENTER, // {lat: __, lon: __}
     radiusMiles: DEFAULT_MAP_RADIUS_MILES,
     style: DEFAULT_MAP_STYLE,
+    settingCity: false // Whether the search is in "Set City" mode
   },
   mapFilters: {
     hideMinimized: DEFAULT_MAP_FILTER_HIDE_MINIMIZED,
@@ -1190,7 +1192,7 @@ function setMapStyle(styleId) {
   const next = getMapStyleById(styleId);
   state.mapSettings.style = next.id;
   applyMapStyle();
-  persistMapSettings();
+  freezeDryMapSettings();
   persistState();
 }
 
@@ -4673,7 +4675,7 @@ function applyLocationToTarget(target, location, options = {}) {
   if (target.kind === "city") {
     state.mapSettings.city = location;
     updateCityUI();
-    persistMapSettings();
+    freezeDryMapSettings();
     persistState();
     applyViewMode();
     mapNeedsFit = true;
@@ -4742,6 +4744,9 @@ function openLocationModal(target) {
   if (!locationModal || !locationSearchInput || !locationResults) {
     return;
   }
+  if (target.kind === 'city') {
+    state.mapSettings.settingCity = true;
+  }
   locationModalTarget = target;
   locationModalShouldRestoreView = true;
   locationSearchToken += 1;
@@ -4797,6 +4802,7 @@ function openLocationModal(target) {
 }
 
 function closeLocationModal() {
+  state.mapSettings.settingCity = false;
   if (!locationModal) {
     return;
   }
@@ -5405,6 +5411,10 @@ function applyPendingLocationFromModal() {
     applyLocationToTarget(locationModalTarget, pendingLocation, {
       preserveMapView: true,
     });
+    if (state.mapSettings.settingCity) {
+      state.mapSettings.center = {lat: pendingLocation.lat, lon: pendingLocation.lon};
+      state.mapSettings.settingCity = false;
+    }
     closeLocationModal();
   };
   if (selectedMarkerEl || previewEl) {
@@ -5416,7 +5426,7 @@ function applyPendingLocationFromModal() {
 
 function buildGeoSearchQuery(query) {
   const cleaned = query.trim();
-  if (!state.mapSettings.city || !state.mapSettings.city.label) {
+  if (!state.mapSettings.city || !state.mapSettings.city.label || state.mapSettings.settingCity) {
     return cleaned;
   }
   const cityLabel = state.mapSettings.city.label.trim();
@@ -5434,7 +5444,14 @@ async function fetchAutocompleteResults(query) {
     return [];
   }
   try {
-    const payload = { search: buildGeoSearchQuery(query) };
+    const center = state.mapSettings.center
+    const payload = {
+      search: buildGeoSearchQuery(query),
+      ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
+      ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
+      ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
+    };
+    console.log(payload)
     const response = await fetch(`${GEO_BASE_URL}/autocomplete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -5474,7 +5491,13 @@ async function fetchGeoResults(query) {
     return null;
   }
   try {
-    const payload = { search: buildGeoSearchQuery(query) };
+    const center = state.mapSettings.center;
+    const payload = {
+      search: buildGeoSearchQuery(query),
+      ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
+      ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
+      ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
+    };
     const response = await fetch(`${GEO_BASE_URL}/search`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -6282,18 +6305,21 @@ function hydrateMapSettings(raw) {
     return fallback;
   }
   const radius = Number(raw.radiusMiles);
+  const center = raw.center;
   const style = raw.style ? String(raw.style) : DEFAULT_MAP_STYLE;
   return {
     city: loadLocation(raw.city),
     radiusMiles: Number.isFinite(radius) && radius > 0 ? radius : DEFAULT_MAP_RADIUS_MILES,
+    center: center,
     style,
   };
 }
 
-function persistMapSettings() {
+function freezeDryMapSettings() {
   try {
     const payload = JSON.stringify({
       city: serializeLocation(state.mapSettings.city),
+      center: state.mapSettings.center,
       radiusMiles: state.mapSettings.radiusMiles,
       style: state.mapSettings.style,
     });
@@ -11622,7 +11648,7 @@ function init() {
       state.mapSettings.radiusMiles =
         Number.isFinite(next) && next > 0 ? next : DEFAULT_MAP_RADIUS_MILES;
       markDirty();
-      persistMapSettings();
+      freezeDryMapSettings();
       persistState();
       updateCityUI();
     });

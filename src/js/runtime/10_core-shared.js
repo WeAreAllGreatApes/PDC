@@ -1268,7 +1268,7 @@ function setMapStyle(styleId) {
   const next = getMapStyleById(styleId);
   state.mapSettings.style = next.id;
   applyMapStyle();
-  persistMapSettings();
+  freezeDryMapSettings();
   persistState();
 }
 

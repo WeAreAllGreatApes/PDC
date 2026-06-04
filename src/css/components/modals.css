@@ -630,7 +630,7 @@
 }
 
 #locationModal.location-modal-split-overlay .location-modal {
-  width: min(640px, calc(100vw - var(--location-overlay-right-inset, 0px) - 32px));
+  width: max(640px, calc(100vw - var(--location-overlay-right-inset, 0px) - 32px));
   max-height: calc(100vh - 32px);
   margin: 16px 0 16px 16px;
   overflow: auto;
