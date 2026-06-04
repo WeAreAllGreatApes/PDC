@@ -3020,6 +3020,7 @@ function serializeState() {
     mapSettings: {
       city: serializeLocation(state.mapSettings.city),
       centerLocation: serializeLocation(state.mapSettings.centerLocation),
+      center: state.mapSettings.center,
       radiusMiles: state.mapSettings.radiusMiles,
       style: state.mapSettings.style,
     },
@@ -3299,12 +3300,15 @@ function hydrateMapSettings(raw) {
   if (!raw || typeof raw !== "object") {
     return fallback;
   }
+  const city = loadLocation(raw.city);
   const radius = Number(raw.radiusMiles);
+  const center = city ? {lat: city.lat,lon: city.lon} : null;
   const style = raw.style ? String(raw.style) : DEFAULT_MAP_STYLE;
   return {
-    city: loadLocation(raw.city),
+    city,
     centerLocation: loadLocation(raw.centerLocation),
     radiusMiles: Number.isFinite(radius) && radius > 0 ? radius : DEFAULT_MAP_RADIUS_MILES,
+    center,
     style,
   };
 }
@@ -3314,6 +3318,7 @@ function freezeDryMapSettings() {
     const payload = JSON.stringify({
       city: serializeLocation(state.mapSettings.city),
       centerLocation: serializeLocation(state.mapSettings.centerLocation),
+      center: center,
       radiusMiles: state.mapSettings.radiusMiles,
       style: state.mapSettings.style,
     });

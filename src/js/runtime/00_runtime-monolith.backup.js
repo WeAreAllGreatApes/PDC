@@ -5413,6 +5413,7 @@ function applyPendingLocationFromModal() {
     });
     if (state.mapSettings.settingCity) {
       state.mapSettings.center = {lat: pendingLocation.lat, lon: pendingLocation.lon};
+      freezeDryMapSettings();
       state.mapSettings.settingCity = false;
     }
     closeLocationModal();
@@ -5445,6 +5446,7 @@ async function fetchAutocompleteResults(query) {
   }
   try {
     const center = state.mapSettings.center
+    console.log(center);
     const payload = {
       search: buildGeoSearchQuery(query),
       ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
@@ -6304,13 +6306,15 @@ function hydrateMapSettings(raw) {
   if (!raw || typeof raw !== "object") {
     return fallback;
   }
+  const city = loadLocation(raw.city);
   const radius = Number(raw.radiusMiles);
-  const center = raw.center;
+  const center = city ? {lat: city.lat,lon: city.lon} : null;
   const style = raw.style ? String(raw.style) : DEFAULT_MAP_STYLE;
   return {
-    city: loadLocation(raw.city),
+    city,
+    centerLocation: loadLocation(raw.centerLocation),
     radiusMiles: Number.isFinite(radius) && radius > 0 ? radius : DEFAULT_MAP_RADIUS_MILES,
-    center: center,
+    center,
     style,
   };
 }
