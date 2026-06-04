@@ -1315,7 +1315,7 @@ function applyLocationToTarget(target, location, options = {}) {
   if (target.kind === "city") {
     state.mapSettings.city = location;
     updateCityUI();
-    persistMapSettings();
+    freezeDryMapSettings();
     persistState();
     applyViewMode();
     mapNeedsFit = true;
@@ -1327,7 +1327,7 @@ function applyLocationToTarget(target, location, options = {}) {
   }
   if (target.kind === "center-map") {
     state.mapSettings.centerLocation = location ? { ...location } : null;
-    persistMapSettings();
+    freezeDryMapSettings();
     persistState();
     if (mainMap && location) {
       mainMap.setView([location.lat, location.lon], mainMap.getZoom());
@@ -3309,7 +3309,7 @@ function hydrateMapSettings(raw) {
   };
 }
 
-function persistMapSettings() {
+function freezeDryMapSettings() {
   try {
     const payload = JSON.stringify({
       city: serializeLocation(state.mapSettings.city),

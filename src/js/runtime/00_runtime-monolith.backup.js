@@ -1192,7 +1192,7 @@ function setMapStyle(styleId) {
   const next = getMapStyleById(styleId);
   state.mapSettings.style = next.id;
   applyMapStyle();
-  persistMapSettings();
+  freezeDryMapSettings();
   persistState();
 }
 
@@ -4675,7 +4675,7 @@ function applyLocationToTarget(target, location, options = {}) {
   if (target.kind === "city") {
     state.mapSettings.city = location;
     updateCityUI();
-    persistMapSettings();
+    freezeDryMapSettings();
     persistState();
     applyViewMode();
     mapNeedsFit = true;
@@ -6305,18 +6305,21 @@ function hydrateMapSettings(raw) {
     return fallback;
   }
   const radius = Number(raw.radiusMiles);
+  const center = raw.center;
   const style = raw.style ? String(raw.style) : DEFAULT_MAP_STYLE;
   return {
     city: loadLocation(raw.city),
     radiusMiles: Number.isFinite(radius) && radius > 0 ? radius : DEFAULT_MAP_RADIUS_MILES,
+    center: center,
     style,
   };
 }
 
-function persistMapSettings() {
+function freezeDryMapSettings() {
   try {
     const payload = JSON.stringify({
       city: serializeLocation(state.mapSettings.city),
+      center: state.mapSettings.center,
       radiusMiles: state.mapSettings.radiusMiles,
       style: state.mapSettings.style,
     });
@@ -11645,7 +11648,7 @@ function init() {
       state.mapSettings.radiusMiles =
         Number.isFinite(next) && next > 0 ? next : DEFAULT_MAP_RADIUS_MILES;
       markDirty();
-      persistMapSettings();
+      freezeDryMapSettings();
       persistState();
       updateCityUI();
     });

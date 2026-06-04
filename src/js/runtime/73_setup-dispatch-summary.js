@@ -39,7 +39,7 @@ function bindDispatchAndSummarySection() {
       state.mapSettings.radiusMiles =
         Number.isFinite(next) && next > 0 ? next : DEFAULT_MAP_RADIUS_MILES;
       markDirty();
-      persistMapSettings();
+      freezeDryMapSettings();
       persistState();
       updateCityUI();
     });
