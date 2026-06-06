@@ -1443,8 +1443,8 @@ function openLocationModal(target) {
   const note = isCity ? 
     'Setting a city will allow you to search your area more accurately' : 
     'Search results and pin preview appear on the main map. Drag or click map to fine-tune';
-  document.querySelector('#modal-note')?.textContent = note;
-  document.querySelector('#locationDropPin')?.style?.display = isCity ? 'none' : 'block';
+  document.querySelector('#modal-note').textContent = note;
+  document.querySelector('#locationDropPin').style.display = isCity ? 'none' : 'block';
 
 
   if (locationTitle) {
