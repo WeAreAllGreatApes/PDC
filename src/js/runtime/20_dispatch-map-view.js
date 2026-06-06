@@ -1407,9 +1407,7 @@ function openLocationModal(target) {
   if (!locationModal || !locationSearchInput || !locationResults) {
     return;
   }
-  if (target.kind === 'city') {
-    state.mapSettings.settingCity = true;
-  }
+
   locationModalTarget = target;
   locationModalShouldRestoreView = true;
   locationSearchToken += 1;
@@ -1436,6 +1434,18 @@ function openLocationModal(target) {
   locationSearchState.results = [];
   locationSearchState.activeIndex = -1;
   locationResults.innerHTML = "<div class=\"search-empty\">Start typing to search.</div>";
+
+  // We need a lot of custom handling to center the city:
+  const isCity = target.kind === 'city';
+  state.mapSettings.settingCity = isCity;
+  const placeholder = isCity ? 'Enter a city or locality' : 'Enter an address, intersection, or business';
+  locationSearchInput.placeholder = placeholder;
+  const note = isCity ? 
+    'Setting a city will allow you to search your area more accurately' : 
+    'Search results and pin preview appear on the main map. Drag or click map to fine-tune';
+  document.querySelector('#modal-note')?.textContent = note;
+  document.querySelector('#locationDropPin')?.style?.display = isCity ? 'none' : 'block';
+
 
   if (locationTitle) {
     locationTitle.textContent =
