@@ -1513,6 +1513,10 @@ function closeLocationModal() {
     window.clearTimeout(locationSearchTimer);
     locationSearchTimer = null;
   }
+  if (state.mapSettings.city || state.mapSettings.center) {
+    settingsButton.title = undefined;
+    setCityButton.classList.remove('pulsing-border');
+  }
 }
 
 function startLocationDropPinMode(target = null) {

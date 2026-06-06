@@ -473,6 +473,15 @@ const mapFilterNoticeDismiss = document.getElementById("mapFilterNoticeDismiss")
 const mapGeocodeNotice = document.getElementById("mapGeocodeNotice");
 const mapGeocodeText = document.getElementById("mapGeocodeText");
 const mapGeocodeDismiss = document.getElementById("mapGeocodeDismiss");
+const settingsButton = document.getElementById('settings-button');
+
+// Prompt the user to set the city:
+if (settingsButton && !state.mapSettings.center) {
+  settingsButton.classList.add('pulsing');
+  settingsButton.title = 'City should be set for optimal results';
+  settingsButton.addEventListener('click', () => {settingsButton.classList.remove('pulsing')});
+  setCityButton.classList.add('pulsing-border');
+}
 
 function applyConfiguredFeatureFlags() {
   if (viewToggleButtons && viewToggleButtons.length) {
@@ -4836,6 +4845,10 @@ function closeLocationModal() {
   if (locationSearchTimer) {
     window.clearTimeout(locationSearchTimer);
     locationSearchTimer = null;
+  }
+  if (state.mapSettings.city || state.mapSettings.center) {
+    settingsButton.title = undefined;
+    setCityButton.classList.remove('pulsing-border');
   }
 }
 
