@@ -1786,7 +1786,7 @@ dialog::backdrop {
 }
 
 .pulsing-border {
-  animation: pulsing-border 1s alternate infinite;
+  animation: pulsing-border 2s alternate infinite;
 }
 
 @keyframes pulsing-border {
