@@ -2212,21 +2212,6 @@ function applyPendingLocationFromModal() {
   finalizeApply();
 }
 
-function buildGeoSearchQuery(query) {
-  const cleaned = query.trim();
-  if (!state.mapSettings.city || !state.mapSettings.city.label || state.mapSettings.settingCity) {
-    return cleaned;
-  }
-  const cityLabel = state.mapSettings.city.label.trim();
-  if (!cityLabel) {
-    return cleaned;
-  }
-  if (cleaned.toLowerCase().includes(cityLabel.toLowerCase())) {
-    return cleaned;
-  }
-  return `${cleaned} ${cityLabel}`;
-}
-
 async function fetchAutocompleteResults(query) {
   if (!MAP_FEATURE_ENABLED || !GEO_BASE_URL) {
     return [];
@@ -2234,12 +2219,11 @@ async function fetchAutocompleteResults(query) {
   try {
     const center = state.mapSettings.center;
     const payload = {
-      search: buildGeoSearchQuery(query),
+      search: query.trim(),
       ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
       ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
       ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
     };
-    console.log(payload)
     const response = await fetch(`${GEO_BASE_URL}/autocomplete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -2281,7 +2265,7 @@ async function fetchGeoResults(query) {
   try {
     const center = state.mapSettings.center;
     const payload = {
-      search: buildGeoSearchQuery(query),
+      search: query.trim(),
       ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
       ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
       ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
