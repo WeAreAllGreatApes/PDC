@@ -137,8 +137,11 @@ class Search(BaseModel):
     def url(self, autocomplete: bool = False) -> str: 
         '''Gets the full URL for a search query'''
 
-        search = self._extract_city() if self.cities_only else self.search
-        query = {"q": search, "access_token": env.KEY}
+        query = {
+            "q": self._extract_city() if self.cities_only else self.search, 
+            "access_token": env.KEY,
+        }
+
         # Exclude anything lower than a municipality:
         if self.cities_only:
             query['types'] = 'postcode,district,place'
