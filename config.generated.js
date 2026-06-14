@@ -27,7 +27,7 @@ window.__PDC_CONFIG__ = {
       lat: 44.9778,
       lon: -93.265,
     },
-    defaultRadiusMiles: 50,
+    defaultRadiusMiles: 5,
     defaultStyle: "clean",
     defaultFilters: {
       showMinimized: false,

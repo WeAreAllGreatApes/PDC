@@ -529,6 +529,21 @@ const mapFilterNoticeDismiss = document.getElementById("mapFilterNoticeDismiss")
 const mapGeocodeNotice = document.getElementById("mapGeocodeNotice");
 const mapGeocodeText = document.getElementById("mapGeocodeText");
 const mapGeocodeDismiss = document.getElementById("mapGeocodeDismiss");
+const settingsButton = document.getElementById('settings-button');
+
+
+// Prompt the user to set the city:
+if (settingsButton && !state.mapSettings?.center) {
+  settingsButton.classList.add('pulsing');
+  
+  settingsButton.title = 'Please set a search city for optimal searching.';
+  if (DEFAULT_MAP_CENTER) {
+    settingsButton.title += ` If unset, the app searches near (${DEFAULT_MAP_CENTER.lat},${DEFAULT_MAP_CENTER.lon})`;
+  }
+  settingsButton.addEventListener('click', () => {settingsButton.classList.remove('pulsing')});
+  setCityButton.classList.add('pulsing-border');
+}
+
 
 function applyConfiguredFeatureFlags() {
   if (viewToggleButtons && viewToggleButtons.length) {

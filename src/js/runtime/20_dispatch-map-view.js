@@ -1407,9 +1407,7 @@ function openLocationModal(target) {
   if (!locationModal || !locationSearchInput || !locationResults) {
     return;
   }
-  if (target.kind === 'city') {
-    state.mapSettings.settingCity = true;
-  }
+
   locationModalTarget = target;
   locationModalShouldRestoreView = true;
   locationSearchToken += 1;
@@ -1436,6 +1434,18 @@ function openLocationModal(target) {
   locationSearchState.results = [];
   locationSearchState.activeIndex = -1;
   locationResults.innerHTML = "<div class=\"search-empty\">Start typing to search.</div>";
+
+  // We need a lot of custom handling to center the city:
+  const isCity = target.kind === 'city';
+  state.mapSettings.settingCity = isCity;
+  const placeholder = isCity ? 'Enter a city or locality' : 'Enter an address, intersection, or business';
+  locationSearchInput.placeholder = placeholder;
+  const note = isCity ? 
+    'Setting a city will allow you to search your area more accurately' : 
+    'Search results and pin preview appear on the main map. Drag or click map to fine-tune';
+  document.querySelector('#modal-note').textContent = note;
+  document.querySelector('#locationDropPin').style.display = isCity ? 'none' : 'block';
+
 
   if (locationTitle) {
     locationTitle.textContent =
@@ -1502,6 +1512,10 @@ function closeLocationModal() {
   if (locationSearchTimer) {
     window.clearTimeout(locationSearchTimer);
     locationSearchTimer = null;
+  }
+  if (state.mapSettings.city || state.mapSettings.center) {
+    settingsButton.title = undefined;
+    setCityButton.classList.remove('pulsing-border');
   }
 }
 
@@ -2198,21 +2212,6 @@ function applyPendingLocationFromModal() {
   finalizeApply();
 }
 
-function buildGeoSearchQuery(query) {
-  const cleaned = query.trim();
-  if (!state.mapSettings.city || !state.mapSettings.city.label || state.mapSettings.settingCity) {
-    return cleaned;
-  }
-  const cityLabel = state.mapSettings.city.label.trim();
-  if (!cityLabel) {
-    return cleaned;
-  }
-  if (cleaned.toLowerCase().includes(cityLabel.toLowerCase())) {
-    return cleaned;
-  }
-  return `${cleaned} ${cityLabel}`;
-}
-
 async function fetchAutocompleteResults(query) {
   if (!MAP_FEATURE_ENABLED || !GEO_BASE_URL) {
     return [];
@@ -2220,12 +2219,11 @@ async function fetchAutocompleteResults(query) {
   try {
     const center = state.mapSettings.center;
     const payload = {
-      search: buildGeoSearchQuery(query),
+      search: query.trim(),
       ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
       ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
       ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
     };
-    console.log(payload)
     const response = await fetch(`${GEO_BASE_URL}/autocomplete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -2267,7 +2265,7 @@ async function fetchGeoResults(query) {
   try {
     const center = state.mapSettings.center;
     const payload = {
-      search: buildGeoSearchQuery(query),
+      search: query.trim(),
       ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
       ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
       ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),

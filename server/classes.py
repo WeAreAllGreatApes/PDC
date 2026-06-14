@@ -44,7 +44,7 @@ class StructuredAddress():
     postalCode: str|None = None
     administrativeArea: str|None = None
     locality: str|None = None
-    addressLines: list[str] = []
+    addressLines: list[str]
     
     def __init__(self, addr):
         if 'country' in addr:
@@ -55,6 +55,8 @@ class StructuredAddress():
             self.administrativeArea = addr['region']['region_code']
         if 'place' in addr: 
             self.locality = addr['place']['name']
+
+        self.addressLines = []
         if 'address' in addr:
             self.addressLines.append(addr['address']['name'])
         
@@ -137,8 +139,11 @@ class Search(BaseModel):
     def url(self, autocomplete: bool = False) -> str: 
         '''Gets the full URL for a search query'''
 
-        search = self._extract_city() if self.cities_only else self.search
-        query = {"q": search, "access_token": env.KEY}
+        query = {
+            "q": self._extract_city() if self.cities_only else self.search, 
+            "access_token": env.KEY,
+        }
+
         # Exclude anything lower than a municipality:
         if self.cities_only:
             query['types'] = 'postcode,district,place'
