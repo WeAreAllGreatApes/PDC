@@ -44,7 +44,7 @@ class StructuredAddress():
     postalCode: str|None = None
     administrativeArea: str|None = None
     locality: str|None = None
-    addressLines: list[str] = []
+    addressLines: list[str]
     
     def __init__(self, addr):
         if 'country' in addr:
@@ -55,6 +55,8 @@ class StructuredAddress():
             self.administrativeArea = addr['region']['region_code']
         if 'place' in addr: 
             self.locality = addr['place']['name']
+
+        self.addressLines = []
         if 'address' in addr:
             self.addressLines.append(addr['address']['name'])
         
