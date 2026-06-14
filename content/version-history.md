@@ -1,3 +1,7 @@
+## Version 6.5
+- Switched Geocoding Providers: Google to Mapbox.
+- Allow users to set custom bounding box using existing city center setting menu.
+
 ## Version 6.4
 - Added a new markdown-powered Help menu with setup expectations and a sectioned FAQ.
 - `How to Use This App` now opens the Help menu, with dedicated Tutorials buttons for tours.
