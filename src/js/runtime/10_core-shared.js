@@ -315,6 +315,7 @@ const state = {
   mapSettings: {
     city: null,
     centerLocation: null,
+    settingCity: false,
     radiusMiles: DEFAULT_MAP_RADIUS_MILES,
     style: DEFAULT_MAP_STYLE,
   },
@@ -501,6 +502,7 @@ const locationSetButton = document.getElementById("locationSet");
 const locationClearButton = document.getElementById("locationClear");
 const locationTitle = document.getElementById("locationTitle");
 const locationTargetLabel = document.getElementById("locationTargetLabel");
+const locationModalNote = document.getElementById("modal-note");
 const locationLimitDetail = document.getElementById("locationLimitDetail");
 const mapCardMetaModal = document.getElementById("mapCardMetaModal");
 const mapCardMetaLabel = document.getElementById("mapCardMetaLabel");
@@ -529,21 +531,20 @@ const mapFilterNoticeDismiss = document.getElementById("mapFilterNoticeDismiss")
 const mapGeocodeNotice = document.getElementById("mapGeocodeNotice");
 const mapGeocodeText = document.getElementById("mapGeocodeText");
 const mapGeocodeDismiss = document.getElementById("mapGeocodeDismiss");
-const settingsButton = document.getElementById('settings-button');
+const settingsButton = document.getElementById("settings-button");
 
-
-// Prompt the user to set the city:
-if (settingsButton && !state.mapSettings?.center) {
-  settingsButton.classList.add('pulsing');
-  
-  settingsButton.title = 'Please set a search city for optimal searching.';
-  if (DEFAULT_MAP_CENTER) {
-    settingsButton.title += ` If unset, the app searches near (${DEFAULT_MAP_CENTER.lat},${DEFAULT_MAP_CENTER.lon})`;
+// Gently nudge first-run users toward setting a search city:
+if (settingsButton && !state.mapSettings?.city) {
+  settingsButton.classList.add("pulsing");
+  settingsButton.title = "Please set a search city for optimal searching.";
+  settingsButton.title += ` If unset, the app searches near (${DEFAULT_MAP_CENTER.lat}, ${DEFAULT_MAP_CENTER.lon}).`;
+  settingsButton.addEventListener("click", () => {
+    settingsButton.classList.remove("pulsing");
+  });
+  if (setCityButton) {
+    setCityButton.classList.add("pulsing-border");
   }
-  settingsButton.addEventListener('click', () => {settingsButton.classList.remove('pulsing')});
-  setCityButton.classList.add('pulsing-border');
 }
-
 
 function applyConfiguredFeatureFlags() {
   if (viewToggleButtons && viewToggleButtons.length) {
