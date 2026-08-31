@@ -1435,17 +1435,20 @@ function openLocationModal(target) {
   locationSearchState.activeIndex = -1;
   locationResults.innerHTML = "<div class=\"search-empty\">Start typing to search.</div>";
 
-  // We need a lot of custom handling to center the city:
-  const isCity = target.kind === 'city';
-  state.mapSettings.settingCity = isCity;
-  const placeholder = isCity ? 'Enter a city or locality' : 'Enter an address, intersection, or business';
-  locationSearchInput.placeholder = placeholder;
-  const note = isCity ? 
-    'Setting a city will allow you to search your area more accurately' : 
-    'Search results and pin preview appear on the main map. Drag or click map to fine-tune';
-  document.querySelector('#modal-note').textContent = note;
-  document.querySelector('#locationDropPin').style.display = isCity ? 'none' : 'block';
-
+  // City lookups scope the whole map, so give them their own copy and hide
+  // pin-dropping (there is no single target to pin):
+  const isCityTarget = target.kind === "city";
+  state.mapSettings.settingCity = isCityTarget;
+  if (locationSearchInput) {
+    locationSearchInput.placeholder = isCityTarget
+      ? "Enter a city or locality"
+      : "Try an address, intersection, or business";
+  }
+  if (locationModalNote) {
+    locationModalNote.textContent = isCityTarget
+      ? "Setting a search city scopes address results to your area. You can change it any time."
+      : "Search results and pin preview appear on the main map. Drag or click map to fine-tune.";
+  }
 
   if (locationTitle) {
     locationTitle.textContent =
@@ -1458,9 +1461,9 @@ function openLocationModal(target) {
             : "Set Location";
   }
   if (locationDropPin) {
-    const centerOnly = target.kind === "center-map";
-    locationDropPin.classList.toggle("hidden", centerOnly);
-    locationDropPin.disabled = centerOnly;
+    const noPinTarget = isCityTarget || target.kind === "center-map";
+    locationDropPin.classList.toggle("hidden", noPinTarget);
+    locationDropPin.disabled = noPinTarget;
   }
   if (locationTargetLabel) {
     locationTargetLabel.textContent = describeLocationTarget(target);
@@ -1513,9 +1516,12 @@ function closeLocationModal() {
     window.clearTimeout(locationSearchTimer);
     locationSearchTimer = null;
   }
-  if (state.mapSettings.city || state.mapSettings.center) {
+  if ((state.mapSettings.city || state.mapSettings.centerLocation) && settingsButton) {
+    settingsButton.classList.remove("pulsing");
     settingsButton.title = undefined;
-    setCityButton.classList.remove('pulsing-border');
+    if (setCityButton) {
+      setCityButton.classList.remove("pulsing-border");
+    }
   }
 }
 
@@ -3292,6 +3298,7 @@ function hydrateMapSettings(raw) {
   const fallback = {
     city: null,
     centerLocation: null,
+    settingCity: false,
     radiusMiles: DEFAULT_MAP_RADIUS_MILES,
     style: DEFAULT_MAP_STYLE,
   };
@@ -3305,6 +3312,7 @@ function hydrateMapSettings(raw) {
   return {
     city,
     centerLocation: loadLocation(raw.centerLocation),
+    settingCity: false,
     radiusMiles: Number.isFinite(radius) && radius > 0 ? radius : DEFAULT_MAP_RADIUS_MILES,
     center,
     style,

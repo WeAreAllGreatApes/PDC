@@ -27,6 +27,11 @@ stops:
     detail: "Now move to map interactions and verify what was tagged."
     try_this: "Switch to Split or Map view so you can see the map update."
 
+  - class: "setCityButton"
+    heading: "Set Your Search City"
+    detail: "Setting a search city scopes address lookups to your area, so map search results stay relevant. Find it in the Settings tab under Map Search City."
+    try_this: "Open Settings, click Set City, type your city, and pick the matching result."
+
   - class: "map-view"
     heading: "Move a Location Pin"
     detail: "Dragging a pin attempts reverse-geocoding to resolve the new address text."
