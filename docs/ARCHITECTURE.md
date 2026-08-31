@@ -60,12 +60,25 @@ This codebase is organized around visible product sections so maintainers can ju
 
 - `styles.css` is the entrypoint.
 - It imports section-oriented files in order:
+  - `src/css/variables.css` (design tokens: light on `:root`, dark under `@media (prefers-color-scheme: dark)`)
   - `src/css/components/home.css`
   - `src/css/components/workspace-core.css`
   - `src/css/components/dispatch.css`
   - `src/css/components/summary.css`
   - `src/css/components/modals.css`
+  - `src/css/base/boot.css`
   - `src/css/base/semantic-layout.css`
+- Components must use semantic tokens from `variables.css` (never raw hex values) so light and dark themes stay in sync.
+
+## Tooling Scripts
+
+Run with `npm run <name>` (see `package.json`):
+
+- `check` — `scripts/check-css.js` validates brace balance, `@import` termination, and that every `var(--x)` reference resolves to a token.
+- `audit` — `scripts/audit-network.js` loads the app headless (home → workspace), reports any HTTP >=400 responses, console errors, and uncaught exceptions. Must print `OK` before deploying.
+- `smoke` — `scripts/smoke-render.js` renders light and dark themes headlessly and prints computed styles of key selectors (regression check for theme bugs).
+- `favicons` — `scripts/gen-favicons.js` regenerates `favicon.ico`, `favicon-32.png`, and `apple-touch-icon.png` from `favicon.svg` (requires local Chrome). Re-run after changing the SVG; all four files are deployed via the Dockerfile.
+- `bundle` — `scripts/bundle-pdc.js` emits one self-contained HTML file (default `dist/pdc.html`). It inlines stylesheets/icons/classic scripts, embeds fetched resources and the ordered runtime as data, swaps in a standalone CSP, and serves embedded resources through a small `fetch` shim so the file also boots from `file://`. Options include `--mapbox-token` (direct Geocoding v6), `--geocoding-url`, `--center`, `--timezone`, `--config`, `--set`, `--no-map`, `--include`, and `--minify`.
 
 ## Runtime Notes
 
