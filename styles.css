@@ -1,8 +1,9 @@
 /*
   Component-oriented stylesheet entrypoint.
-  Import order is intentional and preserves the previous cascade.
+  Import order is intentional: tokens first, then components.
 */
 
+@import url("src/css/variables.css");
 @import url("src/css/components/home.css");
 @import url("src/css/components/workspace-core.css");
 @import url("src/css/components/dispatch.css");

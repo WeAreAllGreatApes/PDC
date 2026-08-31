@@ -60,12 +60,15 @@ This codebase is organized around visible product sections so maintainers can ju
 
 - `styles.css` is the entrypoint.
 - It imports section-oriented files in order:
+  - `src/css/variables.css` (design tokens: light on `:root`, dark under `@media (prefers-color-scheme: dark)`)
   - `src/css/components/home.css`
   - `src/css/components/workspace-core.css`
   - `src/css/components/dispatch.css`
   - `src/css/components/summary.css`
   - `src/css/components/modals.css`
+  - `src/css/base/boot.css`
   - `src/css/base/semantic-layout.css`
+- Components must use semantic tokens from `variables.css` (never raw hex values) so light and dark themes stay in sync.
 
 ## Runtime Notes
 

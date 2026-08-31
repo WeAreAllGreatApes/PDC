@@ -1,5 +1,3 @@
-@import "../variables.css"
-
 .modal {
   position: fixed;
   inset: 0;
@@ -69,9 +67,9 @@
   justify-content: center;
   padding: 4px 10px;
   border-radius: 999px;
-  border: 1px solid #b8d6c8;
-  background: #eef7f2;
-  color: #1e5f48;
+  border: 1px solid var(--accent-border);
+  background: var(--primary-wash);
+  color: var(--primary-dark);
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -210,7 +208,7 @@
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 4px;
-  background: #f6fbf8;
+  background: var(--card-level-1-bg);
 }
 
 .toggle-group .pill {
@@ -245,7 +243,7 @@
 }
 
 .modal-grid input:disabled {
-  background: #f2f6f3;
+  background: var(--disabled-bg);
   color: var(--muted);
 }
 
@@ -320,11 +318,11 @@
   max-height: min(92dvh, calc(100dvh - 32px));
   display: flex;
   flex-direction: column;
-  border-color: #b9d9c9;
+  border-color: var(--accent-border);
   background: var(--howto-bg);
   box-shadow:
     0 16px 34px rgba(18, 54, 40, 0.12),
-    0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+    0 0 0 1px color-mix(in srgb, var(--ink) 6%, transparent) inset;
 }
 
 .how-to-modal-scroll {
@@ -350,7 +348,7 @@
 }
 
 .how-to-block {
-  border: 1px solid #c8e2d5;
+  border: 1px solid var(--accent-border);
   border-radius: 14px;
   background: var(--card-level-1-bg);
   padding: 14px 16px;
@@ -384,7 +382,7 @@
 }
 
 .how-to-accordion-summary:hover {
-  background: linear-gradient(180deg, #eff8f3 0%, #e3f2e9 100%);
+  background: var(--hover-wash);
 }
 
 .how-to-accordion-summary::-webkit-details-marker {
@@ -394,7 +392,7 @@
 .how-to-accordion-summary::after {
   content: "▸";
   font-size: 16px;
-  color: #2b8f6c;
+  color: var(--primary);
   transform: rotate(0deg);
   transition: transform 0.15s ease;
 }
@@ -409,9 +407,9 @@
 }
 
 .how-to-accordion-body {
-  border-top: 1px solid #d3e7dc;
+  border-top: 1px solid var(--border);
   padding: 14px 16px;
-  background: #ffffff;
+  background: var(--card);
 }
 
 .how-to-paragraph {
@@ -425,7 +423,7 @@
   padding: 0 0 0 2px;
   display: grid;
   gap: 8px;
-  color: #2f4f42;
+  color: var(--ink);
   font-size: 16px;
   line-height: 1.55;
 }
@@ -438,21 +436,21 @@
 }
 
 #howToTutorialCta {
-  background: #1f6f53;
-  border: 1px solid #175640;
+  background: var(--primary);
+  border: 1px solid var(--primary-dark);
   color: #ffffff;
   font-weight: 700;
   box-shadow: 0 8px 18px rgba(23, 86, 64, 0.25);
 }
 
 #howToTutorialCta:hover {
-  background: #1b634a;
-  border-color: #134b38;
+  background: var(--primary-dark);
+  border-color: color-mix(in srgb, var(--primary-dark) 80%, #000000);
   transform: translateY(-1px);
 }
 
 #howToTutorialCta:focus-visible {
-  outline: 3px solid rgba(31, 111, 83, 0.35);
+  outline: 3px solid color-mix(in srgb, var(--primary) 35%, transparent);
   outline-offset: 2px;
 }
 
@@ -469,10 +467,10 @@
 }
 
 .faq-item {
-  border: 1px solid #c8e2d5;
-  border-left: 4px solid #9fceb8;
+  border: 1px solid var(--accent-border);
+  border-left: 4px solid var(--primary-wash-border);
   border-radius: 14px;
-  background: #ffffff;
+  background: var(--card);
   padding: 0;
   overflow: hidden;
   box-shadow: 0 6px 14px rgba(28, 66, 51, 0.06);
@@ -480,8 +478,8 @@
 }
 
 .faq-item[open] {
-  border-color: #86bda3;
-  border-left-color: #2b8f6c;
+  border-color: var(--accent-border-strong);
+  border-left-color: var(--primary);
   box-shadow: 0 8px 18px rgba(28, 66, 51, 0.1);
 }
 
@@ -500,7 +498,7 @@
 }
 
 .faq-question:hover {
-  background: linear-gradient(180deg, #f0f8f3 0%, #e5f2ea 100%);
+  background: var(--hover-wash);
 }
 
 .faq-question::-webkit-details-marker {
@@ -510,7 +508,7 @@
 .faq-question::after {
   content: "▸";
   font-size: 16px;
-  color: #2b8f6c;
+  color: var(--primary);
   transform: rotate(0deg);
   transition: transform 0.15s ease;
 }
@@ -520,14 +518,14 @@
 }
 
 .faq-answer {
-  border-top: 1px solid #d3e7dc;
+  border-top: 1px solid var(--border);
   padding: 14px 16px;
   display: grid;
   gap: 10px;
-  color: #2f4f42;
+  color: var(--ink);
   font-size: 16px;
   line-height: 1.6;
-  background: #ffffff;
+  background: var(--card);
 }
 
 .faq-answer p {
@@ -563,7 +561,7 @@
 .kbd {
   font-weight: 600;
   color: var(--ink);
-  background: #f1faf4;
+  background: var(--selected);
   border: 1px solid var(--border);
   padding: 4px 8px;
   border-radius: 8px;
@@ -658,7 +656,7 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 8px;
-  background: #f6fbf8;
+  background: var(--card-level-1-bg);
 }
 
 .location-result {
@@ -666,7 +664,7 @@
   border-radius: 10px;
   padding: 8px 10px;
   text-align: left;
-  background: #fff;
+  background: var(--card);
   cursor: pointer;
   font-size: 13px;
   color: var(--ink);
@@ -683,7 +681,7 @@
 
 .location-result.highlighted {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(43, 143, 108, 0.12);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 15%, transparent);
 }
 
 .location-result.active {
@@ -849,7 +847,7 @@
   padding: 10px 12px;
   border: 1px solid var(--border);
   border-radius: 10px;
-  background: #f8fbf9;
+  background: var(--card-level-1-bg);
   color: var(--muted);
   font-size: 13px;
 }
@@ -940,7 +938,7 @@
 
 .search-result {
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--card);
   border-radius: 12px;
   padding: 10px 12px;
   text-align: left;
@@ -952,12 +950,12 @@
 }
 
 .search-result:hover {
-  background: #f4faf6;
+  background: var(--hover-wash);
 }
 
 .search-result.active {
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(60, 140, 90, 0.2);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
 .search-result:focus-visible {
@@ -985,7 +983,8 @@
 }
 
 .search-mark {
-  background: #fff1a6;
+  background: var(--secondary);
+  color: #201400;
   border-radius: 4px;
   padding: 0 2px;
 }
@@ -1042,7 +1041,7 @@ button:disabled {
 }
 
 .start-prompt {
-  background: #f6fbf8;
+  background: var(--card-level-1-bg);
   color: var(--primary-dark);
   border: 1px solid var(--border);
   box-shadow: 0 0 0 rgba(43, 143, 108, 0.4);
@@ -1182,7 +1181,7 @@ button.ghost.danger {
   position: absolute;
   cursor: pointer;
   inset: 0;
-  background-color: #ddd;
+  background-color: var(--slider-track);
   border-radius: 999px;
   transition: 0.2s;
 }
@@ -1488,22 +1487,22 @@ dialog::backdrop {
 }
 
 .tutorial-picker-modal {
-  border-color: #9dcab4;
+  border-color: var(--accent-border);
   background: var(--howto-bg);
   box-shadow:
     0 18px 36px rgba(19, 69, 46, 0.12),
-    0 0 0 1px rgba(157, 202, 180, 0.34) inset;
+    0 0 0 1px color-mix(in srgb, var(--accent-border) 40%, transparent) inset;
 }
 
 .tutorial-picker-modal .modal-note {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  background: #fff4d6;
-  border: 1px solid #f1d08a;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
   border-radius: 12px;
   padding: 10px 12px;
-  color: #5d4a1f;
+  color: var(--warning-ink);
   font-size: 14px;
   line-height: 1.4;
 }
@@ -1526,7 +1525,7 @@ dialog::backdrop {
 
 .tutorial-item {
   border: 1px solid var(--border);
-  background: #f8fcfa;
+  background: var(--card-level-1-bg);
   border-radius: 12px;
   padding: 12px 14px;
   text-align: left;
@@ -1535,13 +1534,13 @@ dialog::backdrop {
 }
 
 .tutorial-item:hover {
-  border-color: #9ec6b5;
+  border-color: var(--accent-border-strong);
   box-shadow: 0 8px 18px rgba(27, 42, 36, 0.1);
 }
 
 .tutorial-item.completed {
-  border-color: #87c1a5;
-  background: linear-gradient(180deg, #f6fff9 0%, #eef9f2 100%);
+  border-color: var(--accent-border-strong);
+  background: var(--primary-wash);
 }
 
 .tutorial-item-title-row {
@@ -1561,9 +1560,9 @@ dialog::backdrop {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: #1f6f4e;
-  background: #ddf3e7;
-  border: 1px solid #a8d6bf;
+  color: var(--primary-dark);
+  background: var(--primary-wash);
+  border: 1px solid var(--primary-wash-border);
   border-radius: 999px;
   padding: 3px 8px;
   white-space: nowrap;
@@ -1604,16 +1603,16 @@ dialog::backdrop {
 }
 
 .tutorial-complete-modal {
-  border-color: #8bc3a8;
+  border-color: var(--accent-border-strong);
   background: var(--howto-bg);
   box-shadow:
     0 20px 40px rgba(19, 69, 46, 0.14),
-    0 0 0 1px rgba(139, 195, 168, 0.3) inset;
+    0 0 0 1px color-mix(in srgb, var(--accent-border-strong) 35%, transparent) inset;
 }
 
 .tutorial-complete-title::before {
   content: "✓ ";
-  color: #2b8f6c;
+  color: var(--primary);
   font-weight: 700;
 }
 
@@ -1625,8 +1624,8 @@ dialog::backdrop {
 }
 
 #tutorialTakeAnother {
-  border-color: #8bc3a8;
-  background: rgba(255, 255, 255, 0.86);
+  border-color: var(--accent-border-strong);
+  background: color-mix(in srgb, var(--card) 86%, transparent);
 }
 
 .driver-popover {

@@ -1,5 +1,3 @@
-@import "../variables.css";
-
 * {
   box-sizing: border-box;
 }
@@ -39,9 +37,9 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  background: #fff4d6;
-  border: 1px solid #f1d08a;
-  color: #6a4a00;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  color: var(--warning-ink);
   border-radius: 16px;
   padding: 10px 14px;
   font-size: 14px;
@@ -149,12 +147,12 @@ main {
   position: relative;
   overflow: hidden;
   padding: 36px;
-  background: #f6fbf8;
-  border: 1px solid #c7dfd2;
+  background: var(--card-level-1-bg);
+  border: 1px solid var(--accent-border);
   border-radius: 28px;
   box-shadow:
     0 20px 48px rgba(17, 48, 36, 0.14),
-    0 0 0 1px rgba(255, 255, 255, 0.65) inset;
+    0 0 0 1px color-mix(in srgb, var(--ink) 6%, transparent) inset;
   font-size: 16px;
 }
 
@@ -177,8 +175,8 @@ main {
   gap: 8px;
   padding: 7px 14px;
   border-radius: 999px;
-  border: 1px solid #1f6f53;
-  background: #1f6f53;
+  border: 1px solid var(--primary-dark);
+  background: var(--primary);
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
@@ -204,7 +202,7 @@ main {
   max-width: 72ch;
   font-size: 17px;
   line-height: 1.55;
-  color: #2c4c40;
+  color: var(--ink);
 }
 
 .welcome-actions {
@@ -218,8 +216,8 @@ main {
   border-radius: 999px;
   padding: 9px 15px;
   font-size: 16px;
-  border-color: #bad6c7;
-  background: #fbfffd;
+  border-color: var(--accent-border);
+  background: var(--card-level-1-bg);
   box-shadow: 0 5px 16px rgba(29, 82, 60, 0.1);
   display: inline-flex;
   align-items: center;
@@ -227,7 +225,7 @@ main {
 }
 
 .tutorial-home-button:hover {
-  border-color: #7bb79b;
+  border-color: var(--accent-border-strong);
   transform: translateY(-1px);
 }
 
@@ -256,7 +254,7 @@ main {
   isolation: isolate;
   overflow: hidden;
   border: 1px solid var(--border);
-  background: #ffffff;
+  background: var(--card);
   border-radius: 22px;
   padding: 20px;
   text-align: left;
@@ -271,12 +269,12 @@ main {
 
 .welcome .card:hover {
   transform: translateY(-4px);
-  border-color: #8ebfa8;
+  border-color: var(--accent-border-strong);
   box-shadow: 0 12px 24px rgba(32, 24, 17, 0.14);
 }
 
 .welcome .card:focus-visible {
-  outline: 3px solid #1f6f53;
+  outline: 3px solid var(--primary);
   outline-offset: 3px;
 }
 
@@ -285,11 +283,11 @@ main {
   height: 42px;
   border-radius: 12px;
   justify-content: center;
-  background: #eef7f2;
+  background: var(--primary-wash);
   font-size: 28px;
   display: inline-flex;
   align-items: center;
-  color: #226a50;
+  color: var(--primary-dark);
 }
 
 .welcome .card-icon .lucide {
@@ -317,10 +315,10 @@ main {
   gap: 12px;
   align-items: flex-start;
   border-radius: 16px;
-  border: 1px solid #f0d79f;
-  background: linear-gradient(145deg, #fffaf0 0%, #fff5dc 100%);
+  border: 1px solid var(--warning-border);
+  background: var(--warning-bg);
   box-shadow: 0 10px 22px rgba(86, 62, 11, 0.1);
-  color: #4f3f1e;
+  color: var(--warning-ink);
   padding: 14px 15px;
   font-size: 16px;
   line-height: 1.45;
@@ -333,8 +331,8 @@ main {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(189, 130, 28, 0.16);
-  color: #8b6612;
+  background: color-mix(in srgb, var(--warning-ink) 16%, transparent);
+  color: var(--warning-ink);
   flex: 0 0 auto;
 }
 
@@ -344,7 +342,7 @@ main {
 }
 
 .security-note-body strong {
-  color: #3f2f12;
+  color: var(--warning-ink);
 }
 
 .workspace {

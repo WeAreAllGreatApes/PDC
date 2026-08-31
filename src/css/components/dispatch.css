@@ -1,5 +1,3 @@
-@import "../variables.css"
-
 .columns {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(306px, 1fr));
@@ -125,9 +123,9 @@
   gap: 12px;
   padding: 10px 12px;
   border-radius: 14px;
-  border: 1px solid #f1d08a;
-  background: #fff4d6;
-  color: #6a4a00;
+  border: 1px solid var(--warning-border);
+  background: var(--warning-bg);
+  color: var(--warning-ink);
   font-size: 12px;
 }
 
@@ -140,20 +138,20 @@
 }
 
 .map-filter-dismiss {
-  border-color: #e5c27a;
-  color: #6a4a00;
+  border-color: var(--warning-border);
+  color: var(--warning-ink);
 }
 
 .map-filter-toggle.active {
-  background: #e3f3ea;
-  border-color: #9fd2b9;
-  color: #1e5f48;
+  background: var(--primary-wash);
+  border-color: var(--primary-wash-border);
+  color: var(--primary-dark);
 }
 
 .map-filter-toggle.hazard {
-  border-color: #d58f87;
-  color: #8d3f35;
-  background: #fbe9e7;
+  border-color: var(--danger-border);
+  color: var(--danger-ink);
+  background: var(--danger-wash);
 }
 
 .map-type-filter .dropdown-menu {
@@ -222,13 +220,13 @@
 }
 
 .map-style-item.active {
-  background: var(--selected);;
+  background: var(--selected);
   color: var(--ink);
   font-weight: 600;
 }
 
 .map-style-item:hover {
-  background: #f1faf4;
+  background: var(--hover-wash);
 }
 
 .map-type-item {
@@ -241,7 +239,7 @@
 }
 
 .map-type-item:hover {
-  background: #f1faf4;
+  background: var(--hover-wash);
 }
 
 .map-type-item input {
@@ -310,7 +308,7 @@
   padding: 6px 12px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: #f6fbf8;
+  background: var(--card-level-1-bg);
   cursor: pointer;
 }
 
@@ -333,9 +331,9 @@
   width: 34px;
   height: 34px;
   border: none;
-  border-bottom: 1px solid #d3d7df;
-  background: #ffffff;
-  color: #253443;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+  color: var(--ink);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -348,7 +346,7 @@
 
 .map-sidebar-tool:hover,
 .map-sidebar-tool:focus-visible {
-  background: #f1f5fa;
+  background: var(--hover-wash);
 }
 
 .map-sidebar-tool .lucide {
@@ -583,7 +581,7 @@
 .map-pin-tooltip {
   --tooltip-border: var(--border);
   --pin-color: #2b8f6c;
-  background: color-mix(in srgb, var(--pin-color) 3%, #ffffff 97%);
+  background: color-mix(in srgb, var(--pin-color) 3%, var(--card) 97%);
   border: 1px solid var(--tooltip-border);
   color: var(--ink);
   font-size: 11px;
@@ -617,7 +615,7 @@
 .map-pin-tooltip.is-dragging {
   z-index: 999999 !important;
   border-width: 2px;
-  background: color-mix(in srgb, var(--pin-color) 8%, #ffffff 92%);
+  background: color-mix(in srgb, var(--pin-color) 8%, var(--card) 92%);
   box-shadow:
     0 14px 30px rgba(27, 42, 36, 0.34),
     0 0 0 3px rgba(var(--focus-color-rgb, 43, 143, 108), 0.28);
@@ -734,12 +732,12 @@
 }
 
 .map-pin-tooltip.is-previous .map-tooltip-label {
-  color: #7f8b86;
+  color: var(--disabled-ink);
   font-weight: 600;
 }
 
 .map-pin-tooltip.is-previous .map-tooltip-label .lucide {
-  color: #7f8b86;
+  color: var(--disabled-ink);
 }
 
 .map-tooltip-location-row {
@@ -779,8 +777,8 @@ button.map-tooltip-copy {
   padding: 0;
   border-radius: 8px;
   border: none;
-  background: #eef2f0;
-  color: #24312b;
+  background: var(--control-bg);
+  color: var(--ink);
   cursor: pointer;
   transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 }
@@ -793,8 +791,8 @@ button.map-tooltip-copy .lucide {
 
 button.map-tooltip-copy:hover,
 button.map-tooltip-copy:focus-visible {
-  background: #dde5e1;
-  color: #1b2621;
+  background: var(--control-bg-hover);
+  color: var(--ink);
 }
 
 .map-tooltip-time {
@@ -817,7 +815,7 @@ button.map-tooltip-copy:focus-visible {
   min-width: calc(100% + 16px);
   padding: 6px 8px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.96);
+  background: color-mix(in srgb, var(--card) 96%, transparent);
   border: 1px solid var(--tooltip-border);
   box-shadow: 0 8px 18px rgba(27, 42, 36, 0.15);
   pointer-events: none;
@@ -849,7 +847,7 @@ button.map-tooltip-copy:focus-visible {
   gap: 8px;
   margin-top: 2px;
   padding-top: 6px;
-  border-top: 1px solid #d8e3dc;
+  border-top: 1px solid var(--border);
 }
 
 .map-tooltip-newer-actions {
@@ -857,7 +855,7 @@ button.map-tooltip-copy:focus-visible {
   justify-content: flex-start;
   margin-top: 6px;
   padding-top: 6px;
-  border-top: 1px solid #d8e3dc;
+  border-top: 1px solid var(--border);
 }
 
 button.map-tooltip-add-newer {
@@ -869,9 +867,9 @@ button.map-tooltip-add-newer {
   justify-content: center;
   padding: 7px 12px;
   border-radius: 10px;
-  border: 1px solid #245f4b;
-  background: #e4f2eb;
-  color: #1d4f3d;
+  border: 1px solid var(--success-border);
+  background: var(--success-wash);
+  color: var(--success-ink);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -886,13 +884,13 @@ button.map-tooltip-add-newer .lucide {
 
 button.map-tooltip-add-newer:hover,
 button.map-tooltip-add-newer:focus-visible {
-  background: #d6eadf;
-  border-color: #1d4f3d;
-  color: #163f31;
+  background: color-mix(in srgb, var(--success-ink) 12%, var(--success-wash));
+  border-color: var(--success-ink);
+  color: var(--success-ink);
 }
 
 button.map-tooltip-add-newer:active {
-  background: #c8dfd2;
+  background: color-mix(in srgb, var(--success-ink) 22%, var(--success-wash));
   transform: translateY(1px);
 }
 
@@ -938,9 +936,9 @@ button.map-tooltip-delete {
   justify-content: center;
   padding: 7px 12px;
   border-radius: 10px;
-  border: 1px solid #8a3a34;
-  background: #fbe6e3;
-  color: #7b221c;
+  border: 1px solid var(--danger-border);
+  background: var(--danger-wash);
+  color: var(--danger-ink);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -951,13 +949,13 @@ button.map-tooltip-delete {
 
 button.map-tooltip-delete:hover,
 button.map-tooltip-delete:focus-visible {
-  background: #f7d4ce;
-  border-color: #7b221c;
-  color: #651712;
+  background: color-mix(in srgb, var(--danger-ink) 12%, var(--danger-wash));
+  border-color: var(--danger-ink);
+  color: var(--danger-ink);
 }
 
 button.map-tooltip-delete:active {
-  background: #f2c5be;
+  background: color-mix(in srgb, var(--danger-ink) 22%, var(--danger-wash));
   transform: translateY(1px);
 }
 
@@ -1010,7 +1008,7 @@ button.map-tooltip-delete .lucide {
 
 .location-clear:hover {
   color: var(--danger);
-  background: rgba(192, 87, 75, 0.12);
+  background: color-mix(in srgb, var(--danger) 15%, transparent);
 }
 
 .location-row.is-link {
@@ -1020,7 +1018,7 @@ button.map-tooltip-delete .lucide {
 }
 
 .location-row.is-link:hover {
-  background: rgba(43, 143, 108, 0.08);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
 }
 
 .location-row.is-link:focus-visible {
@@ -1035,7 +1033,7 @@ button.map-tooltip-delete .lucide {
 
 .pin-button {
   border: none;
-  background: #e2e2e2;
+  background: var(--control-bg);
   color: var(--muted);
   border-radius: 999px;
   padding: 4px 6px;
@@ -1048,16 +1046,16 @@ button.map-tooltip-delete .lucide {
 
 .pin-button:not(.active):not(:disabled):hover,
 .pin-button.card-pin:not(.active):not(:disabled):hover {
-  background: #ffffff;
+  background: var(--control-bg-hover);
   color: var(--ink);
-  box-shadow: inset 0 0 0 1px #dcdcdc;
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
 .pin-button.active {
-  background: #e1f2e9;
-  color: #1c5a46;
-  border-color: #bfe3d5;
-  box-shadow: inset 0 0 0 1px rgba(28, 90, 70, 0.08);
+  background: var(--primary-wash);
+  color: var(--primary-dark);
+  border-color: var(--primary-wash-border);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary-dark) 10%, transparent);
 }
 
 .pin-button.card-pin.active {
@@ -1116,7 +1114,7 @@ button.map-tooltip-delete .lucide {
   display: flex;
   flex-direction: column;
   background: var(--column-bg);
-  --header-tint: color-mix(in srgb, var(--column-accent) 35%, #ffffff 65%);
+  --header-tint: color-mix(in srgb, var(--column-accent) 35%, var(--card));
   border-radius: 20px;
   border: 1px solid var(--border);
   padding: 0 16px 16px;
@@ -1132,20 +1130,20 @@ button.map-tooltip-delete .lucide {
 
 .column.drag-target {
   border-color: var(--column-accent);
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ink) 6%, transparent);
 }
 
 .column.drag-target-before {
-  box-shadow: inset 4px 0 0 var(--column-accent), 0 0 0 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 4px 0 0 var(--column-accent), 0 0 0 2px color-mix(in srgb, var(--ink) 6%, transparent);
 }
 
 .column.drag-target-after {
-  box-shadow: inset -4px 0 0 var(--column-accent), 0 0 0 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset -4px 0 0 var(--column-accent), 0 0 0 2px color-mix(in srgb, var(--ink) 6%, transparent);
 }
 
 .column.note-drop-target {
   border-color: var(--column-accent);
-  box-shadow: 0 0 0 2px rgba(43, 143, 108, 0.18);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent);
 }
 
 .observation.dragging-note {
@@ -1251,7 +1249,7 @@ button.map-tooltip-delete .lucide {
   border-radius: 10px;
   font-weight: 600;
   color: var(--ink);
-  background: var(--text-input-bg);;
+  background: var(--text-input-bg);
 }
 
 .column-header .label-input {
@@ -1313,7 +1311,7 @@ button.map-tooltip-delete .lucide {
   padding: 6px 9px;
   font-size: 12px;
   font-weight: 600;
-  background: #fff;
+  background: var(--vehicle-field-bg);
   width: 100%;
   min-width: 0;
 }
@@ -1354,7 +1352,7 @@ button.map-tooltip-delete .lucide {
   top: calc(100% + 6px);
   left: 0;
   min-width: 160px;
-  background: #ffffff;
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: 0 10px 24px rgba(27, 42, 36, 0.18);
@@ -1393,19 +1391,19 @@ button.map-tooltip-delete .lucide {
 
 .card-color-option:hover,
 .card-color-option.selected {
-  background: #f1faf4;
+  background: var(--hover-wash);
 }
 
 .card-color-option.active,
 .card-color-option:focus {
-  outline: 2px solid #3a8fb7;
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
 .card-color-settings-link {
   width: 100%;
   border: none;
-  border-top: 1px solid #e4ebe7;
+  border-top: 1px solid var(--border);
   margin-top: 6px;
   padding: 8px 6px 2px;
   background: transparent;
@@ -1422,7 +1420,7 @@ button.map-tooltip-delete .lucide {
 }
 
 .card-color-settings-link:focus {
-  outline: 2px solid #3a8fb7;
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
@@ -1430,7 +1428,7 @@ button.map-tooltip-delete .lucide {
   width: 18px;
   height: 18px;
   border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
   flex: 0 0 18px;
 }
 
@@ -1673,7 +1671,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
   height: 26px;
   border-radius: 999px;
   border: none;
-  background: #e2e2e2;
+  background: var(--control-bg);
   color: var(--muted);
   cursor: pointer;
   font-size: 13px;
@@ -1721,14 +1719,14 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   gap: 6px;
-  background: #e2e2e2;
+  background: var(--control-bg);
   color: var(--muted);
   white-space: nowrap;
 }
 
 .card-actions-top .card-action.report-all.active {
-  background: #d9efe6;
-  color: #1c5a46;
+  background: var(--primary-wash);
+  color: var(--primary-dark);
 }
 
 .report-all-check {
@@ -1745,7 +1743,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 
 .card-actions-top .card-action:hover {
   color: var(--ink);
-  background: #ffffff;
+  background: var(--control-bg-hover);
 }
 
 .column.disabled {
@@ -1771,7 +1769,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 }
 
 .observation {
-  background: #f8f4ee;
+  background: var(--note-bg);
   border-radius: 16px;
   padding: 12px;
   border: 1px solid var(--border);
@@ -1789,7 +1787,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
   height: 26px;
   border-radius: 999px;
   border: none;
-  background: #e2e2e2;
+  background: var(--control-bg);
   color: var(--muted);
   font-size: 13px;
   display: inline-flex;
@@ -1806,7 +1804,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 .reorder-handle:hover,
 .column.dragging .reorder-handle {
   color: var(--ink);
-  background: #ffffff;
+  background: var(--control-bg-hover);
 }
 
 .card-actions-top {
@@ -1835,12 +1833,12 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 .timestamp-rule {
   height: 1px;
   width: 100%;
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--rule);
   margin: 6px 0 8px;
 }
 
 .observation .edited-note {
-  color: #b3b3b3;
+  color: var(--disabled-ink);
   font-size: 12px;
   margin-bottom: 6px;
 }
@@ -1858,9 +1856,9 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 .vehicle-note-section {
   margin-bottom: 8px;
   padding: 8px;
-  border: 1px solid #d9e3dd;
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: #f5f5f4;
+  background: var(--vehicle-note-bg);
 }
 
 .vehicle-note-title {
@@ -1872,7 +1870,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #51606f;
+  color: var(--muted);
   margin-bottom: 6px;
   width: 100%;
 }
@@ -1895,7 +1893,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
   border-radius: 6px;
   padding: 0;
   background: transparent;
-  color: #5d6a78;
+  color: var(--muted);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1909,8 +1907,8 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 
 .vehicle-note-copy:hover,
 .vehicle-note-copy:focus-visible {
-  background: #e8efeb;
-  color: #2a5846;
+  background: var(--hover-wash);
+  color: var(--primary-dark);
 }
 
 .vehicle-note-grid {
@@ -1934,7 +1932,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
   gap: 4px;
   min-width: 0;
   font-size: 12px;
-  color: #5c6876;
+  color: var(--muted);
 }
 
 .vehicle-note-field-make,
@@ -1950,11 +1948,11 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 
 .vehicle-note-field input,
 .vehicle-note-field .vehicle-note-select {
-  border: 1px solid #ccd8d1;
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 6px 8px;
   font-size: 12px;
-  background: #ffffff;
+  background: var(--vehicle-field-bg);
   min-width: 0;
 }
 
@@ -1962,15 +1960,15 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 .vehicle-card-field input.vehicle-validation-warning,
 .modal-grid input.vehicle-validation-warning,
 .modal-field input.vehicle-validation-warning {
-  border-color: #c68512;
-  background: #fff8e6;
-  box-shadow: 0 0 0 2px rgba(198, 133, 18, 0.16);
+  border-color: var(--secondary);
+  background: var(--warning-bg);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--secondary) 25%, transparent);
 }
 
 .vehicle-note-field input:disabled,
 .vehicle-note-field .vehicle-note-select:disabled {
-  background: #f2f4f3;
-  color: #7a8691;
+  background: var(--disabled-bg);
+  color: var(--disabled-ink);
 }
 
 .delete-note {
@@ -1981,7 +1979,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
   height: 22px;
   border-radius: 999px;
   border: none;
-  background: #e2e2e2;
+  background: var(--control-bg);
   color: var(--muted);
   cursor: pointer;
   font-size: 13px;
@@ -1993,7 +1991,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 
 .delete-note:hover {
   color: var(--ink);
-  background: #ffffff;
+  background: var(--control-bg-hover);
 }
 
 .reportable-toggle {
@@ -2001,7 +1999,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
   top: 8px;
   right: 32px;
   border: none;
-  background: #e2e2e2;
+  background: var(--control-bg);
   color: var(--muted);
   font-size: 11px;
   font-weight: 700;
@@ -2020,12 +2018,12 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 .reportable-toggle:hover,
 .reportable-toggle:focus-visible {
   color: var(--ink);
-  background: #ffffff;
+  background: var(--control-bg-hover);
 }
 
 .reportable-toggle.active {
-  background: #d9efe6;
-  color: #1c5a46;
+  background: var(--primary-wash);
+  color: var(--primary-dark);
   transform: translateY(-1px);
 }
 
@@ -2147,7 +2145,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 .minimized-rule {
   height: 1px;
   width: 100%;
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--rule);
   margin: 6px 0 8px;
 }
 
@@ -2221,7 +2219,7 @@ html[data-card-palette] .map-pin-tooltip.color-9 {
 
 .summarize-view {
   margin-top: 24px;
-  background: #fff;
+  background: var(--card);
   border-radius: 20px;
   border: 1px solid var(--border);
   padding: 16px;
