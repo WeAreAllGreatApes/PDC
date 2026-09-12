@@ -171,6 +171,7 @@
   flex-direction: column;
   gap: 6px;
 }
+
 .plate-animate {
   overflow: hidden;
   max-height: 140px;
@@ -716,7 +717,7 @@
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.location-result-marker > span {
+.location-result-marker>span {
   display: grid;
   place-items: center;
   width: 100%;
@@ -756,6 +757,7 @@
     opacity: 0.95;
     transform: scale(0.62);
   }
+
   100% {
     opacity: 0;
     transform: scale(1.85);
@@ -794,10 +796,12 @@
     opacity: 0;
     transform: scale(0.45);
   }
+
   70% {
     opacity: 1;
     transform: scale(1.12);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
@@ -809,6 +813,7 @@
     transform: scale(1);
     filter: brightness(1);
   }
+
   100% {
     transform: scale(1.2);
     filter: brightness(1.18);
@@ -1052,9 +1057,11 @@ button:disabled {
   0% {
     box-shadow: 0 0 0 0 rgba(43, 143, 108, 0.35);
   }
+
   70% {
     box-shadow: 0 0 0 10px rgba(43, 143, 108, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(43, 143, 108, 0);
   }
@@ -1195,11 +1202,11 @@ button.ghost.danger {
   transition: 0.2s;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: var(--primary);
 }
 
-.switch input:checked + .slider:before {
+.switch input:checked+.slider:before {
   transform: translateX(20px);
 }
 
@@ -1466,6 +1473,7 @@ dialog::backdrop {
     grid-template-columns: 1fr;
   }
 }
+
 .column.selected {
   border: 3px solid var(--column-accent);
   box-shadow: 0 16px 28px rgba(0, 0, 0, 0.18);
@@ -1736,8 +1744,7 @@ dialog::backdrop {
 }
 
 /* Typography floor for modal content: nothing below 14px, with most body text at 16px. */
-.modal-content :is(
-  .limit-detail,
+.modal-content :is(.limit-detail,
   .section-title,
   .shortcuts-section-title .icon,
   .plate-toggle .label,
@@ -1747,13 +1754,11 @@ dialog::backdrop {
   .map-card-meta-type-hint,
   .kbd-or,
   .search-results-title,
-  .search-section-title
-) {
+  .search-section-title) {
   font-size: 14px;
 }
 
-.modal-content :is(
-  .modal-grid label,
+.modal-content :is(.modal-grid label,
   .modal-field,
   .modal-list-item,
   .kbd,
@@ -1772,7 +1777,32 @@ dialog::backdrop {
   .tutorial-item-meta,
   .how-to-heading,
   .how-to-paragraph,
-  .how-to-list
-) {
+  .how-to-list) {
   font-size: 16px;
+}
+
+.setCityButton {
+  margin-left: 10px;
+}
+
+.pulsing-border {
+  animation: pulsing-border 2s alternate infinite;
+}
+
+@keyframes pulsing-border {
+  0% {
+    color: var(--danger);
+    border-color: var(--danger);
+    box-shadow: 0px 0px 5px 5px color-mix(in srgb, var(--danger) 50%, transparent);
+    scale: 1.05;
+  }
+
+  100% {
+    color: var(--ink);
+    border-color: var(--primary);
+    box-shadow: 0px 0px 5px 5px rgba(255,255,255,0);
+    scale: 1.00;
+  }
+
+
 }

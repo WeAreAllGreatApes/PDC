@@ -38,3 +38,23 @@
 .app-modal--version .modal-content {
   max-width: min(1100px, 96vw);
 }
+
+#settings-button {
+  border-radius: 2px;
+}
+
+.pulsing {
+ animation: pulse 1s alternate infinite;
+}
+
+@keyframes pulse {
+  0% {
+    color: var(--danger);
+    border-bottom-color: var(--danger);
+  }
+  100% {
+    color: var(--ink);
+    opacity: 0.5;
+    border-bottom-color: rgba(255,255,255,0);
+  }
+}

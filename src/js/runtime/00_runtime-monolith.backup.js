@@ -7,8 +7,8 @@
 function getRuntimeConfig() {
   const candidate =
     typeof window !== "undefined" &&
-    window.__PDC_CONFIG__ &&
-    typeof window.__PDC_CONFIG__ === "object"
+      window.__PDC_CONFIG__ &&
+      typeof window.__PDC_CONFIG__ === "object"
       ? window.__PDC_CONFIG__
       : {};
   return candidate;
@@ -473,6 +473,19 @@ const mapFilterNoticeDismiss = document.getElementById("mapFilterNoticeDismiss")
 const mapGeocodeNotice = document.getElementById("mapGeocodeNotice");
 const mapGeocodeText = document.getElementById("mapGeocodeText");
 const mapGeocodeDismiss = document.getElementById("mapGeocodeDismiss");
+const settingsButton = document.getElementById('settings-button');
+
+// Prompt the user to set the city:
+if (settingsButton && !state.mapSettings?.center) {
+  settingsButton.classList.add('pulsing');
+  
+  settingsButton.title = 'Please set a search city for optimal searching.';
+  if (DEFAULT_MAP_CENTER) {
+    settingsButton.title += ` If unset, the app searches near (${DEFAULT_MAP_CENTER.lat},${DEFAULT_MAP_CENTER.lon})`;
+  }
+  settingsButton.addEventListener('click', () => {settingsButton.classList.remove('pulsing')});
+  setCityButton.classList.add('pulsing-border');
+}
 
 function applyConfiguredFeatureFlags() {
   if (viewToggleButtons && viewToggleButtons.length) {
@@ -579,22 +592,22 @@ const FALLBACK_CARD_TYPES = [
 ];
 const configuredCardTypes = Array.isArray(runtimeConfig.cards?.types)
   ? runtimeConfig.cards.types
-      .map((item) => {
-        const rawValue = String(item?.value || "").trim();
-        const value = rawValue === "Vehicle" ? VEHICLE_LIST_CARD_TYPE : rawValue;
-        let label = String(item?.label || "").trim();
-        if (value === VEHICLE_LIST_CARD_TYPE) {
-          label = "Vehicle List";
-        } else if (value === VEHICLE_CARD_TYPE) {
-          label = "Vehicle";
-        }
-        return {
-          value,
-          label,
-          icon: String(item?.icon || "").trim(),
-        };
-      })
-      .filter((item) => item.value && item.label && item.icon)
+    .map((item) => {
+      const rawValue = String(item?.value || "").trim();
+      const value = rawValue === "Vehicle" ? VEHICLE_LIST_CARD_TYPE : rawValue;
+      let label = String(item?.label || "").trim();
+      if (value === VEHICLE_LIST_CARD_TYPE) {
+        label = "Vehicle List";
+      } else if (value === VEHICLE_CARD_TYPE) {
+        label = "Vehicle";
+      }
+      return {
+        value,
+        label,
+        icon: String(item?.icon || "").trim(),
+      };
+    })
+    .filter((item) => item.value && item.label && item.icon)
   : [];
 const CARD_TYPES = configuredCardTypes.length ? configuredCardTypes.slice() : FALLBACK_CARD_TYPES.slice();
 if (!CARD_TYPES.some((item) => item.value === VEHICLE_CARD_TYPE)) {
@@ -1427,13 +1440,13 @@ function hasVehicleInfo(info) {
   const normalized = normalizeVehicleInfo(info);
   return Boolean(
     normalized.plate ||
-      normalized.reason ||
-      normalized.state ||
-      normalized.color ||
-      normalized.make ||
-      normalized.model ||
-      normalized.body ||
-      normalized.plateVisible === false
+    normalized.reason ||
+    normalized.state ||
+    normalized.color ||
+    normalized.make ||
+    normalized.model ||
+    normalized.body ||
+    normalized.plateVisible === false
   );
 }
 
@@ -1501,8 +1514,8 @@ function parseVehicleInfoFromText(rawText) {
   const reasonText =
     reasonIndex > -1
       ? parts
-          .slice(reasonIndex + 1, tokenIndexAfterReason > -1 ? tokenIndexAfterReason : parts.length)
-          .join(" ")
+        .slice(reasonIndex + 1, tokenIndexAfterReason > -1 ? tokenIndexAfterReason : parts.length)
+        .join(" ")
       : "";
   const reason = normalizeOptionValue(reasonText, VEHICLE_PLATE_REASONS);
   const stateToken = parts.find((part) => /^state_/i.test(part)) || "";
@@ -3619,8 +3632,8 @@ function closeMapCardMetaModal(options = {}) {
     return;
   }
   if (columnId) {
-  focusMapLocation(`card:${columnId}`, { kind: "card", columnId });
-}
+    focusMapLocation(`card:${columnId}`, { kind: "card", columnId });
+  }
 }
 
 function openApplyCardColorsModal() {
@@ -4271,9 +4284,9 @@ function collectMapLocations() {
     const label = getMapLabelForColumn(column);
     const vehicleListDetailHeading = isVehicleListType(normalizedType)
       ? (() => {
-          const listName = String(column.label || "").trim();
-          return listName ? `Vehicle List: ${listName}` : "Vehicle List";
-        })()
+        const listName = String(column.label || "").trim();
+        return listName ? `Vehicle List: ${listName}` : "Vehicle List";
+      })()
       : "";
     const isObserver = isObserverType(normalizedType);
     const usePreviousNoteStyling =
@@ -4282,21 +4295,21 @@ function collectMapLocations() {
     const notePins = column.observations.filter((obs) => obs.location);
     const latestNotePin = usePreviousNoteStyling
       ? notePins.reduce((latest, obs) => {
-          if (!latest) {
-            return obs;
-          }
-          const latestTime = getObservationTimestampValue(latest);
-          const obsTime = getObservationTimestampValue(obs);
-          if (obsTime !== latestTime) {
-            return obsTime > latestTime ? obs : latest;
-          }
-          const latestCreated = typeof latest.createdAt === "number" ? latest.createdAt : 0;
-          const obsCreated = typeof obs.createdAt === "number" ? obs.createdAt : 0;
-          if (obsCreated !== latestCreated) {
-            return obsCreated > latestCreated ? obs : latest;
-          }
+        if (!latest) {
           return obs;
-        }, null)
+        }
+        const latestTime = getObservationTimestampValue(latest);
+        const obsTime = getObservationTimestampValue(obs);
+        if (obsTime !== latestTime) {
+          return obsTime > latestTime ? obs : latest;
+        }
+        const latestCreated = typeof latest.createdAt === "number" ? latest.createdAt : 0;
+        const obsCreated = typeof obs.createdAt === "number" ? obs.createdAt : 0;
+        if (obsCreated !== latestCreated) {
+          return obsCreated > latestCreated ? obs : latest;
+        }
+        return obs;
+      }, null)
       : null;
     if (column.location) {
       const sortedObservations = column.observations
@@ -4744,9 +4757,7 @@ function openLocationModal(target) {
   if (!locationModal || !locationSearchInput || !locationResults) {
     return;
   }
-  if (target.kind === 'city') {
-    state.mapSettings.settingCity = true;
-  }
+
   locationModalTarget = target;
   locationModalShouldRestoreView = true;
   locationSearchToken += 1;
@@ -4770,6 +4781,17 @@ function openLocationModal(target) {
   locationSearchState.results = [];
   locationSearchState.activeIndex = -1;
   locationResults.innerHTML = "<div class=\"search-empty\">Start typing to search.</div>";
+
+  // We need a lot of custom handling to center the city:
+  const isCity = target.kind === 'city';
+  state.mapSettings.settingCity = isCity;
+  const placeholder = isCity ? 'Enter a city or locality' : 'Enter an address, intersection, or business';
+  locationSearchInput.placeholder = placeholder;
+  const note = isCity ?
+    'Setting a city will allow you to search your area more accurately' :
+    'Search results and pin preview appear on the main map. Drag or click map to fine-tune';
+  document.querySelector('#modal-note').textContent = note;
+  document.querySelector('#locationDropPin').style.display = isCity ? 'none' : 'block';
 
   if (locationTitle) {
     locationTitle.textContent =
@@ -4827,6 +4849,10 @@ function closeLocationModal() {
   if (locationSearchTimer) {
     window.clearTimeout(locationSearchTimer);
     locationSearchTimer = null;
+  }
+  if (state.mapSettings.city || state.mapSettings.center) {
+    settingsButton.title = undefined;
+    setCityButton.classList.remove('pulsing-border');
   }
 }
 
@@ -5412,7 +5438,7 @@ function applyPendingLocationFromModal() {
       preserveMapView: true,
     });
     if (state.mapSettings.settingCity) {
-      state.mapSettings.center = {lat: pendingLocation.lat, lon: pendingLocation.lon};
+      state.mapSettings.center = { lat: pendingLocation.lat, lon: pendingLocation.lon };
       freezeDryMapSettings();
       state.mapSettings.settingCity = false;
     }
@@ -5425,35 +5451,18 @@ function applyPendingLocationFromModal() {
   finalizeApply();
 }
 
-function buildGeoSearchQuery(query) {
-  const cleaned = query.trim();
-  if (!state.mapSettings.city || !state.mapSettings.city.label || state.mapSettings.settingCity) {
-    return cleaned;
-  }
-  const cityLabel = state.mapSettings.city.label.trim();
-  if (!cityLabel) {
-    return cleaned;
-  }
-  if (cleaned.toLowerCase().includes(cityLabel.toLowerCase())) {
-    return cleaned;
-  }
-  return `${cleaned} ${cityLabel}`;
-}
-
 async function fetchAutocompleteResults(query) {
   if (!MAP_FEATURE_ENABLED || !GEO_BASE_URL) {
     return [];
   }
   try {
     const center = state.mapSettings.center
-    console.log(center);
     const payload = {
-      search: buildGeoSearchQuery(query),
-      ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
+      search: query.trim(),
+      ...(center && { 'center': { latitude: center.lat, longitude: center.lon } }),
       ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
       ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
     };
-    console.log(payload)
     const response = await fetch(`${GEO_BASE_URL}/autocomplete`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -5476,7 +5485,7 @@ async function fetchAutocompleteResults(query) {
             When present, Mapbox's prediction.text is the full address; therefore:
              * Displays (i.e. label) should be made with prediction.structured where possible
              * /search calls should use prediction.text.text where possible
-          */          
+          */
           label: label || prediction.text?.text || "Unknown",
           searchText: prediction.text?.text || label || "",
           location: prediction.location
@@ -5495,8 +5504,8 @@ async function fetchGeoResults(query) {
   try {
     const center = state.mapSettings.center;
     const payload = {
-      search: buildGeoSearchQuery(query),
-      ...(center && { 'center': {latitude: center.lat, longitude: center.lon} }),
+      search: query.trim(),
+      ...(center && { 'center': { latitude: center.lat, longitude: center.lon } }),
       ...(state.mapSettings.radiusMiles && { 'radius': state.mapSettings.radiusMiles }),
       ...(state.mapSettings.settingCity && { 'cities_only': state.mapSettings.settingCity }),
     };
@@ -6308,7 +6317,7 @@ function hydrateMapSettings(raw) {
   }
   const city = loadLocation(raw.city);
   const radius = Number(raw.radiusMiles);
-  const center = city ? {lat: city.lat,lon: city.lon} : null;
+  const center = city ? { lat: city.lat, lon: city.lon } : null;
   const style = raw.style ? String(raw.style) : DEFAULT_MAP_STYLE;
   return {
     city,
@@ -8126,15 +8135,15 @@ function updateSummary() {
         return;
       }
       const vehicleLabel = isVehicleListType(type)
-          ? getVehicleSummaryLabelFromObservation(obs)
-          : "";
+        ? getVehicleSummaryLabelFromObservation(obs)
+        : "";
       const label = vehicleLabel || defaultLabel;
       const vehicleInfoSummary = isVehicleCardType(type)
         ? formatVehicleInfoForSummary(normalizeVehicleInfo(column?.vehicleProfile || {}))
         : isVehicleListType(type)
           ? formatVehicleInfoForSummary(
-              normalizeVehicleInfo(obs?.vehicleInfo || parseVehicleInfoFromText(obs?.text || ""))
-            )
+            normalizeVehicleInfo(obs?.vehicleInfo || parseVehicleInfoFromText(obs?.text || ""))
+          )
           : "";
       const entry = {
         timestamp: obs.timestamp,
@@ -10193,46 +10202,46 @@ function renderColumns() {
       observationsEl.appendChild(obsEl);
     });
 
-      const addButton = document.createElement("button");
-      addButton.className = "add-observation";
-      addButton.textContent = "+ Note";
-      addButton.title = "Add note";
-      addButton.disabled = !hasStarted;
-      addButton.addEventListener("click", () => {
-        const now = new Date();
-        const formatted = formatTimeOnly(now);
-        const obs = {
-          id: createId(),
-          timestamp: now,
-          timestampText: formatted,
-          originalTimestampText: formatted,
-          createdAt: now.getTime(),
-          editedFrom: "",
-          text: "",
-          reportable: Boolean(column.reportAll),
-          location: null,
-          vehicleInfo:
-            isVehicleListType(column.type || DEFAULT_CARD_TYPE)
-              ? createEmptyVehicleInfo()
-              : null,
-        };
-        column.observations.push(obs);
-        selectNote(column.id, obs.id);
-        markDirty();
-        updateEndIfNeeded(now);
-        updateStartIfNeeded(now);
-        renderColumns();
-        persistState();
-        updateSummary();
-        requestAnimationFrame(() => {
-          focusLastNote(column.id, obs.id);
-        });
+    const addButton = document.createElement("button");
+    addButton.className = "add-observation";
+    addButton.textContent = "+ Note";
+    addButton.title = "Add note";
+    addButton.disabled = !hasStarted;
+    addButton.addEventListener("click", () => {
+      const now = new Date();
+      const formatted = formatTimeOnly(now);
+      const obs = {
+        id: createId(),
+        timestamp: now,
+        timestampText: formatted,
+        originalTimestampText: formatted,
+        createdAt: now.getTime(),
+        editedFrom: "",
+        text: "",
+        reportable: Boolean(column.reportAll),
+        location: null,
+        vehicleInfo:
+          isVehicleListType(column.type || DEFAULT_CARD_TYPE)
+            ? createEmptyVehicleInfo()
+            : null,
+      };
+      column.observations.push(obs);
+      selectNote(column.id, obs.id);
+      markDirty();
+      updateEndIfNeeded(now);
+      updateStartIfNeeded(now);
+      renderColumns();
+      persistState();
+      updateSummary();
+      requestAnimationFrame(() => {
+        focusLastNote(column.id, obs.id);
       });
+    });
 
-  columnEl.appendChild(headerEl);
-  columnEl.appendChild(observationsEl);
-  columnEl.appendChild(addButton);
-  columnsEl.appendChild(columnEl);
+    columnEl.appendChild(headerEl);
+    columnEl.appendChild(observationsEl);
+    columnEl.appendChild(addButton);
+    columnsEl.appendChild(columnEl);
   });
 
   if (addColumnWrap) {
@@ -11089,9 +11098,9 @@ function startActiveTour({ startIndex = 0 } = {}) {
       title: stop.heading,
       description: stop.tryThis
         ? `<div class="tour-step-detail">${escapeHtml(stop.detail)}</div>` +
-          `<div class="tour-try-this"><span class="icon" aria-hidden="true">` +
-          `<i data-lucide="square-mouse-pointer"></i></span>` +
-          `<span><strong>Try this now:</strong> ${escapeHtml(stop.tryThis)}</span></div>`
+        `<div class="tour-try-this"><span class="icon" aria-hidden="true">` +
+        `<i data-lucide="square-mouse-pointer"></i></span>` +
+        `<span><strong>Try this now:</strong> ${escapeHtml(stop.tryThis)}</span></div>`
         : `<div class="tour-step-detail">${escapeHtml(stop.detail)}</div>`,
       showButtons: ["previous", "next", "close"],
       prevBtnText: "Prev",
@@ -11116,7 +11125,7 @@ function startActiveTour({ startIndex = 0 } = {}) {
     smoothScroll: true,
     showProgress: true,
     allowClose: true,
-    overlayClickBehavior: () => {},
+    overlayClickBehavior: () => { },
     stagePadding: 10,
     stageRadius: 12,
     overlayOpacity: 0.34,
@@ -11154,7 +11163,7 @@ async function openTutorialFromEntry(entry) {
       : "Choose Cancel to restart from the beginning.";
     shouldResume = window.confirm(
       `Resume this tour at step ${stepNumber} of ${progress.stepCount}?\n\n` +
-        restartWarning
+      restartWarning
     );
   }
   if (!shouldResume) {
@@ -13221,16 +13230,16 @@ function init() {
       return;
     }
     if (!isModalOpen(vehicleModal) &&
-        !isModalOpen(deleteModal) &&
-        !isModalOpen(shortcutsModal) &&
-        !isModalOpen(saveInfoModal) &&
-        !isModalOpen(searchModal) &&
-        !isModalOpen(locationModal) &&
-        !isModalOpen(mapCardMetaModal) &&
-        !isModalOpen(applyCardColorsModal) &&
-        !isModalOpen(tutorialPickerModal) &&
-        !isModalOpen(tutorialWelcomeModal) &&
-        !isModalOpen(tutorialCompleteModal)) {
+      !isModalOpen(deleteModal) &&
+      !isModalOpen(shortcutsModal) &&
+      !isModalOpen(saveInfoModal) &&
+      !isModalOpen(searchModal) &&
+      !isModalOpen(locationModal) &&
+      !isModalOpen(mapCardMetaModal) &&
+      !isModalOpen(applyCardColorsModal) &&
+      !isModalOpen(tutorialPickerModal) &&
+      !isModalOpen(tutorialWelcomeModal) &&
+      !isModalOpen(tutorialCompleteModal)) {
       const activeEl = document.activeElement;
       const isFocusable =
         activeEl &&
@@ -13247,7 +13256,7 @@ function init() {
     closeAllModals();
   });
 
-  window.addEventListener("contextmenu", () => {});
+  window.addEventListener("contextmenu", () => { });
   window.addEventListener("keydown", handleTourArrowNavigation, true);
 
 

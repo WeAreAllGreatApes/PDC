@@ -220,7 +220,7 @@
         <label class="modal-field location-search-field">
           Search
           <div class="location-search-row">
-            <input id="locationSearchInput" type="text" placeholder="Try an address, intersection, or business" autocomplete="off" />
+            <input id="locationSearchInput" type="text" autocomplete="off" />
             <button id="locationClear" class="ghost" type="button">Clear</button>
           </div>
         </label>
@@ -233,7 +233,7 @@
         <div class="modal-actions">
           <button id="locationSet" class="primary">Set Location</button>
         </div>
-        <div class="modal-note">Search results and pin preview appear on the main map. Drag or click map to fine-tune.</div>
+        <div id="modal-note" class="modal-note"></div>
       </div>
     </div>
     <div id="mapCardMetaModal" class="modal app-modal hidden" aria-hidden="true">
