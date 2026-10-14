@@ -5,8 +5,17 @@ import { getTabComponents } from "./src/js/sections/tabs.js";
 import { getModalComponents } from "./src/js/sections/modals.js";
 import { RUNTIME_SCRIPT_ORDER } from "./src/js/runtime/runtime-manifest.js";
 
+function getPackagedRuntimeScript(path) {
+  const scripts = window.__PDC_PACKAGED_RUNTIME_SCRIPTS__;
+  const source = scripts && scripts[path];
+  return typeof source === "string" ? source : null;
+}
+
 function preloadRuntimeScripts() {
   RUNTIME_SCRIPT_ORDER.forEach((scriptPath) => {
+    if (getPackagedRuntimeScript(scriptPath) !== null) {
+      return;
+    }
     if (document.head.querySelector(`link[rel="preload"][as="script"][href="${scriptPath}"]`)) {
       return;
     }
@@ -50,6 +59,19 @@ async function composeApplicationShell() {
 }
 
 function loadClassicScript(path) {
+  const packagedSource = getPackagedRuntimeScript(path);
+  if (packagedSource !== null) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.textContent = packagedSource;
+      try {
+        document.body.appendChild(script);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.src = path;

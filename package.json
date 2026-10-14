@@ -4,7 +4,12 @@
   "version": "6.4",
   "description": "PublicDataCleanup static app",
   "scripts": {
-    "dev": "npx live-server --port=8080 --no-browser"
+    "dev": "npx live-server --port=8080 --no-browser",
+    "check": "node scripts/check-css.js",
+    "audit": "node scripts/audit-network.js",
+    "smoke": "node scripts/smoke-render.js",
+    "favicons": "node scripts/gen-favicons.js",
+    "bundle": "node scripts/bundle-pdc.js"
   },
   "devDependencies": {
     "driver.js": "^1.4.0",
