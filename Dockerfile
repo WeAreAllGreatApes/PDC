@@ -11,6 +11,10 @@ COPY index.html /app/static
 COPY app.js /app/static
 COPY lucide.min.js /app/static
 COPY styles.css /app/static
+COPY favicon.ico /app/static
+COPY favicon.svg /app/static
+COPY favicon-32.png /app/static
+COPY apple-touch-icon.png /app/static
 COPY content /app/static/content
 COPY sessions /app/static/sessions
 COPY src /app/static/src
