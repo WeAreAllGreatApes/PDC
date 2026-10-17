@@ -59,7 +59,7 @@ const FALLBACK_MAP_STYLES = [
   {
     id: "clean",
     label: "Clean",
-    url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.svg",
+    url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.svg?key=cb1_3hx1_1_998942ce8a2109957b3b4e04",
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
       '&copy; <a href="https://carto.com/attributions">CARTO</a>',
